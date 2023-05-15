@@ -7,6 +7,8 @@ public class MechController : MonoBehaviour
 {
     public bool IsActive = true;
     [SerializeField] private FloatingJoyStick joystick;
+    [SerializeField] private FloatingJoyStick rightJoystick;
+    [SerializeField] private GameObject _bodyAim;
 
 
     private Animator _animator;
@@ -16,6 +18,8 @@ public class MechController : MonoBehaviour
     private Vector2 result = Vector2.zero;
     private CharacterController _chController;
     private Vector3 _move;
+    private Vector3 _newDir;
+    private Quaternion _curAimRotation;
     private float _fixedY;
 
     void Start()
@@ -23,6 +27,9 @@ public class MechController : MonoBehaviour
         _animator = GetComponent<Animator>();
         _chController = GetComponent<CharacterController>();
         _fixedY = transform.position.y;
+
+        _newDir = transform.position + transform.forward;
+        _curAimRotation = Quaternion.identity;
     }
 
 
@@ -47,16 +54,15 @@ public class MechController : MonoBehaviour
         }
 
         FixYPos();
+        SetBodyAim();
     }
 
-    private Vector3 MovementFromCameraPoint() {
+    private Vector3 MovementFromCameraPoint()
+    {
         var vector2Move = LeftJoystickInput();
 
         var cam = Camera.main.transform;
-        var forward = cam.forward;
-        forward.y = 0;
-
-        return cam.right * vector2Move.x  + forward * vector2Move.y;
+        return DirectionTransform.MoveToSpecifiedDir(vector2Move, cam);
     }
 
     private void FixYPos()
@@ -76,8 +82,25 @@ public class MechController : MonoBehaviour
     {
         var horizontal = joystick.GetHorizontalValue();
         var vertical = joystick.GetVerticalValue();
-        
+
 
         return new Vector2(horizontal, vertical);
+    }
+
+    private void SetBodyAim()
+    {
+        var horizontal = rightJoystick.GetHorizontalValue();
+        var vertical = rightJoystick.GetVerticalValue();
+
+        var _localPos = new Vector2(horizontal, vertical);
+        _newDir = transform.position + transform.forward * 5;
+
+        if (_localPos != Vector2.zero)
+        {
+            var lookToWorld = DirectionTransform.MoveToSpecifiedDir(_localPos, Camera.main.transform);
+            _newDir = transform.position + lookToWorld * 5;
+        }
+
+        _bodyAim.transform.position = Vector3.Slerp(_bodyAim.transform.position, _newDir, 0.1f);
     }
 }
