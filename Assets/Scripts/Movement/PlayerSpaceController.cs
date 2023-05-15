@@ -12,16 +12,14 @@ public class PlayerSpaceController : MonoBehaviour
     [SerializeField] private float fuelBurn;
     [SerializeField] private Orbitals fuelRing;
     [SerializeField] private float orbitalSpeed;
-    [SerializeField] public float orbitalSpeedMultiplier=160f;
+    [SerializeField] public float orbitalSpeedMultiplier = 160f;
 
-    // Start is called before the first frame update
     void Start()
     {
         player.transform.LookAt(pointer.transform.position);
         DrawFuel();
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (Input.GetMouseButtonDown(0))
@@ -39,17 +37,18 @@ public class PlayerSpaceController : MonoBehaviour
         if (Vector3.Distance(transform.position, pointer.transform.position) > 0.01)
         {
             player.transform.LookAt(pointer.transform.position);
-            transform.position = Vector3.MoveTowards(transform.position, pointer.transform.position, Time.deltaTime*shipSpeed);
-            fuel -= Time.deltaTime * shipSpeed* fuelBurn;
+            transform.position = Vector3.MoveTowards(transform.position, pointer.transform.position, Time.deltaTime * shipSpeed);
+            fuel -= Time.deltaTime * shipSpeed * fuelBurn;
             DrawFuel();
         }
 
-        orbitalSpeed = orbitalSpeedMultiplier/ Vector3.Distance(transform.position, Vector3.zero);
+        orbitalSpeed = orbitalSpeedMultiplier / Vector3.Distance(transform.position, Vector3.zero);
         transform.RotateAround(Vector3.zero, Vector3.up, orbitalSpeed * Time.deltaTime);
         pointer.transform.RotateAround(Vector3.zero, Vector3.up, orbitalSpeed * Time.deltaTime);
     }
 
-    private void DrawFuel() {
+    private void DrawFuel()
+    {
         fuelRing.xradius = fuel;
         fuelRing.yradius = fuel;
         fuelRing.CreatePoints();

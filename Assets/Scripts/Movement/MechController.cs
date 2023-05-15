@@ -35,8 +35,8 @@ public class MechController : MonoBehaviour
             return;
         }
 
-        var vecto2Move = LeftJoystickInput();
-        _move = new Vector3(vecto2Move.x, 0, vecto2Move.y).normalized;
+        var _move = MovementFromCameraPoint();
+
         bool isMoving = _move != Vector3.zero;
 
         _animator.SetBool("move", isMoving);
@@ -47,6 +47,16 @@ public class MechController : MonoBehaviour
         }
 
         FixYPos();
+    }
+
+    private Vector3 MovementFromCameraPoint() {
+        var vector2Move = LeftJoystickInput();
+
+        var cam = Camera.main.transform;
+        var forward = cam.forward;
+        forward.y = 0;
+
+        return cam.right * vector2Move.x  + forward * vector2Move.y;
     }
 
     private void FixYPos()
