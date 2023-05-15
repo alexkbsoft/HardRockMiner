@@ -50,7 +50,6 @@ public class Resource : MonoBehaviour
         _isFollowing = true;
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (_isFollowing) {
