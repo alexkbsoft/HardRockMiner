@@ -7,6 +7,7 @@ public class Damagable : MonoBehaviour
 {
     public float MaxLive = 100;
     public UnityEvent OnDestroyed;
+    public UnityEvent<float> OnDamaged;
 
     private float CurrentLife;
 
@@ -22,6 +23,7 @@ public class Damagable : MonoBehaviour
         }
 
         CurrentLife -= damage;
+        OnDamaged?.Invoke(CurrentLife);
 
         if (CurrentLife <= 0)
         {

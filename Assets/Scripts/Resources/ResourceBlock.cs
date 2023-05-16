@@ -16,13 +16,46 @@ public class ResourceBlock : MonoBehaviour
 
     public GameObject ResourcePrefab;
 
+    [SerializeField] private GameObject _block100;
+    [SerializeField] private GameObject _block75;
+    [SerializeField] private GameObject _block50;
+    [SerializeField] private GameObject _block25;
+
+    private GameObject _currentVisual;
+
+
+    void Start()
+    {
+        _currentVisual = _block100;
+
+        GetComponent<Damagable>().OnDamaged.AddListener(Damaged);
+    }
+
     public void Destroyed()
     {
         for (int i = 0; i < ResourceCount; i++)
         {
             GenerateResource();
         }
+
         Destroy(gameObject);
+    }
+
+    public void Damaged(float livesRemain)
+    {
+        var nextVisual = livesRemain switch
+        {
+            var l when l > 75 => _block100,
+            var l when l > 50 => _block75,
+            var l when l > 25 => _block50,
+            _ => _block25,
+        };
+
+        if (nextVisual != null && nextVisual != _currentVisual) {
+            _currentVisual.SetActive(false);
+            _currentVisual = nextVisual;
+            nextVisual.SetActive(true);
+        }
     }
 
     private void GenerateResource()
@@ -34,11 +67,10 @@ public class ResourceBlock : MonoBehaviour
         };
 
         int index = Chance.GetRandomTier(tmp);
-        Debug.Log("INDEX: " + index);
 
         if (index != 0)
         {
-            var resource = Instantiate(ResourcePrefab, transform.position + Vector3.up * 3, Quaternion.identity); 
+            var resource = Instantiate(ResourcePrefab, transform.position + Vector3.up * 3, Quaternion.identity);
             resource.GetComponent<Resource>().SetType(DropRate[index].name);
             resource.GetComponent<Rigidbody>().AddForce(Random.onUnitSphere * 2, ForceMode.Impulse);
         }
@@ -49,6 +81,7 @@ public class ResourceBlock : MonoBehaviour
         if (TryGetComponent<Damagable>(out var damagable))
         {
             damagable.OnDestroyed.RemoveListener(Destroyed);
+            damagable.OnDamaged.RemoveListener(Damaged);
         }
     }
 }
