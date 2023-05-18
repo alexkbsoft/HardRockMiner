@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - Resource
+  - Enemy
   layers:
   - Default
   - TransparentFX
@@ -18,7 +19,7 @@ TagManager:
   - Walls
   - Resource
   - Player
-  - 
+  - Projectile
   - 
   - 
   - 

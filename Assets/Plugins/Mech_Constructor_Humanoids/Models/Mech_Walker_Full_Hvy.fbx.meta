@@ -331,7 +331,8 @@ ModelImporter:
     optimizeGameObjects: 0
     removeConstantScaleCurves: 0
     motionNodeName: 
-    rigImportErrors: 
+    rigImportErrors: "Invalid Avatar Rig Configuration. Missing or invalid transform:\n\tRequired
+      human bone 'Head' not found\n"
     rigImportWarnings: 
     animationImportErrors: 
     animationImportWarnings: 
@@ -650,252 +651,252 @@ ModelImporter:
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: Mech_Walker_ROOT
-      parentName: 
+      parentName: Mech_Walker_Full_Hvy(Clone)
       position: {x: -0, y: 0, z: 0}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: Mech_Walker_Hips
-      parentName: 
-      position: {x: 0, y: 2.442376, z: 0}
+      parentName: Mech_Walker_Full_Hvy(Clone)
+      position: {x: -0, y: 2.442376, z: 0}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: Mech_Walker_LeftUpLeg
-      parentName: 
-      position: {x: -0.9382955, y: 0, z: 0}
+      parentName: Mech_Walker_ROOT
+      position: {x: -0.9382955, y: 2.442376, z: 0}
       rotation: {x: 0.34082827, y: -0.017041419, z: -0.013187136, w: 0.9398786}
       scale: {x: 1, y: 1, z: 1}
     - name: L_Upper_Leg_Geom
-      parentName: 
-      position: {x: -0, y: 0, z: 0}
+      parentName: Mech_Walker_Hips
+      position: {x: -0, y: 0.6839997, z: 0}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: Mech_Walker_LeftLeg
-      parentName: 
+      parentName: Mech_Walker_Spine_1
       position: {x: -0, y: -0.5552499, z: 0.7175361}
       rotation: {x: -0.4388866, y: 0.0047921813, z: -0.0063014627, w: 0.8985076}
       scale: {x: 1, y: 1, z: 1}
     - name: L_Lower_Leg_Geom
-      parentName: 
-      position: {x: -0, y: 0, z: 0}
+      parentName: Mech_Walker_Spine_2
+      position: {x: -0, y: 0.7056754, z: 0.083627775}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: Mech_Walker_LeftFoot
-      parentName: 
+      parentName: Mech_Walker_Head
       position: {x: -0, y: -0.9435229, z: -0.7175361}
       rotation: {x: 0.10609276, y: 0.002872397, z: 0.023617292, w: 0.9940716}
       scale: {x: 1, y: 1, z: 1}
     - name: L_Foot_Geom
-      parentName: 
-      position: {x: -0, y: 0, z: 0}
+      parentName: Mech_Walker_Spine_2
+      position: {x: -0, y: 0, z: 0.0000024841308}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: Mech_Walker_LeftHeel
-      parentName: 
+      parentName: Mech_Walker_Spine_2
       position: {x: -0, y: -0.19266754, z: -0.16991454}
-      rotation: {x: 0, y: -0.0000000013022643, z: -0.0000000012352169, w: 1}
+      rotation: {x: 0.0000000017948965, y: -0.0000000013022643, z: -0.0000000012352169, w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: L_Heel_Geom
-      parentName: 
+      parentName: Mount_Arm_R
       position: {x: -0, y: 0, z: 0}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: Mech_Walker_LeftHeel_End
-      parentName: 
+      parentName: Arm_R
       position: {x: -0, y: -0.33022088, z: -0.31321937}
-      rotation: {x: 0, y: -0, z: -0, w: 1}
+      rotation: {x: 0.0000000017948965, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: Mech_Walker_LeftToe
-      parentName: 
+      parentName: Mech_Walker_RightShoulder
       position: {x: -0.00000022888183, y: -0.4131218, z: 0.43501163}
       rotation: {x: -0.01068945, y: -3.6164627e-10, z: 0.0000000016192865, w: 0.9999429}
       scale: {x: 1, y: 1, z: 1}
     - name: L_Toe_Geom
-      parentName: 
+      parentName: Mech_Walker_RightArm
       position: {x: -0.0000000066883548, y: -0.010552979, z: -0.004524901}
-      rotation: {x: 0, y: -0, z: -0, w: 1}
+      rotation: {x: -0.003939494, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: Mech_Walker_LeftToe_End
-      parentName: 
+      parentName: Mech_Walker_RightForeArm
       position: {x: -0.0000000066883548, y: -0.120319605, z: 0.51289976}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: Mech_Walker_RightUpLeg
-      parentName: 
+      parentName: Mount_Hand_R
       position: {x: 0.9382955, y: 0, z: 0}
       rotation: {x: 0.34082827, y: 0.017041415, z: 0.013187135, w: 0.9398786}
       scale: {x: 1, y: 1, z: 1}
     - name: Mech_Walker_RightLeg
-      parentName: 
+      parentName: Mech_Walker_RightHand
       position: {x: -0, y: -0.5552499, z: 0.7175361}
       rotation: {x: -0.4388866, y: -0.0047921813, z: 0.0063014654, w: 0.8985076}
       scale: {x: 1, y: 1, z: 1}
     - name: Mech_Walker_RightFoot
-      parentName: 
+      parentName: Mech_Walker_RightHandThumb1
       position: {x: -0, y: -0.9435229, z: -0.7175361}
       rotation: {x: 0.10609276, y: -0.0028723988, z: -0.02361729, w: 0.9940716}
       scale: {x: 1, y: 1, z: 1}
     - name: Mech_Walker_RightHeel
-      parentName: 
+      parentName: Mech_Walker_RightHandThumb2
       position: {x: -0, y: -0.19266754, z: -0.16991454}
       rotation: {x: 0, y: -0.0000000013022643, z: -0.0000000012352169, w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: Mech_Walker_RightHeel_End
-      parentName: 
+      parentName: Mech_Walker_RightHand
       position: {x: -0, y: -0.33022088, z: -0.31321937}
-      rotation: {x: 0, y: -0, z: -0, w: 1}
+      rotation: {x: 0.0020099315, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: R_Heel_Geom
-      parentName: 
-      position: {x: -0, y: 0, z: 0}
-      rotation: {x: 0, y: -0, z: -0, w: 1}
+      parentName: Mech_Walker_RightHandMiddle1
+      position: {x: -0, y: 0.034658812, z: 0.000006790161}
+      rotation: {x: -0.0000027164351, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: Mech_Walker_RightToe
-      parentName: 
+      parentName: Mech_Walker_RightHandMiddle2
       position: {x: 0.00000022888183, y: -0.4131218, z: 0.43501163}
       rotation: {x: -0.01068945, y: -0.000000017973955, z: -0.0000000016982984, w: 0.9999429}
       scale: {x: 1, y: 1, z: 1}
     - name: Mech_Walker_RightToe_End
-      parentName: 
+      parentName: Mech_Walker_RightHandMiddle3
       position: {x: 0.000000032370483, y: -0.120319605, z: 0.51289976}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: R_Toe_Geom
-      parentName: 
+      parentName: Mech_Walker_Spine_2
       position: {x: 0.00000001916497, y: -0.010552979, z: -0.004524901}
-      rotation: {x: 0, y: -0, z: -0, w: 1}
+      rotation: {x: -0.0000000017948965, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: R_Foot_Geom
-      parentName: 
+      parentName: Mount_Arm_L
       position: {x: -0, y: 0, z: 0}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: R_Lower_Leg_Geom
-      parentName: 
+      parentName: Arm_L
       position: {x: -0, y: 0, z: 0}
-      rotation: {x: 0, y: -0, z: -0, w: 1}
+      rotation: {x: -0.0000000017948965, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: R_Upper_Leg_Geom
-      parentName: 
-      position: {x: -0, y: 0, z: 0}
-      rotation: {x: 0, y: -0, z: -0, w: 1}
+      parentName: Mech_Walker_LeftShoulder
+      position: {x: -0, y: 5.684342e-16, z: 0}
+      rotation: {x: -0.11983626, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: Mech_Walker_Spine_1
-      parentName: 
-      position: {x: -0, y: 0.6839997, z: 0}
-      rotation: {x: 0, y: -0, z: -0, w: 1}
+      parentName: Mech_Walker_LeftArm
+      position: {x: -0, y: 0.6839997, z: 0.240491}
+      rotation: {x: -0.0039395685, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: Mech_Walker_Spine_2
-      parentName: 
-      position: {x: -0, y: 0, z: 0}
+      parentName: Mech_Walker_LeftForeArm
+      position: {x: -0, y: 2.842171e-16, z: 0.51229584}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: Mech_Walker_Head
-      parentName: 
+      parentName: Mount_Hand_L
       position: {x: -0, y: 0.7056754, z: 0.083627775}
-      rotation: {x: 0, y: -0, z: -0, w: 1}
+      rotation: {x: -0.022621347, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: Mount_Arm_L
-      parentName: 
+      parentName: Mech_Walker_LeftHand
       position: {x: -1.3683864, y: 0.5153312, z: -0.022481}
-      rotation: {x: -0.0000000017948965, y: 2.056206e-24, z: 0, w: 1}
+      rotation: {x: -0.0000000017948965, y: 2.056206e-24, z: -0.004004318, w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: Arm_L
-      parentName: 
-      position: {x: -0, y: 0, z: 0}
-      rotation: {x: 0, y: -0, z: -0, w: 1}
+      parentName: Mech_Walker_LeftHandThumb1
+      position: {x: -0, y: -0.012069702, z: 0.31737158}
+      rotation: {x: 0.0077939727, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: L_Arm_Base_Geom
-      parentName: 
-      position: {x: -0, y: 0, z: 0}
+      parentName: Mech_Walker_LeftHandThumb2
+      position: {x: -0, y: -0.00000030517577, z: 0.21944244}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: Mech_Walker_LeftShoulder
-      parentName: 
-      position: {x: -0, y: 0, z: 0}
-      rotation: {x: -0.0000000017948965, y: 2.056206e-24, z: 0, w: 1}
+      parentName: Mech_Walker_LeftHand
+      position: {x: -0, y: 0.14316344, z: 0.029373245}
+      rotation: {x: -0.0000000017948965, y: 2.056206e-24, z: -0.04261091, w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: L_Arm_Shoulder_Geom
-      parentName: 
-      position: {x: -0, y: 0, z: 0}
-      rotation: {x: 0, y: -0, z: -0, w: 1}
+      parentName: Mech_Walker_LeftHandMiddle1
+      position: {x: -0, y: 0.034658812, z: 0.000006790161}
+      rotation: {x: -0.000003591645, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: Mech_Walker_LeftArm
-      parentName: 
-      position: {x: -0.49619567, y: 5.684342e-16, z: 0}
+      parentName: Mech_Walker_LeftHandMiddle2
+      position: {x: -0.49619567, y: 5.684342e-16, z: 0.000003890991}
       rotation: {x: -0.11983626, y: -0.11983562, z: 0.019002326, w: 0.98535156}
       scale: {x: 1, y: 1, z: 1}
     - name: L_Arm_Geom
-      parentName: 
-      position: {x: -0, y: 0, z: 0}
+      parentName: Mech_Walker_LeftHandMiddle3
+      position: {x: -0, y: -0.19582091, z: 0.000002746582}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: Mech_Walker_LeftForeArm
-      parentName: 
+      parentName: Mech_Walker_Hips
       position: {x: -0.9696547, y: 0, z: 0.240491}
       rotation: {x: -0.003939587, y: -0.04293573, z: -0.0032449241, w: 0.99906486}
       scale: {x: 1, y: 1, z: 1}
     - name: L_Forearm_Geom
-      parentName: 
+      parentName: Mech_Walker_LeftUpLeg
       position: {x: 2.1573498e-12, y: -0.0000015069091, z: -4.9823253e-13}
-      rotation: {x: 0, y: -0, z: -0, w: 1}
+      rotation: {x: -0.4388866, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: Mount_Hand_L
-      parentName: 
+      parentName: Mech_Walker_LeftLeg
       position: {x: -1.3709515, y: 2.842171e-16, z: 0.51229584}
-      rotation: {x: 0, y: 0.25881904, z: -0, w: 0.9659258}
+      rotation: {x: 0.10609273, y: 0.25881904, z: -0, w: 0.9659258}
       scale: {x: 1, y: 1, z: 1}
     - name: Mech_Walker_LeftHand
-      parentName: 
+      parentName: Mech_Walker_LeftFoot
       position: {x: -0.0011461268, y: -2.842171e-16, z: 0.00066183397}
       rotation: {x: -0.022621324, y: -0.034910686, z: 0.13550809, w: 0.98990256}
       scale: {x: 1, y: 1, z: 1}
     - name: L_Hand_Geom
-      parentName: 
+      parentName: Mech_Walker_LeftToe
       position: {x: 1.746514e-12, y: -0.0000041164753, z: 1.6992203e-11}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: Mech_Walker_LeftHandMiddle1
-      parentName: 
+      parentName: Mech_Walker_LeftFoot
       position: {x: -0.35266632, y: 0.14316344, z: 0.029373245}
       rotation: {x: 0.0020098612, y: 0.013693683, z: -0.042611223, w: 0.9989959}
       scale: {x: 1, y: 1, z: 1}
     - name: L_Hand_Middle_1_Geom
-      parentName: 
+      parentName: Mech_Walker_LeftHeel
       position: {x: -0.00000023104177, y: -0.000004651735, z: -0.00000016516185}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: Mech_Walker_LeftHandMiddle2
-      parentName: 
+      parentName: Mech_Walker_Hips
       position: {x: -0.23599365, y: 0.034658812, z: 0.000006790161}
       rotation: {x: -0.0000035355083, y: 0.000004635187, z: -0.1473442, w: 0.9890853}
       scale: {x: 1, y: 1, z: 1}
     - name: L_Hand_Middle_2_Geom
-      parentName: 
+      parentName: Mech_Walker_RightUpLeg
       position: {x: -0.00000028697556, y: -0.0000050325852, z: -0.00000020514874}
-      rotation: {x: 0, y: -0, z: -0, w: 1}
+      rotation: {x: -0.4388866, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: Mech_Walker_LeftHandMiddle3
-      parentName: 
+      parentName: Mech_Walker_RightLeg
       position: {x: -0.2338153, y: -0.051987913, z: 0.000003890991}
-      rotation: {x: 0, y: -0, z: -0, w: 1}
+      rotation: {x: 0.10609273, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: L_Hand_Middle_3_Geom
-      parentName: 
+      parentName: Mech_Walker_RightFoot
       position: {x: -0.00000020307459, y: -0.0000054099237, z: -0.00000014516218}
-      rotation: {x: 0, y: -0, z: -0, w: 1}
+      rotation: {x: -0.01068945, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: Mech_Walker_LeftHandMiddle4
-      parentName: 
+      parentName: Mech_Walker_RightToe
       position: {x: -0.32935423, y: -0.19582091, z: 0.000002746582}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: Mech_Walker_LeftHandThumb1
-      parentName: 
+      parentName: Mech_Walker_RightFoot
       position: {x: -0.24016784, y: -0.099999994, z: 0.14492157}
       rotation: {x: -0.005398093, y: -0.012358222, z: -0.0040043322, w: 0.99990106}
       scale: {x: 1, y: 1, z: 1}
     - name: L_Hand_Thumb_1_Geom
-      parentName: 
+      parentName: Mech_Walker_RightHeel
       position: {x: 0.00000016138036, y: -0.000004336859, z: 0.00000011539617}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
