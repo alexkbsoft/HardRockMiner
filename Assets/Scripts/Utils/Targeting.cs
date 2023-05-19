@@ -4,7 +4,7 @@ public class Targeting
 {
     public static bool CanAttackEnemy(Transform positionTransform, GameObject enemy, float angle, float distance)
     {
-        float angleCos = Mathf.Cos(Mathf.Deg2Rad * angle);
+        float angleCos = Mathf.Cos(Mathf.Deg2Rad * angle / 2);
         var enemyPos = enemy.transform.position;
         enemyPos.y = 0;
         var currentPos = positionTransform.position;

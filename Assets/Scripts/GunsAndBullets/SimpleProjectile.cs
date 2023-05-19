@@ -19,13 +19,13 @@ public class SimpleProjectile : MonoBehaviour
 
     }
 
-    // Update is called once per frame
     void Update()
     {
         transform.position += transform.forward * Speed * Time.deltaTime;
         Vector3 step = transform.forward * Time.deltaTime * Speed;
 
-        if (Physics.Raycast(transform.position,
+        if (Physics.SphereCast(transform.position,
+            0.35f,
             transform.forward,
             out var hitPoint,
             step.magnitude * RaycastAdvance,

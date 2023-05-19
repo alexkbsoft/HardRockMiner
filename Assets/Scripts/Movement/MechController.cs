@@ -101,6 +101,6 @@ public class MechController : MonoBehaviour
             _newDir = transform.position + lookToWorld * 5;
         }
 
-        _bodyAim.transform.position = Vector3.Slerp(_bodyAim.transform.position, _newDir, 0.1f);
+        _bodyAim.transform.position = Vector3.Slerp(_bodyAim.transform.position, _newDir, 0.05f);
     }
 }
