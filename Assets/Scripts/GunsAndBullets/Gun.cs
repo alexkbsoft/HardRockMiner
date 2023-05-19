@@ -11,9 +11,12 @@ public class Gun : MonoBehaviour
     public float AttackDistance = 20;
 
     private bool _canFire = true;
+    private GameObject _currentTarget;
+    private EventBus _eventBus;
     void Start()
     {
-
+        _eventBus = FindObjectOfType<EventBus>();
+        _eventBus.TargetsChanged.AddListener(OnTargetsChanged);
     }
 
     void Update()
@@ -23,32 +26,29 @@ public class Gun : MonoBehaviour
             return;
         }
 
-        var enemies = GameObject.FindGameObjectsWithTag("Enemy");
-
-        foreach(GameObject go in enemies)
+        if(_currentTarget != null)
         {
-            if (CanAttackEnemy(go)) {
-                Fire(go);
+            if (Targeting.CanAttackEnemy(transform, _currentTarget, AttackAngle, AttackDistance)) {
+                Fire(_currentTarget);
                 _canFire = false;
                 StartCoroutine(ResetFire());
-
-                break;
             }
+        }
+    }
+    void OnDestroy()
+    {
+        _eventBus.TargetsChanged.RemoveListener(OnTargetsChanged);
+    }
+
+    private void OnTargetsChanged(List<GameObject> targetsList) {
+        if (targetsList.Count > 0) {
+            _currentTarget = targetsList[Random.Range(0, targetsList.Count)];
         }
     }
 
     private IEnumerator ResetFire() {
         yield return new WaitForSeconds(FirePeriod);
         _canFire = true;
-    }
-
-    private bool CanAttackEnemy(GameObject enemy)
-    {
-        float angleCos = Mathf.Cos(Mathf.Deg2Rad * AttackAngle);
-        Vector3 direction = (enemy.transform.position - transform.position);
-
-        return Vector3.Dot(direction.normalized, transform.forward) > angleCos
-            && direction.magnitude < AttackDistance;
     }
 
     private void Fire(GameObject go) {
