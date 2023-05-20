@@ -2437,7 +2437,7 @@ GameObject:
   - component: {fileID: 1257116466}
   - component: {fileID: 1257116463}
   - component: {fileID: 172585345}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: EnemyAlbinoSmall
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -2492,7 +2492,7 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 2
+  m_Radius: 3
   m_Height: 4.241923
   m_Direction: 1
   m_Center: {x: 0, y: 2.1790037, z: 0}

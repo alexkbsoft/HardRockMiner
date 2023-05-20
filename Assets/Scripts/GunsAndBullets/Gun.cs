@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Lean.Pool;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Gun : MonoBehaviour
 {
@@ -10,13 +11,13 @@ public class Gun : MonoBehaviour
     public float AttackAngle = 30;
     public float AttackDistance = 20;
 
+    [SerializeField] private Elbow _elbow;
     private bool _canFire = true;
     private GameObject _currentTarget;
-    private EventBus _eventBus;
+    
     void Start()
     {
-        _eventBus = FindObjectOfType<EventBus>();
-        _eventBus.TargetsChanged.AddListener(OnTargetsChanged);
+        _elbow.TargetSelected.AddListener(OnTargetChanged);
     }
 
     void Update()
@@ -35,15 +36,10 @@ public class Gun : MonoBehaviour
             }
         }
     }
-    void OnDestroy()
-    {
-        _eventBus.TargetsChanged.RemoveListener(OnTargetsChanged);
-    }
 
-    private void OnTargetsChanged(List<GameObject> targetsList) {
-        if (targetsList.Count > 0) {
-            _currentTarget = targetsList[Random.Range(0, targetsList.Count)];
-        }
+    private void OnTargetChanged(GameObject newTarget)
+    {
+        _currentTarget = newTarget;
     }
 
     private IEnumerator ResetFire() {
@@ -54,8 +50,16 @@ public class Gun : MonoBehaviour
     private void Fire(GameObject go) {
         Debug.Log("Fire: ");
         var bullet = LeanPool.Spawn(BulletPref, transform.position, transform.rotation);
-        bullet.GetComponent<SimpleProjectile>().TargetTags.Add("Enemy");
+        var proj = bullet.GetComponent<SimpleProjectile>();
+        proj.TargetTags.Clear();
+        proj.TargetTags.Add("Enemy");
+        
         LeanPool.Despawn(bullet, 1.5f);
+    }
+
+    void OnDestroy()
+    {
+        _elbow.TargetSelected.RemoveListener(OnTargetChanged);
     }
 
     #if UNITY_EDITOR

@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 2409613349294489534}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
+  m_LocalScale: {x: 0.7, y: 0.7, z: 0.7}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 2409613350132727342}
@@ -146,7 +146,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.15
+  m_Radius: 0.35
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &468637047
 MonoBehaviour:
@@ -160,12 +160,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58a6ac6e74406e64f840a3dc0574c03a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Speed: 50
+  Speed: 60
   RaycastAdvance: 2
   Damage: 20
   layerMask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 8704
   TargetTags: []
   _flarePrefab: {fileID: 5949503494601250653, guid: 9448db6e6edc6044e87dbecb69290e58, type: 3}
 --- !u!96 &377092299
@@ -210,7 +210,7 @@ TrailRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Time: 0.1
+  m_Time: 0.05
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 0.1

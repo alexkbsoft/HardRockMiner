@@ -2019,7 +2019,7 @@ GameObject:
   - component: {fileID: 7418476049580631955}
   - component: {fileID: 7418476049580631952}
   - component: {fileID: 1403769229}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: EnemyBlueMedium
   m_TagString: Untagged
   m_Icon: {fileID: 0}
