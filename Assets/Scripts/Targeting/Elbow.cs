@@ -8,6 +8,7 @@ public class Elbow : MonoBehaviour
 {
     public float MaxAngle = 60;
     public UnityEvent<GameObject> TargetSelected;
+    public float Cooldown = 0.2f;
 
     [SerializeField] private GameObject ConstrainTarget;
     [SerializeField] private GameObject RotateTarget;
@@ -20,6 +21,11 @@ public class Elbow : MonoBehaviour
     private Vector3 _hintOffset;
     private EventBus _eventBus;
 
+    private bool _isCooldown = false;
+    private Transform _mechSpine;
+    private Coroutine _currentResetter;
+
+    private List<GameObject> _targetsList;
 
 
     void Start()
@@ -31,6 +37,10 @@ public class Elbow : MonoBehaviour
 
         _eventBus = FindObjectOfType<EventBus>();
         _eventBus.TargetsChanged.AddListener(OnTargetsChanged);
+
+        _mechSpine = GameObject.FindGameObjectWithTag("MechSpine").transform;
+
+        StartCoroutine(SelectTarget());
     }
 
     void Update()
@@ -44,21 +54,48 @@ public class Elbow : MonoBehaviour
             if (canRotateHand)
             {
                 weight = 1;
-                RotateTarget.transform.position = Vector3.Slerp(RotateTarget.transform.position, _target.position + Vector3.up * 0.7f, 0.08f);
-                ConstrainTarget.transform.position = Vector3.Slerp(ConstrainTarget.transform.position, transform.position + dir * _distanceToHand, 0.08f);
+                // RotateTarget.transform.position = Vector3.Slerp(RotateTarget.transform.position, _target.position + Vector3.up * 0.7f, 0.05f);
+                // ConstrainTarget.transform.position = Vector3.Slerp(ConstrainTarget.transform.position, transform.position + dir * _distanceToHand, 0.08f);
+                RotateTarget.transform.position = _target.position + Vector3.up * 0.7f;
+                ConstrainTarget.transform.position = transform.position + dir * _distanceToHand;
                 ConstrainHint.transform.position = transform.position + _hintOffset;
             }
             else
             {
-                _target = null;
-                TargetSelected?.Invoke(null);
-
-                weight = 0;
+                TargetLost();
             }
+            // else
+            // {
+            //     _target = null;
+            //     TargetSelected?.Invoke(null);
+            //     _isCooldown = true;
+            //     StartCoroutine(ResetCooldown());
+
+            //     weight = 0;
+            // }
         }
 
-        _constraint.weight = Mathf.Lerp(_constraint.weight, weight, 0.1f);
-        _gunAim.weight = Mathf.Lerp(_constraint.weight, weight, 0.1f);
+        _constraint.weight = Mathf.Lerp(_constraint.weight, weight, 0.05f);
+        _gunAim.weight = Mathf.Lerp(_constraint.weight, weight, 0.05f);
+    }
+
+    private void TargetLost()
+    {
+        _target = null;
+        TargetSelected?.Invoke(null);
+        _isCooldown = true;
+
+        if (_currentResetter != null)
+        {
+            StopCoroutine(_currentResetter);
+        }
+        _currentResetter = StartCoroutine(ResetCooldown());
+    }
+
+    private IEnumerator ResetCooldown()
+    {
+        yield return new WaitForSeconds(Cooldown);
+        _isCooldown = false;
     }
 
     private (bool, Vector3) CanRotateHand(Vector3 targetPos)
@@ -71,32 +108,61 @@ public class Elbow : MonoBehaviour
 
     private void OnTargetsChanged(List<GameObject> targetsList)
     {
-        if (_target != null)
-        {
-            return;
-        }
+        _targetsList = targetsList;
+    }
 
-        if (targetsList.Count > 0)
+    private IEnumerator SelectTarget()
+    {
+        while (true)
         {
-            foreach (GameObject newTarget in targetsList)
+            yield return new WaitForSeconds(0.1f);
+            if (!_isCooldown && _targetsList != null)
             {
-                var (canRotateHand, _) = CanRotateHand(newTarget.transform.position);
-
-                if (canRotateHand)
+                if (_targetsList.Count > 0)
                 {
+                    Transform found = _target;
 
-                    _target = newTarget.transform;
-                    TargetSelected?.Invoke(newTarget);
-                    break;
+                    foreach (GameObject newTarget in _targetsList)
+                    {
+                        var (canRotateHand, _) = CanRotateHand(newTarget.transform.position);
+
+                        if (canRotateHand)
+                        {
+                            var forward = transform.forward;
+                            var pos = transform.position;
+
+                            if (found == null)
+                            {
+                                found = newTarget.transform;
+                                continue;
+                            }
+
+                            if (Targeting.Dot(_mechSpine.forward, pos, found) < Targeting.Dot(_mechSpine.forward, pos, newTarget.transform))
+                            {
+                                found = newTarget.transform;
+                            }
+                        }
+                    }
+
+                    if (_target != found)
+                    {
+                        TargetLost();
+                    }
+
+                    if (_target == null && found != null)
+                    {
+                        _target = found.transform;
+                        TargetSelected?.Invoke(found.gameObject);
+                    }
+
                 }
-
+                else
+                {
+                    TargetSelected?.Invoke(null);
+                }
             }
+        }
 
-        }
-        else
-        {
-            TargetSelected?.Invoke(null);
-        }
     }
 
     void OnDestroy()

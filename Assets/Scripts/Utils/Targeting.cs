@@ -14,4 +14,8 @@ public class Targeting
         return Vector3.Dot(direction.normalized, positionTransform.forward) > angleCos
             && direction.magnitude < distance;
     }
+
+    public static float Dot(Vector3 dir, Vector3 source, Transform to) {
+        return Vector3.Dot(dir, to.transform.position - source);
+    }
 }
