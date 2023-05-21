@@ -116,6 +116,7 @@ public class Elbow : MonoBehaviour
         while (true)
         {
             yield return new WaitForSeconds(0.1f);
+
             if (!_isCooldown && _targetsList != null)
             {
                 if (_targetsList.Count > 0)
@@ -144,12 +145,11 @@ public class Elbow : MonoBehaviour
                         }
                     }
 
-                    if (_target != found)
+                    if (_target != null && _target != found)
                     {
                         TargetLost();
                     }
-
-                    if (_target == null && found != null)
+                    else if (_target == null && found != null)
                     {
                         _target = found.transform;
                         TargetSelected?.Invoke(found.gameObject);

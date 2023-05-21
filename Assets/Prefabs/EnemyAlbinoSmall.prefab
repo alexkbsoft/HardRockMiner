@@ -2512,7 +2512,7 @@ MonoBehaviour:
   AnimationMult: 1.5
   PatrolPeriod: 4
   Waypoints: []
-  AttackDistance: 8
+  AttackDistance: 5
   WatchDistance: 50
   AttackEffectDistance: 4
 --- !u!195 &172585345

@@ -1383,7 +1383,7 @@ Light:
   m_RenderMode: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4087
+    m_Bits: 20471
   m_RenderingLayerMask: 1
   m_Lightmapping: 2
   m_LightShadowCasterMode: 0
@@ -16097,7 +16097,7 @@ Light:
   m_Type: 1
   m_Shape: 0
   m_Color: {r: 0.9811321, g: 0.6263201, b: 0.6263201, a: 1}
-  m_Intensity: 0.74
+  m_Intensity: 0.65
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -16134,7 +16134,7 @@ Light:
   m_RenderMode: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4087
+    m_Bits: 20471
   m_RenderingLayerMask: 1
   m_Lightmapping: 2
   m_LightShadowCasterMode: 0
@@ -16351,7 +16351,7 @@ MonoBehaviour:
   TargetSelected:
     m_PersistentCalls:
       m_Calls: []
-  Cooldown: 1
+  Cooldown: 0.2
   ConstrainTarget: {fileID: 2003287883}
   RotateTarget: {fileID: 1738683182}
   ConstrainHint: {fileID: 191971185}
@@ -19462,7 +19462,7 @@ GameObject:
   - component: {fileID: 1212492904}
   - component: {fileID: 1212492903}
   - component: {fileID: 1212492902}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Plane
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -20559,6 +20559,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 214118423}
     m_Modifications:
+    - target: {fileID: 1257116463, guid: 7e81b26e8aa81204b86cf4611c82aea6, type: 3}
+      propertyPath: RunSpeed
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 1469575375562209548, guid: 7e81b26e8aa81204b86cf4611c82aea6, type: 3}
       propertyPath: m_Name
       value: EnemyAlbinoSmall (3)
@@ -20569,7 +20573,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1469575375562305642, guid: 7e81b26e8aa81204b86cf4611c82aea6, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -74.59
+      value: -64.65
       objectReference: {fileID: 0}
     - target: {fileID: 1469575375562305642, guid: 7e81b26e8aa81204b86cf4611c82aea6, type: 3}
       propertyPath: m_LocalPosition.y
@@ -20577,7 +20581,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1469575375562305642, guid: 7e81b26e8aa81204b86cf4611c82aea6, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -73.61
+      value: -75.34
       objectReference: {fileID: 0}
     - target: {fileID: 1469575375562305642, guid: 7e81b26e8aa81204b86cf4611c82aea6, type: 3}
       propertyPath: m_LocalRotation.w
@@ -22857,6 +22861,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 214118423}
     m_Modifications:
+    - target: {fileID: 1257116463, guid: 7e81b26e8aa81204b86cf4611c82aea6, type: 3}
+      propertyPath: RunSpeed
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 1469575375562209548, guid: 7e81b26e8aa81204b86cf4611c82aea6, type: 3}
       propertyPath: m_Name
       value: EnemyAlbinoSmall (2)
@@ -22867,7 +22875,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1469575375562305642, guid: 7e81b26e8aa81204b86cf4611c82aea6, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -61.8
+      value: -62.88
       objectReference: {fileID: 0}
     - target: {fileID: 1469575375562305642, guid: 7e81b26e8aa81204b86cf4611c82aea6, type: 3}
       propertyPath: m_LocalPosition.y
@@ -22875,7 +22883,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1469575375562305642, guid: 7e81b26e8aa81204b86cf4611c82aea6, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -62.9
+      value: -57.48
       objectReference: {fileID: 0}
     - target: {fileID: 1469575375562305642, guid: 7e81b26e8aa81204b86cf4611c82aea6, type: 3}
       propertyPath: m_LocalRotation.w
@@ -25291,6 +25299,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 214118423}
     m_Modifications:
+    - target: {fileID: 1257116463, guid: 7e81b26e8aa81204b86cf4611c82aea6, type: 3}
+      propertyPath: RunSpeed
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 1469575375562209548, guid: 7e81b26e8aa81204b86cf4611c82aea6, type: 3}
       propertyPath: m_Name
       value: EnemyAlbinoSmall
@@ -29423,6 +29435,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 214118423}
     m_Modifications:
+    - target: {fileID: 1257116463, guid: 7e81b26e8aa81204b86cf4611c82aea6, type: 3}
+      propertyPath: RunSpeed
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 1469575375562209548, guid: 7e81b26e8aa81204b86cf4611c82aea6, type: 3}
       propertyPath: m_Name
       value: EnemyAlbinoSmall (1)
