@@ -72,7 +72,9 @@ public class ResourceBlock : MonoBehaviour
         {
             var resource = Instantiate(ResourcePrefab, transform.position + Vector3.up * 3, Quaternion.identity);
             resource.GetComponent<Resource>().SetType(DropRate[index].name);
-            resource.GetComponent<Rigidbody>().AddForce(Random.onUnitSphere * 2, ForceMode.Impulse);
+            var direction = Random.onUnitSphere;
+            direction.y = 0;
+            resource.GetComponent<Rigidbody>().AddForce(direction * 10, ForceMode.Impulse);
         }
     }
 
