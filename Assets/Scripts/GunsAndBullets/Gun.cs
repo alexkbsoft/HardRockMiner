@@ -10,11 +10,12 @@ public class Gun : MonoBehaviour
     public float FirePeriod = 1;
     public float AttackAngle = 30;
     public float AttackDistance = 20;
+    public AnimatedGun AnimatedGun;
 
     [SerializeField] private Elbow _elbow;
-    private bool _canFire = true;
+    // private bool _canFire = true;
     private GameObject _currentTarget;
-    
+
     void Start()
     {
         _elbow.TargetSelected.AddListener(OnTargetChanged);
@@ -22,19 +23,11 @@ public class Gun : MonoBehaviour
 
     void Update()
     {
-        if (!_canFire)
-        {
-            return;
-        }
+        bool shoot = _currentTarget != null &&
+            Targeting.CanAttackEnemy(transform, _currentTarget, AttackAngle, AttackDistance);
 
-        if(_currentTarget != null)
-        {
-            if (Targeting.CanAttackEnemy(transform, _currentTarget, AttackAngle, AttackDistance)) {
-                Fire(_currentTarget);
-                _canFire = false;
-                StartCoroutine(ResetFire());
-            }
-        }
+        AnimatedGun.Fire(shoot);
+
     }
 
     private void OnTargetChanged(GameObject newTarget)
@@ -42,18 +35,19 @@ public class Gun : MonoBehaviour
         _currentTarget = newTarget;
     }
 
-    private IEnumerator ResetFire() {
-        yield return new WaitForSeconds(FirePeriod);
-        _canFire = true;
-    }
+    // private IEnumerator ResetFire() {
+    //     yield return new WaitForSeconds(FirePeriod);
+    //     _canFire = true;
+    // }
 
-    private void Fire(GameObject go) {
-        Debug.Log("Fire: ");
+    public void FireBullet()
+    {
+
         var bullet = LeanPool.Spawn(BulletPref, transform.position, transform.rotation);
         var proj = bullet.GetComponent<SimpleProjectile>();
         proj.TargetTags.Clear();
         proj.TargetTags.Add("Enemy");
-        
+
         LeanPool.Despawn(bullet, 1.5f);
     }
 
@@ -62,14 +56,14 @@ public class Gun : MonoBehaviour
         _elbow.TargetSelected.RemoveListener(OnTargetChanged);
     }
 
-    #if UNITY_EDITOR
+#if UNITY_EDITOR
     void OnDrawGizmos()
     {
         Color c = new Color(0.8f, 0, 0, 0.3f);
 
         UnityEditor.Handles.color = c;
 
-        var rotatedForward = Quaternion.Euler(0, - AttackAngle * 0.5f, 0) * transform.forward;
+        var rotatedForward = Quaternion.Euler(0, -AttackAngle * 0.5f, 0) * transform.forward;
 
         UnityEditor.Handles.DrawSolidArc(
             transform.position,
@@ -79,5 +73,5 @@ public class Gun : MonoBehaviour
             AttackDistance
         );
     }
-    #endif
+#endif
 }

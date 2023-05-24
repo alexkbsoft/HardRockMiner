@@ -13,10 +13,11 @@ public class SimpleProjectile : MonoBehaviour
     public List<string> TargetTags;
 
     [SerializeField] GameObject _flarePrefab;
+    TrailRenderer _trail;
 
-    void Start()
+    void Awake()
     {
-
+        _trail = GetComponent<TrailRenderer>();
     }
 
     void Update()
@@ -25,7 +26,7 @@ public class SimpleProjectile : MonoBehaviour
         Vector3 step = transform.forward * Time.deltaTime * Speed;
 
         if (Physics.SphereCast(transform.position,
-            0.35f,
+            0.2f,
             transform.forward,
             out var hitPoint,
             step.magnitude * RaycastAdvance,
@@ -43,5 +44,10 @@ public class SimpleProjectile : MonoBehaviour
             flare.transform.rotation = Quaternion.LookRotation(hitPoint.normal);
             LeanPool.Despawn(flare, 1.5f);
         }
+    }
+
+    void OnEnable()
+    {
+        _trail.Clear();
     }
 }

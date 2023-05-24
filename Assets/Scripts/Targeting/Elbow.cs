@@ -30,7 +30,7 @@ public class Elbow : MonoBehaviour
 
     void Start()
     {
-        _constraint = GameObject.Find("GunAim").GetComponent<TwoBoneIKConstraint>();
+        // _constraint = GameObject.Find("GunAim").GetComponent<TwoBoneIKConstraint>();
 
         _distanceToHand = Vector3.Distance(transform.position, ConstrainTarget.transform.position);
         _hintOffset = ConstrainHint.transform.position - transform.position;
@@ -57,8 +57,8 @@ public class Elbow : MonoBehaviour
                 // RotateTarget.transform.position = Vector3.Slerp(RotateTarget.transform.position, _target.position + Vector3.up * 0.7f, 0.05f);
                 // ConstrainTarget.transform.position = Vector3.Slerp(ConstrainTarget.transform.position, transform.position + dir * _distanceToHand, 0.08f);
                 RotateTarget.transform.position = _target.position + Vector3.up * 0.7f;
-                ConstrainTarget.transform.position = transform.position + dir * _distanceToHand;
-                ConstrainHint.transform.position = transform.position + _hintOffset;
+                // ConstrainTarget.transform.position = transform.position + dir * _distanceToHand;
+                // ConstrainHint.transform.position = transform.position + _hintOffset;
             }
             else
             {
@@ -75,8 +75,8 @@ public class Elbow : MonoBehaviour
             // }
         }
 
-        _constraint.weight = Mathf.Lerp(_constraint.weight, weight, 0.05f);
-        _gunAim.weight = Mathf.Lerp(_constraint.weight, weight, 0.05f);
+        // _constraint.weight = Mathf.Lerp(_constraint.weight, weight, 5 * Time.deltaTime);
+        _gunAim.weight = Mathf.Lerp(_gunAim.weight, weight, 5 * Time.deltaTime);
     }
 
     private void TargetLost()
