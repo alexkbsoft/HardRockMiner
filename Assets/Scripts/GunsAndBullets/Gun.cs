@@ -11,10 +11,13 @@ public class Gun : MonoBehaviour
     public float AttackAngle = 30;
     public float AttackDistance = 20;
     public AnimatedGun AnimatedGun;
+    public GameObject MuzzleFlashPrefab;
+    public float FireRate = 1.1f;
 
     [SerializeField] private Elbow _elbow;
-    // private bool _canFire = true;
+
     private GameObject _currentTarget;
+    private float _timeToFire;
 
     void Start()
     {
@@ -23,11 +26,23 @@ public class Gun : MonoBehaviour
 
     void Update()
     {
-        bool shoot = _currentTarget != null &&
-            Targeting.CanAttackEnemy(transform, _currentTarget, AttackAngle, AttackDistance);
+        _timeToFire -= Time.deltaTime;
 
-        AnimatedGun.Fire(shoot);
+        if (_timeToFire <= 0) {
+            _timeToFire = 1 / FireRate;
+            AnimatedGun.Fire(WillHit());
+        }
+    }
 
+    private bool WillHit()
+    {
+        return _currentTarget != null && Physics.SphereCast(
+            transform.position - transform.forward,
+            2,
+            transform.forward,
+            out var _,
+            100,
+            1 << LayerMask.NameToLayer("Enemy"));
     }
 
     private void OnTargetChanged(GameObject newTarget)
@@ -35,20 +50,28 @@ public class Gun : MonoBehaviour
         _currentTarget = newTarget;
     }
 
-    // private IEnumerator ResetFire() {
-    //     yield return new WaitForSeconds(FirePeriod);
-    //     _canFire = true;
-    // }
-
     public void FireBullet()
     {
+        if (!WillHit())
+        {
+            return;
+        }
 
         var bullet = LeanPool.Spawn(BulletPref, transform.position, transform.rotation);
+        bullet.transform.LookAt(_currentTarget.transform.position + Constants.TargetOffset);
+
         var proj = bullet.GetComponent<SimpleProjectile>();
         proj.TargetTags.Clear();
         proj.TargetTags.Add("Enemy");
 
         LeanPool.Despawn(bullet, 1.5f);
+
+        var muzzleFlash = LeanPool.Spawn(
+            MuzzleFlashPrefab,
+            transform.position + transform.forward,
+            transform.rotation * Quaternion.Euler(0, 180, 0));
+
+        LeanPool.Despawn(muzzleFlash, 0.5f);
     }
 
     void OnDestroy()

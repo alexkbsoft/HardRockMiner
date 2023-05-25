@@ -48,3 +48,6 @@ MonoBehaviour:
   FirePeriod: 1
   AttackAngle: 30
   AttackDistance: 20
+  AnimatedGun: {fileID: 0}
+  MuzzleFlashPrefab: {fileID: 3953838986991760274, guid: 13167aa8c394dcd4fbeb168f0419cf7c, type: 3}
+  _elbow: {fileID: 0}

@@ -30,8 +30,6 @@ public class Elbow : MonoBehaviour
 
     void Start()
     {
-        // _constraint = GameObject.Find("GunAim").GetComponent<TwoBoneIKConstraint>();
-
         _distanceToHand = Vector3.Distance(transform.position, ConstrainTarget.transform.position);
         _hintOffset = ConstrainHint.transform.position - transform.position;
 
@@ -45,6 +43,7 @@ public class Elbow : MonoBehaviour
 
     void Update()
     {
+
         float weight = 0;
 
         if (_target != null)
@@ -54,28 +53,16 @@ public class Elbow : MonoBehaviour
             if (canRotateHand)
             {
                 weight = 1;
-                // RotateTarget.transform.position = Vector3.Slerp(RotateTarget.transform.position, _target.position + Vector3.up * 0.7f, 0.05f);
-                // ConstrainTarget.transform.position = Vector3.Slerp(ConstrainTarget.transform.position, transform.position + dir * _distanceToHand, 0.08f);
-                RotateTarget.transform.position = _target.position + Vector3.up * 0.7f;
-                // ConstrainTarget.transform.position = transform.position + dir * _distanceToHand;
-                // ConstrainHint.transform.position = transform.position + _hintOffset;
+
+                RotateTarget.transform.position = _target.position + Constants.TargetOffset;
+
             }
             else
             {
                 TargetLost();
             }
-            // else
-            // {
-            //     _target = null;
-            //     TargetSelected?.Invoke(null);
-            //     _isCooldown = true;
-            //     StartCoroutine(ResetCooldown());
-
-            //     weight = 0;
-            // }
         }
 
-        // _constraint.weight = Mathf.Lerp(_constraint.weight, weight, 5 * Time.deltaTime);
         _gunAim.weight = Mathf.Lerp(_gunAim.weight, weight, 5 * Time.deltaTime);
     }
 
@@ -135,6 +122,7 @@ public class Elbow : MonoBehaviour
                             if (found == null)
                             {
                                 found = newTarget.transform;
+
                                 continue;
                             }
 

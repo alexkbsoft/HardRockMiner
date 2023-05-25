@@ -16,6 +16,6 @@ public class Targeting
     }
 
     public static float Dot(Vector3 dir, Vector3 source, Transform to) {
-        return Vector3.Dot(dir, to.transform.position - source);
+        return Vector3.Dot(dir, (to.transform.position - source).normalized);
     }
 }
