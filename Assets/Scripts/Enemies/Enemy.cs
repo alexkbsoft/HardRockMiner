@@ -26,23 +26,41 @@ public class Enemy : MonoBehaviour
     private bool _isAttacking = false;
     private bool _isDamaged = false;
     private bool _isDead = false;
+    private HitPointsBar _hpBar;
+    private Canvas _hpBarCanvas;
+    private Damagable _damagable;
+    private bool _fading = false;
+    private Coroutine _checkTargetsCoroutine;
 
     void Start()
     {
         // StartCoroutine(SelectPoint());
-        StartCoroutine(CheckTarget());
+        _checkTargetsCoroutine = StartCoroutine(CheckTarget());
 
         _navMeshAgent = GetComponent<NavMeshAgent>();
         _anim = GetComponent<Animator>();
+        _hpBar = GetComponentInChildren<HitPointsBar>();
+        _damagable = GetComponent<Damagable>();
+
         _target = GameObject.Find("Player");
 
         _prevPos = _navMeshAgent.transform.position;
+
+        _damagable.OnDamaged.AddListener(Damage);
+
+        _hpBar.SetHitPoints((int)_damagable.MaxLive, (int)_damagable.MaxLive);
+        _hpBarCanvas = _hpBar.GetComponentInParent<Canvas>();
+        _hpBarCanvas.enabled = false;
     }
 
     void Update()
     {
         if (_isDead)
         {
+            if (_fading)
+            {
+                transform.position += Vector3.down * Time.deltaTime;
+            }
             return;
         }
 
@@ -60,7 +78,9 @@ public class Enemy : MonoBehaviour
             var attackRotation = _target.transform.position - transform.position;
             attackRotation.y = 0;
             _navMeshAgent.transform.rotation = Quaternion.LookRotation(attackRotation);
-        } else {
+        }
+        else
+        {
             _navMeshAgent.SetDestination(_currentDestination);
         }
     }
@@ -105,16 +125,54 @@ public class Enemy : MonoBehaviour
         }
     }
 
+    public void Damage(float currentHP)
+    {
+        _hpBar.SetHitPoints((int)currentHP, (int)_damagable.MaxLive);
+        _hpBarCanvas.enabled = true;
+
+    }
+
+    public void Die()
+    {
+        if (_isDead == true)
+        {
+            return;
+        }
+
+        _isDead = true;
+        _hpBarCanvas.enabled = false;
+
+        this.tag = "Untagged";
+        _navMeshAgent.isStopped = true;
+        _anim.SetTrigger("Dead");
+
+        StopCoroutine(_checkTargetsCoroutine);
+
+        Destroy(GetComponent<Rigidbody>());
+        Destroy(GetComponent<CapsuleCollider>());
+        Destroy(GetComponent<CharacterController>());
+        Destroy(GetComponent<NavMeshAgent>());
+
+        Destroy(gameObject, 3.5f);
+        StartCoroutine(StartFading());
+    }
+
+    private IEnumerator StartFading()
+    {
+        yield return new WaitForSeconds(2.0f);
+        _fading = true;
+    }
+
     // private IEnumerator SelectPoint()
     // {
-        // while (true)
-        // {
-            // yield return new WaitForSeconds(PatrolPeriod);
+    // while (true)
+    // {
+    // yield return new WaitForSeconds(PatrolPeriod);
 
-            // var pt1 = twoPointZone[0].position;
-            // var pt2 = twoPointZone[1].position;
-            // _currentDestination = pt1 + Vector3.right * Random.Range(0, Vector3.Distance(pt1, pt2));
-        // }
+    // var pt1 = twoPointZone[0].position;
+    // var pt2 = twoPointZone[1].position;
+    // _currentDestination = pt1 + Vector3.right * Random.Range(0, Vector3.Distance(pt1, pt2));
+    // }
     // }
 
     #region Animation events
@@ -141,16 +199,11 @@ public class Enemy : MonoBehaviour
         _isAttacking = true;
     }
 
-    public void Die()
-    {
-        if (_isDead == true)
-        {
-            return;
-        }
-        _isDead = true;
-        _navMeshAgent.isStopped = true;
-        _anim.SetBool("Dead", true);
-    }
     #endregion
+
+    void OnDestroy()
+    {
+        _damagable.OnDamaged?.RemoveAllListeners();
+    }
 
 }
