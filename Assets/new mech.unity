@@ -2932,6 +2932,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Meh2
       objectReference: {fileID: 0}
+    - target: {fileID: 4601072957191063288, guid: ee30e9f151cb5344d981074c0f944c2a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8973028907526665898, guid: ee30e9f151cb5344d981074c0f944c2a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ee30e9f151cb5344d981074c0f944c2a, type: 3}
 --- !u!1 &416861895
