@@ -1815,7 +1815,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 11e8419923b3b3d4288bcefd1d204b5d, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 10.408908
+      value: 9.98
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 11e8419923b3b3d4288bcefd1d204b5d, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1848,7 +1848,7 @@ PrefabInstance:
     - target: {fileID: -5018992133932339651, guid: 11e8419923b3b3d4288bcefd1d204b5d, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: aa8f29c3ca637164580d3a3f3ec6e923, type: 2}
+      objectReference: {fileID: 2100000, guid: 4fcc14220a4c34e44bb3bf3ee826b3d2, type: 2}
     - target: {fileID: 919132149155446097, guid: 11e8419923b3b3d4288bcefd1d204b5d, type: 3}
       propertyPath: m_Name
       value: Meh_Astronaut
@@ -1856,7 +1856,7 @@ PrefabInstance:
     - target: {fileID: 1528097169732161312, guid: 11e8419923b3b3d4288bcefd1d204b5d, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: aa8f29c3ca637164580d3a3f3ec6e923, type: 2}
+      objectReference: {fileID: 2100000, guid: 4740508d53073ea4c9b99b877b6722b6, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 11e8419923b3b3d4288bcefd1d204b5d, type: 3}
 --- !u!1 &192012668
