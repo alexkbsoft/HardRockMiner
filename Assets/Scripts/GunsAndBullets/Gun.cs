@@ -68,7 +68,7 @@ public class Gun : MonoBehaviour
 
         var muzzleFlash = LeanPool.Spawn(
             MuzzleFlashPrefab,
-            transform.position + transform.forward,
+            transform.position + transform.forward * 0.5f,
             transform.rotation * Quaternion.Euler(0, 180, 0));
 
         LeanPool.Despawn(muzzleFlash, 0.5f);
