@@ -3,12 +3,17 @@ guid: ba68d80494c181e4ca50e5fd649d7e4f
 ModelImporter:
   serializedVersion: 21300
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Astronaut
+    second: {fileID: 2100000, guid: aa8f29c3ca637164580d3a3f3ec6e923, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
     materialSearch: 1
-    materialLocation: 0
+    materialLocation: 1
   animations:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
@@ -803,6 +808,11 @@ ModelImporter:
       parentName: arm_stretch.l
       position: {x: -0.0000000011920929, y: -0.000000012516975, z: 0.00000009089708}
       rotation: {x: 0.00000044703472, y: -0.00012089309, z: -0.0000000707805, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: c_root_master.x
+      parentName: root
+      position: {x: -0, y: 0.9170496, z: -0.041612763}
+      rotation: {x: -0.000000020920124, y: 0.000008304, z: -1.7372072e-13, w: 1}
       scale: {x: 1, y: 1, z: 1}
     armTwist: 0.5
     foreArmTwist: 0.5
