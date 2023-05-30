@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Animations.Rigging;
 using UniversalMobileController;
 
 public class MechController : MonoBehaviour
@@ -21,6 +22,9 @@ public class MechController : MonoBehaviour
     private Vector3 _newDir;
     private Quaternion _curAimRotation;
     private float _fixedY;
+    private Damagable _damagable;
+    private bool _isDead = false;
+    private Vector2 _localPos;
 
     void Start()
     {
@@ -30,11 +34,23 @@ public class MechController : MonoBehaviour
 
         _newDir = transform.position + transform.forward;
         _curAimRotation = Quaternion.identity;
+        _damagable = GetComponent<Damagable>();
+        _damagable.OnDamaged.AddListener(OnDamaged);
+        _damagable.OnDestroyed.AddListener(OnDead);
+    }
+
+
+    void OnDestroy()
+    {
+        _damagable.OnDamaged.RemoveAllListeners();
+        _damagable.OnDestroyed.RemoveAllListeners();
     }
 
 
     void FixedUpdate()
     {
+        FixYPos();
+
         if (!IsActive)
         {
             _animator.SetBool("move", false);
@@ -53,15 +69,30 @@ public class MechController : MonoBehaviour
             transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(_move), Time.deltaTime * 10);
         }
 
-        FixYPos();
         SetBodyAim();
+    }
+
+    public void OnDamaged(float lifeRemained)
+    {
+
+    }
+
+    public void OnDead()
+    {
+        IsActive = false;
+        _isDead = true;
+        _animator.SetTrigger("dead");
+        GetComponentInChildren<Gun>().enabled = false;
+        GetComponentInChildren<AnimatedGun>().Fire(false);
+
+        GameObject.Find("MechLights").GetComponent<Light>().enabled = false;
     }
 
     private Vector3 MovementFromCameraPoint()
     {
         var vector2Move = LeftJoystickInput();
-
         var cam = Camera.main.transform;
+
         return DirectionTransform.MoveToSpecifiedDir(vector2Move, cam);
     }
 
@@ -69,11 +100,22 @@ public class MechController : MonoBehaviour
     {
         var curPos = transform.position;
         curPos.y = _fixedY;
+
+        if (_isDead)
+        {
+            curPos += Vector3.down * 1.5f;
+        }
+
         transform.position = curPos;
     }
 
     void OnAnimatorMove()
     {
+        if (!IsActive)
+        {
+            return;
+        }
+
         _chController.Move(_animator.deltaPosition + Vector3.down * Time.fixedDeltaTime);
         FixYPos();
     }
@@ -92,13 +134,21 @@ public class MechController : MonoBehaviour
         var horizontal = rightJoystick.GetHorizontalValue();
         var vertical = rightJoystick.GetVerticalValue();
 
-        var _localPos = new Vector2(horizontal, vertical);
+        if (!_isDead)
+        {
+            _localPos = new Vector2(horizontal, vertical);
+        }
         _newDir = transform.position + transform.forward * 5;
 
         if (_localPos != Vector2.zero)
         {
             var lookToWorld = DirectionTransform.MoveToSpecifiedDir(_localPos, Camera.main.transform);
             _newDir = transform.position + lookToWorld * 5;
+
+            if (_isDead)
+            {
+                _newDir += Vector3.down * 2;
+            }
         }
 
         _bodyAim.transform.position = Vector3.Slerp(_bodyAim.transform.position, _newDir, 5 * Time.fixedDeltaTime);

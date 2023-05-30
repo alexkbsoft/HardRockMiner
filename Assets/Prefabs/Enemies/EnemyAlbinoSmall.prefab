@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1150160808
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1150160809}
+  m_Layer: 13
+  m_Name: HitSource
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1150160809
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1150160808}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 2.89, z: -0.18}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1469575375562305642}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1799892925
 GameObject:
   m_ObjectHideFlags: 0
@@ -2553,6 +2584,7 @@ GameObject:
   - component: {fileID: 1257116463}
   - component: {fileID: 172585345}
   - component: {fileID: 1509141363}
+  - component: {fileID: 1770894293}
   m_Layer: 13
   m_Name: EnemyAlbinoSmall
   m_TagString: Enemy
@@ -2575,6 +2607,7 @@ Transform:
   - {fileID: 1469575375562231850}
   - {fileID: 1469575375562264244}
   - {fileID: 1799892926}
+  - {fileID: 1150160809}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 149.487, z: 0}
@@ -2610,9 +2643,9 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 2.4121525
-  m_Height: 6
+  m_Height: 5.2
   m_Direction: 1
-  m_Center: {x: 0.000000044704827, y: 2.1790042, z: -0.5878477}
+  m_Center: {x: 0.000000044704827, y: 2.41, z: -0.5878477}
 --- !u!114 &1257116463
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2629,7 +2662,7 @@ MonoBehaviour:
   AnimationMult: 1.5
   PatrolPeriod: 4
   Waypoints: []
-  AttackDistance: 5
+  AttackDistance: 6
   WatchDistance: 50
   AttackEffectDistance: 4
 --- !u!195 &172585345
@@ -2685,6 +2718,23 @@ MonoBehaviour:
   OnDamaged:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &1770894293
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1469575375562209548}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d71294d4f2d71914b8640d56111adf3d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HitPower: 5
+  HitEffectDistance: 3.47
+  HitSphereRadius: 0.63
+  HitSource: {fileID: 1150160809}
+  HitEffect: {fileID: 3273858813118834862, guid: 93ea03465073d7147b4e67a520126192, type: 3}
 --- !u!1 &1469575375562211192
 GameObject:
   m_ObjectHideFlags: 0

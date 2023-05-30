@@ -37,8 +37,8 @@ public class Gun : MonoBehaviour
     private bool WillHit()
     {
         return _currentTarget != null && Physics.SphereCast(
-            transform.position - transform.forward,
-            2,
+            transform.position - transform.forward * 1.5f,
+            1,
             transform.forward,
             out var _,
             100,
@@ -64,14 +64,14 @@ public class Gun : MonoBehaviour
         proj.TargetTags.Clear();
         proj.TargetTags.Add("Enemy");
 
-        LeanPool.Despawn(bullet, 1.5f);
+        LeanPool.Despawn(bullet, 2.1f);
 
         var muzzleFlash = LeanPool.Spawn(
             MuzzleFlashPrefab,
             transform.position + transform.forward * 0.5f,
             transform.rotation * Quaternion.Euler(0, 180, 0));
 
-        LeanPool.Despawn(muzzleFlash, 0.5f);
+        LeanPool.Despawn(muzzleFlash, 0.6f);
     }
 
     void OnDestroy()
