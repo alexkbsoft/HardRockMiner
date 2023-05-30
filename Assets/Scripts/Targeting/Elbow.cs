@@ -87,10 +87,12 @@ public class Elbow : MonoBehaviour
 
     private (bool, Vector3) CanRotateHand(Vector3 targetPos)
     {
-        var dir = (targetPos - transform.position).normalized;
+        var dir = (targetPos - transform.position);
+        dir.y = 0;
+
         var angleCos = Mathf.Cos(MaxAngle * Mathf.Deg2Rad / 2);
 
-        return (Vector3.Dot(dir, transform.forward) > angleCos, dir);
+        return (Vector3.Dot(dir.normalized, transform.forward) > angleCos, dir);
     }
 
     private void OnTargetsChanged(List<GameObject> targetsList)
