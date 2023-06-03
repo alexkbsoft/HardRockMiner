@@ -25,8 +25,8 @@ public class SimpleProjectile : MonoBehaviour
         transform.position += transform.forward * Speed * Time.deltaTime;
         Vector3 step = transform.forward * Time.deltaTime * Speed;
 
-        if (Physics.SphereCast(transform.position,
-            0.2f,
+        if (Physics.SphereCast(transform.position - transform.forward,
+            0.1f,
             transform.forward,
             out var hitPoint,
             step.magnitude * RaycastAdvance,
@@ -40,9 +40,11 @@ public class SimpleProjectile : MonoBehaviour
 
             LeanPool.Despawn(gameObject);
             var flare = LeanPool.Spawn(_flarePrefab);
-            flare.transform.position = hitPoint.point;
-            flare.transform.rotation = Quaternion.LookRotation(hitPoint.normal);
-            LeanPool.Despawn(flare, 1.5f);
+            if (flare != null) {    
+                flare.transform.position = hitPoint.point;
+                flare.transform.rotation = Quaternion.LookRotation(hitPoint.normal);
+                LeanPool.Despawn(flare, 0.5f);
+            }
         }
     }
 

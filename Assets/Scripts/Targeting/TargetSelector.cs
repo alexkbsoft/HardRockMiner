@@ -38,13 +38,13 @@ public class TargetSelector : MonoBehaviour
         #if UNITY_EDITOR
     void OnDrawGizmos()
     {
-        Color c = new Color(0.5f, 0, 0.5f, 0.3f);
+        Color c = new Color(0.5f, 0, 0.5f, 1);
 
         UnityEditor.Handles.color = c;
 
         var rotatedForward = Quaternion.Euler(0, - DetectionAngle * 0.5f, 0) * transform.forward;
 
-        UnityEditor.Handles.DrawSolidArc(
+        UnityEditor.Handles.DrawWireArc(
             transform.position,
             Vector3.up,
             rotatedForward,

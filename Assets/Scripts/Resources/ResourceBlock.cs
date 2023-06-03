@@ -22,6 +22,7 @@ public class ResourceBlock : MonoBehaviour
     [SerializeField] private GameObject _block25;
 
     private GameObject _currentVisual;
+    private EventBus _eventBus;
 
 
     void Start()
@@ -29,6 +30,8 @@ public class ResourceBlock : MonoBehaviour
         _currentVisual = _block100;
 
         GetComponent<Damagable>().OnDamaged.AddListener(Damaged);
+        _eventBus = FindObjectOfType<EventBus>();
+
     }
 
     public void Destroyed()
@@ -36,6 +39,22 @@ public class ResourceBlock : MonoBehaviour
         for (int i = 0; i < ResourceCount; i++)
         {
             GenerateResource();
+        }
+
+        _eventBus.BlockDestroyed?.Invoke(this);
+
+        foreach (Transform part in _block25.transform)
+        {
+            part.transform.parent = null;
+
+            var rb = part.gameObject.AddComponent<Rigidbody>();
+
+            var forceDir = Random.onUnitSphere;
+            forceDir.y = 0;
+
+            // rb.AddForce(forceDir * Random.Range(0f, 1.0f));
+
+            Destroy(part.gameObject, 1.0f);
         }
 
         Destroy(gameObject);
@@ -51,7 +70,8 @@ public class ResourceBlock : MonoBehaviour
             _ => _block25,
         };
 
-        if (nextVisual != null && nextVisual != _currentVisual) {
+        if (nextVisual != null && nextVisual != _currentVisual)
+        {
             _currentVisual.SetActive(false);
             _currentVisual = nextVisual;
             nextVisual.SetActive(true);
@@ -70,11 +90,17 @@ public class ResourceBlock : MonoBehaviour
 
         if (index != 0)
         {
-            var resource = Instantiate(ResourcePrefab, transform.position + Vector3.up * 3, Quaternion.identity);
+            var resource = Instantiate(ResourcePrefab,
+                transform.position + Vector3.up * 3,
+                Quaternion.identity);
+
             resource.GetComponent<Resource>().SetType(DropRate[index].name);
             var direction = Random.onUnitSphere;
             direction.y = 0;
-            resource.GetComponent<Rigidbody>().AddForce(direction * 10, ForceMode.Impulse);
+
+            var rb = resource.GetComponent<Rigidbody>();
+            rb.AddForce(direction * 10, ForceMode.Impulse);
+            rb.AddTorque(direction * 3, ForceMode.Impulse);
         }
     }
 

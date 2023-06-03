@@ -6,6 +6,7 @@ using UnityEngine.Events;
 public class EventBus : MonoBehaviour
 {
     public UnityEvent<List<GameObject>> TargetsChanged;
+    public UnityEvent<ResourceBlock> BlockDestroyed;
     void Start()
     {
         

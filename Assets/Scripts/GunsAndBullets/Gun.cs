@@ -13,6 +13,7 @@ public class Gun : MonoBehaviour
     public AnimatedGun AnimatedGun;
     public GameObject MuzzleFlashPrefab;
     public float FireRate = 1.1f;
+    public LayerMask _targetLayer;
 
     [SerializeField] private Elbow _elbow;
 
@@ -21,50 +22,74 @@ public class Gun : MonoBehaviour
 
     void Start()
     {
-        _elbow.TargetSelected.AddListener(OnTargetChanged);
+        // _elbow.TargetSelected.AddListener(OnTargetChanged);
     }
 
     void Update()
     {
         _timeToFire -= Time.deltaTime;
 
-        if (_timeToFire <= 0) {
+        if (_timeToFire <= 0)
+        {
             _timeToFire = 1 / FireRate;
-            AnimatedGun.Fire(WillHit());
+            _currentTarget = WillHit();
+            AnimatedGun.Fire(_currentTarget != null);
         }
     }
 
-    private bool WillHit()
+    private GameObject WillHit()
     {
-        return _currentTarget != null && Physics.SphereCast(
+        var hitTargets = Physics.SphereCastAll(
             transform.position - transform.forward * 1.5f,
-            1,
+            1f,
             transform.forward,
-            out var _,
             100,
-            1 << LayerMask.NameToLayer("Enemy"));
+            _targetLayer);
+
+        GameObject closest = null;
+        float dist = float.PositiveInfinity;
+
+        foreach(RaycastHit target in hitTargets) {
+            var newDist = Vector3.Distance(transform.position, target.point);
+
+            if (newDist < dist) {
+                dist = newDist;
+                closest = target.collider.gameObject;
+            }
+        }
+
+        return 
+            closest != null && 
+            closest.tag == "Enemy" ? closest : null;
     }
 
     private void OnTargetChanged(GameObject newTarget)
     {
-        _currentTarget = newTarget;
+        // _currentTarget = newTarget;
     }
 
     public void FireBullet()
     {
-        if (!WillHit())
-        {
+        // if (!WillHit())
+        // {
+        //     return;
+        // }
+
+        if (_currentTarget == null) {
             return;
         }
 
-        var bullet = LeanPool.Spawn(BulletPref, transform.position, transform.rotation);
-        bullet.transform.LookAt(_currentTarget.transform.position + Constants.TargetOffset);
+        var bullet = LeanPool.Spawn(BulletPref,
+            transform.position,
+            Quaternion.identity);
+        bullet.transform.LookAt(_currentTarget.transform.position + Vector3.up);
 
         var proj = bullet.GetComponent<SimpleProjectile>();
+
         proj.TargetTags.Clear();
         proj.TargetTags.Add("Enemy");
 
-        LeanPool.Despawn(bullet, 2.1f);
+        LeanPool.Despawn(bullet, 1f);
 
         var muzzleFlash = LeanPool.Spawn(
             MuzzleFlashPrefab,
@@ -76,19 +101,19 @@ public class Gun : MonoBehaviour
 
     void OnDestroy()
     {
-        _elbow.TargetSelected.RemoveListener(OnTargetChanged);
+        // _elbow.TargetSelected.RemoveListener(OnTargetChanged);
     }
 
 #if UNITY_EDITOR
     void OnDrawGizmos()
     {
-        Color c = new Color(0.8f, 0, 0, 0.3f);
+        Color c = new Color(0.8f, 0, 0, 1f);
 
         UnityEditor.Handles.color = c;
 
         var rotatedForward = Quaternion.Euler(0, -AttackAngle * 0.5f, 0) * transform.forward;
 
-        UnityEditor.Handles.DrawSolidArc(
+        UnityEditor.Handles.DrawWireArc(
             transform.position,
             Vector3.up,
             rotatedForward,

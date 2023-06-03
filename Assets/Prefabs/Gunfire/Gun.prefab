@@ -50,4 +50,8 @@ MonoBehaviour:
   AttackDistance: 20
   AnimatedGun: {fileID: 0}
   MuzzleFlashPrefab: {fileID: 3953838986991760274, guid: 13167aa8c394dcd4fbeb168f0419cf7c, type: 3}
+  FireRate: 1.1
+  _targetLayer:
+    serializedVersion: 2
+    m_Bits: 8704
   _elbow: {fileID: 0}
