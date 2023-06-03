@@ -61,6 +61,7 @@ public class Enemy : MonoBehaviour
             {
                 transform.position += Vector3.down * Time.deltaTime;
             }
+            
             return;
         }
 

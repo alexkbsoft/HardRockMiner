@@ -7,6 +7,7 @@ TagManager:
   - Resource
   - Enemy
   - MechSpine
+  - Drill
   layers:
   - Default
   - TransparentFX
@@ -24,7 +25,7 @@ TagManager:
   - Enemy
   - Ground
   - Pilot
-  - 
+  - CubePart
   - 
   - 
   - 

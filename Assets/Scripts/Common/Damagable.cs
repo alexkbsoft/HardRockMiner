@@ -11,6 +11,7 @@ public class Damagable : MonoBehaviour
 
     private float CurrentLife;
 
+
     void Start()
     {
         CurrentLife = MaxLive;
@@ -18,7 +19,8 @@ public class Damagable : MonoBehaviour
 
     public void Damage(float damage)
     {
-        if (CurrentLife == 0) {
+        if (CurrentLife == 0)
+        {
             return;
         }
 

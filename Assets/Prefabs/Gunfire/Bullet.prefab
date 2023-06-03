@@ -167,7 +167,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 25088
   TargetTags: []
-  _flarePrefab: {fileID: 5949503494601250653, guid: 9448db6e6edc6044e87dbecb69290e58, type: 3}
+  _flarePrefab: {fileID: 3174407089277909161, guid: 26a36caef693ae24fa05d01a4f06b17d, type: 3}
 --- !u!96 &377092299
 TrailRenderer:
   serializedVersion: 2

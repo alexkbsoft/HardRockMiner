@@ -54,7 +54,7 @@ public class Elbow : MonoBehaviour
             {
                 weight = 1;
 
-                RotateTarget.transform.position = _target.position + Constants.TargetOffset;
+                // RotateTarget.transform.position = _target.position + Constants.TargetOffset;
 
             }
             else
@@ -62,8 +62,8 @@ public class Elbow : MonoBehaviour
                 TargetLost();
             }
         }
-
-        _gunAim.weight = Mathf.Lerp(_gunAim.weight, weight, 5 * Time.deltaTime);
+        _gunAim.weight = 0;
+        // _gunAim.weight = Mathf.Lerp(_gunAim.weight, weight, 5 * Time.deltaTime);
     }
 
     private void TargetLost()
@@ -128,7 +128,8 @@ public class Elbow : MonoBehaviour
                                 continue;
                             }
 
-                            if (Targeting.Dot(_mechSpine.forward, pos, found) < Targeting.Dot(_mechSpine.forward, pos, newTarget.transform))
+                            if (Vector3.Distance(transform.position, found.position) >
+                                Vector3.Distance(transform.position, newTarget.transform.position))
                             {
                                 found = newTarget.transform;
                             }
@@ -165,13 +166,13 @@ public class Elbow : MonoBehaviour
 #if UNITY_EDITOR
     void OnDrawGizmos()
     {
-        Color c = new Color(0.8f, 0, 0, 0.3f);
+        Color c = new Color(0.8f, 0, 0, 1);
 
         UnityEditor.Handles.color = c;
 
         var rotatedForward = Quaternion.Euler(0, -MaxAngle * 0.5f, 0) * transform.forward;
 
-        UnityEditor.Handles.DrawSolidArc(
+        UnityEditor.Handles.DrawWireArc(
             transform.position,
             Vector3.up,
             rotatedForward,
