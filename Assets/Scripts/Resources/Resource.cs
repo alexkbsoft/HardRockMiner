@@ -7,8 +7,8 @@ public class Resource : MonoBehaviour
     public string Name;
     public GameObject[] TypeObjs;
     public float Speed = 2;
-    
-    private GameObject _player;
+
+    private MechController _player;
     private bool _isFollowing = false;
 
     public void SetType(string name)
@@ -40,11 +40,12 @@ public class Resource : MonoBehaviour
 
     void Start()
     {
-        _player = GameObject.Find("Player");
+        _player = MechController.Instance;
         StartCoroutine(StartFollowing());
     }
 
-    private IEnumerator StartFollowing() {
+    private IEnumerator StartFollowing()
+    {
         yield return new WaitForSeconds(2.0f);
 
         _isFollowing = true;
@@ -52,9 +53,17 @@ public class Resource : MonoBehaviour
 
     void Update()
     {
-        if (_isFollowing) {
-            transform.position = Vector3.MoveTowards(transform.position, _player.transform.position, Time.deltaTime * Speed);
-        }
+        var curPos = transform.position;
+        curPos.y = 0;
+        var playerPos= _player.transform.position;
+        playerPos.y = 0;
 
+        if (_isFollowing && Vector3.Distance(curPos, playerPos) <= _player.CollectDistance)
+        {
+            transform.position = Vector3.MoveTowards(
+                transform.position,
+                _player.transform.position,
+                Time.deltaTime * Speed);
+        }
     }
 }

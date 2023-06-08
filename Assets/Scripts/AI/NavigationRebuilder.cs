@@ -22,5 +22,6 @@ public class NavigationRebuilder : MonoBehaviour
         yield return new WaitForEndOfFrame();
 
         _surface?.BuildNavMesh();
+        Debug.Log("REBUILD SUCESS");
     }
 }

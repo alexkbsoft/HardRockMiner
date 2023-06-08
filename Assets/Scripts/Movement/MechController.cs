@@ -7,6 +7,7 @@ using UniversalMobileController;
 public class MechController : MonoBehaviour
 {
     public bool IsActive = true;
+    public float CollectDistance = 2.0f;
     [SerializeField] private FloatingJoyStick joystick;
     [SerializeField] private FloatingJoyStick rightJoystick;
     [SerializeField] private GameObject _bodyAim;
@@ -26,7 +27,9 @@ public class MechController : MonoBehaviour
     private bool _isDead = false;
     private Vector2 _localPos;
 
-    void Start()
+    private static MechController _Instance;
+
+    void Awake()
     {
         _animator = GetComponent<Animator>();
         _chController = GetComponent<CharacterController>();
@@ -37,6 +40,8 @@ public class MechController : MonoBehaviour
         _damagable = GetComponent<Damagable>();
         _damagable.OnDamaged.AddListener(OnDamaged);
         _damagable.OnDestroyed.AddListener(OnDead);
+
+        _Instance = this;
     }
 
 
@@ -72,9 +77,12 @@ public class MechController : MonoBehaviour
         SetBodyAim();
     }
 
+    public static MechController Instance => _Instance;
+    public static Damagable InstanceDamagable => _Instance._damagable;
+
     public void OnDamaged(float lifeRemained)
     {
-
+        
     }
 
     public void OnDead()

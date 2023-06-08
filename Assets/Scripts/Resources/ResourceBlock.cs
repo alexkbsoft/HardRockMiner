@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 
 public class ResourceBlock : MonoBehaviour
 {
+    
     [System.Serializable]
     public struct Probability
     {
@@ -23,15 +25,16 @@ public class ResourceBlock : MonoBehaviour
 
     private GameObject _currentVisual;
     private EventBus _eventBus;
+    
+    private bool _shaking = false;
 
 
     void Start()
     {
         _currentVisual = _block100;
-
         GetComponent<Damagable>().OnDamaged.AddListener(Damaged);
-        _eventBus = FindObjectOfType<EventBus>();
 
+        _eventBus = FindObjectOfType<EventBus>();
     }
 
     public void Destroyed()
@@ -46,15 +49,7 @@ public class ResourceBlock : MonoBehaviour
         foreach (Transform part in _block25.transform)
         {
             part.transform.parent = null;
-
-            var rb = part.gameObject.AddComponent<Rigidbody>();
-
-            var forceDir = Random.onUnitSphere;
-            forceDir.y = 0;
-
-            // rb.AddForce(forceDir * Random.Range(0f, 1.0f));
-
-            Destroy(part.gameObject, 1.0f);
+            part.GetComponent<WallPart>().Activate();
         }
 
         Destroy(gameObject);
@@ -75,6 +70,17 @@ public class ResourceBlock : MonoBehaviour
             _currentVisual.SetActive(false);
             _currentVisual = nextVisual;
             nextVisual.SetActive(true);
+        }
+
+        _eventBus.BlockDamaged?.Invoke(this);
+
+        Shake();
+    }
+
+    private void Shake() {
+        if (!_shaking) {
+            _shaking = true;
+            transform.DOShakePosition(0.5f, new Vector3(0.1f, 0, 0.1f)).OnComplete(() => _shaking = false);
         }
     }
 

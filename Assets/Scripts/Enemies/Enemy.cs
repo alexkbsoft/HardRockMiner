@@ -61,7 +61,7 @@ public class Enemy : MonoBehaviour
             {
                 transform.position += Vector3.down * Time.deltaTime;
             }
-            
+
             return;
         }
 
@@ -82,7 +82,18 @@ public class Enemy : MonoBehaviour
         }
         else
         {
+//             if (MyNavMeshAgent.isOnNavMesh == false)
+// {                  
+//        MyNavMeshAgent.Warp(NavMeshDestinationTarget.position);
+// }
+            // if (_navMeshAgent.isStopped) {
+            //     Debug.Log("STOPPED");
+            //     _navMeshAgent.isStopped = false;
+            //     _navMeshAgent.ResetPath();
+            // } else {
             _navMeshAgent.SetDestination(_currentDestination);
+            // }
+
         }
     }
 

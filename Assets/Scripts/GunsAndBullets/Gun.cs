@@ -14,27 +14,40 @@ public class Gun : MonoBehaviour
     public GameObject MuzzleFlashPrefab;
     public float FireRate = 1.1f;
     public LayerMask _targetLayer;
+    private bool _Fire = false;
 
     [SerializeField] private Elbow _elbow;
 
     private GameObject _currentTarget;
     private float _timeToFire;
+    private EventBus _eventBus;
+
 
     void Start()
     {
         // _elbow.TargetSelected.AddListener(OnTargetChanged);
+
+                _eventBus = GameObject.FindObjectOfType<EventBus>();
+        _eventBus.FireEnabled?.AddListener(EnableFire);
     }
 
     void Update()
     {
-        _timeToFire -= Time.deltaTime;
+        // _timeToFire -= Time.deltaTime;
 
-        if (_timeToFire <= 0)
-        {
-            _timeToFire = 1 / FireRate;
-            _currentTarget = WillHit();
-            AnimatedGun.Fire(_currentTarget != null);
-        }
+        // if (_timeToFire <= 0)
+        // {
+        //     _timeToFire = 1 / FireRate;
+        //     _Fire = true;
+
+        //     // _currentTarget = WillHit();
+        // }
+
+        AnimatedGun.Fire(_Fire);
+    }
+
+    private void EnableFire(bool enableFire) {
+        _Fire = enableFire;
     }
 
     private GameObject WillHit()
@@ -43,7 +56,7 @@ public class Gun : MonoBehaviour
             transform.position - transform.forward * 1.5f,
             1f,
             transform.forward,
-            100,
+            AttackDistance,
             _targetLayer);
 
         GameObject closest = null;
@@ -75,14 +88,18 @@ public class Gun : MonoBehaviour
         //     return;
         // }
 
-        if (_currentTarget == null) {
-            return;
-        }
+        // if (_currentTarget == null) {
+        //     return;
+        // }
+        
+        var forward = transform.forward;
+        forward.y = 0;
 
         var bullet = LeanPool.Spawn(BulletPref,
             transform.position,
-            Quaternion.identity);
-        bullet.transform.LookAt(_currentTarget.transform.position + Vector3.up);
+            Quaternion.LookRotation(forward));
+
+        // bullet.transform.LookAt(_currentTarget.transform.position + Vector3.up);
 
         var proj = bullet.GetComponent<SimpleProjectile>();
 
@@ -102,6 +119,7 @@ public class Gun : MonoBehaviour
     void OnDestroy()
     {
         // _elbow.TargetSelected.RemoveListener(OnTargetChanged);
+        _eventBus.FireEnabled?.RemoveListener(EnableFire);
     }
 
 #if UNITY_EDITOR
@@ -113,8 +131,10 @@ public class Gun : MonoBehaviour
 
         var rotatedForward = Quaternion.Euler(0, -AttackAngle * 0.5f, 0) * transform.forward;
 
+        Debug.DrawLine(transform.position - transform.forward * 1.5f, transform.position + transform.forward * AttackDistance, Color.red);
+
         UnityEditor.Handles.DrawWireArc(
-            transform.position,
+            transform.position - transform.forward * 1.5f,
             Vector3.up,
             rotatedForward,
             AttackAngle,

@@ -97,10 +97,10 @@ namespace UniversalMobileController
                 }
                 else
                 {
-                    isSelected = true;
-                    resizeSilder = GameObject.Find(resizeSliderName).GetComponent<Slider>();
-                    resizeSilder.value = rectTransform.localScale.x;
-                    gameObject.GetComponent<Image>().color = Color.yellow;
+                    // isSelected = true;
+                    // resizeSilder = GameObject.Find(resizeSliderName).GetComponent<Slider>();
+                    // resizeSilder.value = rectTransform.localScale.x;
+                    // gameObject.GetComponent<Image>().color = Color.yellow;
                     Debug.Log(gameObject.name + "Selected " + isSelected);
 
                 }

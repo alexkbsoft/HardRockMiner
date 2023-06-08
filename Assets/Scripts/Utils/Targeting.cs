@@ -15,7 +15,30 @@ public class Targeting
             && direction.magnitude < distance;
     }
 
-    public static float Dot(Vector3 dir, Vector3 source, Transform to) {
+    public static float Dot(Vector3 dir, Vector3 source, Transform to)
+    {
         return Vector3.Dot(dir, (to.transform.position - source).normalized);
+    }
+
+    public static (GameObject, RaycastHit?, float) GetClosest(RaycastHit[] hits, Vector3 toPosition)
+    {
+        GameObject closest = null;
+        RaycastHit? hit = null;
+
+        float dist = float.PositiveInfinity;
+
+        foreach (RaycastHit target in hits)
+        {
+            var newDist = Vector3.Distance(toPosition, target.point);
+
+            if (newDist < dist)
+            {
+                dist = newDist;
+                closest = target.collider.gameObject;
+                hit = target;
+            }
+        }
+
+        return (closest, hit, dist);
     }
 }

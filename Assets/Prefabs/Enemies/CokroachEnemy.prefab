@@ -576,7 +576,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2549626429765157164}
-  m_LocalRotation: {x: 0.11523545, y: 0.8434399, z: -0.48695529, w: 0.19545999}
+  m_LocalRotation: {x: 0.13366027, y: 0.79219854, z: -0.56651354, w: 0.18335456}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.008283338, y: 0.00828334, z: 0.2760209}
   m_ConstrainProportionsScale: 0
@@ -757,7 +757,7 @@ Transform:
   m_GameObject: {fileID: 2619961606662892917}
   m_LocalRotation: {x: 0, y: -0.73794323, z: 0, w: 0.67486286}
   m_LocalPosition: {x: -103.557556, y: -49.95879, z: -49.24739}
-  m_LocalScale: {x: 1.7335999, y: 1.7336, z: 1.7335999}
+  m_LocalScale: {x: 2.6376722, y: 2.6376724, z: 2.6376722}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5392634711940443231}
@@ -800,9 +800,9 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.4
-  m_Height: 1.0071889
+  m_Height: 1.1857376
   m_Direction: 1
-  m_Center: {x: 0, y: 0.5175688, z: 0}
+  m_Center: {x: 0, y: 0.6068431, z: 0}
 --- !u!114 &2549626429022543734
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -820,7 +820,7 @@ MonoBehaviour:
   PatrolPeriod: 4
   Waypoints: []
   AttackDistance: 3
-  WatchDistance: 40
+  WatchDistance: 60
   AttackEffectDistance: 4
 --- !u!114 &2549626429022543735
 MonoBehaviour:
@@ -835,6 +835,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MaxLive: 25
+  CurrentLife: 0
   OnDestroyed:
     m_PersistentCalls:
       m_Calls:
@@ -891,7 +892,7 @@ NavMeshAgent:
   m_Height: 0.8
   m_BaseOffset: 0
   m_WalkableMask: 1
-  m_ObstacleAvoidanceType: 1
+  m_ObstacleAvoidanceType: 0
 --- !u!1 &2841064865815159596
 GameObject:
   m_ObjectHideFlags: 0
