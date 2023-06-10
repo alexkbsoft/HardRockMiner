@@ -1,11 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.AI.Navigation;
 using UnityEngine;
 
 public class NavigationRebuilder : MonoBehaviour
 {
-    [SerializeField] private NavMeshSurface _surface;
+    [SerializeField] private AstarPath _astarPathBuilder;
 
     private EventBus _eventBus;
     void Start()
@@ -21,6 +20,7 @@ public class NavigationRebuilder : MonoBehaviour
     private IEnumerator DelayedRebuild() {
         yield return new WaitForEndOfFrame();
 
-        _surface?.BuildNavMesh();
+        _astarPathBuilder.Scan();
+        Debug.Log("REBUILD SUCESS");
     }
 }

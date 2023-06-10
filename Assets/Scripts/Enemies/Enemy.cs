@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Pathfinding;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -14,14 +15,11 @@ public class Enemy : MonoBehaviour
 
     public float AttackEffectDistance = 4;
 
-    private NavMeshAgent _navMeshAgent;
-
     private Vector3 _currentDestination;
     private Animator _anim;
-    private GameObject _target;
+    private Transform _target;
     private bool _pursue = false;
 
-    private Vector3 _prevPos;
 
     private bool _isAttacking = false;
     private bool _isDamaged = false;
@@ -31,20 +29,21 @@ public class Enemy : MonoBehaviour
     private Damagable _damagable;
     private bool _fading = false;
     private Coroutine _checkTargetsCoroutine;
+    private AIPath _aiPathFinder;
+    private AIDestinationSetter _destinationSetter;
+    private bool _closeEnough = false;
 
     void Start()
     {
-        // StartCoroutine(SelectPoint());
-        _checkTargetsCoroutine = StartCoroutine(CheckTarget());
 
-        _navMeshAgent = GetComponent<NavMeshAgent>();
         _anim = GetComponent<Animator>();
         _hpBar = GetComponentInChildren<HitPointsBar>();
         _damagable = GetComponent<Damagable>();
+        _aiPathFinder = GetComponent<AIPath>();
+        _destinationSetter = GetComponent<AIDestinationSetter>();
 
-        _target = GameObject.Find("Player");
+        _target = GameObject.Find("Player").transform;
 
-        _prevPos = _navMeshAgent.transform.position;
 
         _damagable.OnDamaged.AddListener(Damage);
 
@@ -61,35 +60,44 @@ public class Enemy : MonoBehaviour
             {
                 transform.position += Vector3.down * Time.deltaTime;
             }
-            
-            return;
-        }
 
-        if (_pursue)
-        {
-            _currentDestination = _target.transform.position;
+            return;
         }
 
         CheckAnimations();
 
 
-        if (_isAttacking)
+        if (_closeEnough)
         {
-            _navMeshAgent.velocity = Vector3.zero;
             var attackRotation = _target.transform.position - transform.position;
             attackRotation.y = 0;
-            _navMeshAgent.transform.rotation = Quaternion.LookRotation(attackRotation);
-        }
-        else
-        {
-            _navMeshAgent.SetDestination(_currentDestination);
+            transform.rotation = Quaternion.LookRotation(attackRotation);
         }
     }
 
+
+
     private void CheckAnimations()
     {
-        _anim.SetBool("Run", _navMeshAgent.velocity.magnitude > 0.1);
-        _anim.SetBool("Attack", TargetDist() <= AttackDistance);
+        _anim.SetBool("Run", !_closeEnough);
+        _closeEnough = TargetDist() <= AttackDistance;
+
+        if (!_isAttacking)
+        {
+            _anim.SetBool("Attack", _closeEnough);
+
+        }
+        if (_closeEnough && _aiPathFinder.updatePosition)
+        {
+            _aiPathFinder.updatePosition = false;
+            _aiPathFinder.updateRotation = false;
+        }
+
+        if (!_closeEnough && !_aiPathFinder.updatePosition)
+        {
+            _aiPathFinder.updatePosition = true;
+            _aiPathFinder.updateRotation = true;
+        }
     }
 
     private float TargetDist()
@@ -98,32 +106,6 @@ public class Enemy : MonoBehaviour
         var enemyPos = transform.position;
 
         return Vector3.Distance(pos, enemyPos);
-    }
-
-    private IEnumerator CheckTarget()
-    {
-        while (true)
-        {
-            yield return new WaitForSeconds(0.3f);
-
-            var pos = _target.transform.position;
-            pos.x = 0;
-            var enemyPos = transform.position;
-            enemyPos.x = 0;
-            if (TargetDist() < WatchDistance)
-            {
-                _pursue = true;
-                _navMeshAgent.stoppingDistance = AttackDistance;
-                _navMeshAgent.speed = RunSpeed;
-                // _anim.SetFloat("Speed", AnimationMult);
-            }
-            else
-            {
-                _pursue = false;
-                _navMeshAgent.stoppingDistance = 0;
-                // _anim.SetFloat("Speed", 1f);
-            }
-        }
     }
 
     public void Damage(float currentHP)
@@ -144,15 +126,17 @@ public class Enemy : MonoBehaviour
         _hpBarCanvas.enabled = false;
 
         this.tag = "Untagged";
-        _navMeshAgent.isStopped = true;
+        _destinationSetter.target = null;
+        
         _anim.SetTrigger("Dead");
 
-        StopCoroutine(_checkTargetsCoroutine);
+        
 
         Destroy(GetComponent<Rigidbody>());
         Destroy(GetComponent<CapsuleCollider>());
         Destroy(GetComponent<CharacterController>());
-        Destroy(GetComponent<NavMeshAgent>());
+        Destroy(GetComponent<AIPath>());
+        
 
         Destroy(gameObject, 3.5f);
         StartCoroutine(StartFading());
@@ -164,40 +148,19 @@ public class Enemy : MonoBehaviour
         _fading = true;
     }
 
-    // private IEnumerator SelectPoint()
-    // {
-    // while (true)
-    // {
-    // yield return new WaitForSeconds(PatrolPeriod);
-
-    // var pt1 = twoPointZone[0].position;
-    // var pt2 = twoPointZone[1].position;
-    // _currentDestination = pt1 + Vector3.right * Random.Range(0, Vector3.Distance(pt1, pt2));
-    // }
-    // }
 
     #region Animation events
 
-    public void HitEvent()
-    {
-        // var toRacoon = _racoon.transform.position - transform.position;
-
-        // if (
-        //     Vector3.Dot(toRacoon, transform.forward) > 0.5f &&
-        //     RacoonDist() <= AttackEffectDistance
-        //     )
-        // {
-        //     _racoon.GetComponent<PlayerController>().Damage(10, transform.position);
-        // }
-    }
     public void AttackEnd()
     {
         _isAttacking = false;
+        // _destinationSetter.target = _target;
     }
 
     public void AttackStart()
     {
         _isAttacking = true;
+        // _destinationSetter.target = null;
     }
 
     #endregion

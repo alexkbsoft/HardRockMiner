@@ -6,13 +6,13 @@ using UnityEngine.Events;
 public class Damagable : MonoBehaviour
 {
     public float MaxLive = 100;
+    public float CurrentLife;
     public UnityEvent OnDestroyed;
     public UnityEvent<float> OnDamaged;
 
-    private float CurrentLife;
 
 
-    void Start()
+    void Awake()
     {
         CurrentLife = MaxLive;
     }
