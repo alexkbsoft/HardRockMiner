@@ -651,7 +651,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4764954091824932668, guid: 3af48ae9f394ceb46985dbd6de7fef11, type: 3}
       propertyPath: m_LocalScale.x
-      value: 1
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 4764954091824932668, guid: 3af48ae9f394ceb46985dbd6de7fef11, type: 3}
       propertyPath: m_LocalScale.y
@@ -703,7 +703,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4764954091824932668, guid: 3af48ae9f394ceb46985dbd6de7fef11, type: 3}
       propertyPath: m_ConstrainProportionsScale
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4764954091824932670, guid: 3af48ae9f394ceb46985dbd6de7fef11, type: 3}
       propertyPath: m_Name
@@ -716,6 +716,14 @@ PrefabInstance:
     - target: {fileID: 4764954091824932671, guid: 3af48ae9f394ceb46985dbd6de7fef11, type: 3}
       propertyPath: DrillDistance
       value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 4764954092042939400, guid: 3af48ae9f394ceb46985dbd6de7fef11, type: 3}
+      propertyPath: m_CastShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4764954092042939400, guid: 3af48ae9f394ceb46985dbd6de7fef11, type: 3}
+      propertyPath: m_ReceiveShadows
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3af48ae9f394ceb46985dbd6de7fef11, type: 3}

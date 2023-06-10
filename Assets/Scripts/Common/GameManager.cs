@@ -9,7 +9,7 @@ public class GameManager : MonoBehaviour
     public GameObject EnemyPrefab;
     void Start()
     {
-        StartCoroutine(StartWave());
+        // StartCoroutine(StartWave());
     }
 
     private IEnumerator StartWave()

@@ -11,10 +11,12 @@ public class UIControler : MonoBehaviour
     [SerializeField] private GameObject _resourcePrefab;
     [SerializeField] private GameObject _infoPanel;
     [SerializeField] private Image _fireImg;
+    [SerializeField] private Image _drillImg;
     private EventBus _eventBus;
     private List<GameObject> _resourcePanels = new();
 
     private bool _fireSelected = false;
+    private bool _drillSelected = false;
 
     void Start()
     {
@@ -29,6 +31,14 @@ public class UIControler : MonoBehaviour
     public void FirePressed() {
         _fireSelected = !_fireSelected;
         _eventBus.FireEnabled?.Invoke(_fireSelected);
+        
+        UpdateUI();
+    }
+
+    public void DrillPressed() {
+        _drillSelected = !_drillSelected;
+        _eventBus.DrillEnabled?.Invoke(_drillSelected);
+
         UpdateUI();
     }
 
@@ -62,8 +72,10 @@ public class UIControler : MonoBehaviour
         UpdateRes(null);
 
         Color c = _fireSelected ? Color.red : Color.white;
+        Color drillColor = _drillSelected ? Color.red : Color.white;
 
         _fireImg.color = c;
+        _drillImg.color = drillColor;
     }
     void OnDestroy()
     {

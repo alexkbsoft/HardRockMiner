@@ -16,13 +16,25 @@ public class LaserDrill : MonoBehaviour
     private Animator _drillingAnimator;
     private Transform _drillRay;
 
+
     void Start()
     {
-        _checkDistance = StartCoroutine(CheckDistanceToTarget());
+        // _checkDistance = StartCoroutine(CheckDistanceToTarget());
         _drillingAnimator = GameObject.FindWithTag("Drill").GetComponent<Animator>();
         _drillRay = transform.Find("DrillRay");
 
         SetLength(DrillDistance);
+
+        LaserEffect.SetActive(ForceDrilling);
+        LaserStart.SetActive(ForceDrilling);
+    }
+
+    public void EnableDrill(bool drilling)
+    {
+        _isDrilling = drilling;
+
+        LaserEffect.SetActive(_isDrilling);
+        LaserStart.SetActive(_isDrilling);
     }
 
     private void SetLength(float distance)
@@ -30,32 +42,34 @@ public class LaserDrill : MonoBehaviour
         _drillRay.localScale = new Vector3(0, 0, distance);
     }
 
-    private IEnumerator CheckDistanceToTarget()
-    {
-        while (true)
-        {
-            yield return new WaitForSeconds(0.05f);
+    // private IEnumerator CheckDistanceToTarget()
+    // {
+    //     while (true)
+    //     {
+    //         yield return new WaitForSeconds(0.05f);
 
-            _isDrilling = Physics.Raycast(transform.position, transform.forward, DrillDistance, TargetLayers) || ForceDrilling;
+    //         _isDrilling = Physics.Raycast(transform.position, transform.forward, DrillDistance, TargetLayers) || ForceDrilling;
 
-            LaserEffect.SetActive(_isDrilling);
-            LaserStart.SetActive(_isDrilling);
-            LaserEnd.SetActive(false);
+    //         LaserEffect.SetActive(_isDrilling);
+    //         LaserStart.SetActive(_isDrilling);
+    //         LaserEnd.SetActive(false);
 
-            _drillingAnimator.SetBool("Drill", _isDrilling);
-        }
-    }
+    //         _drillingAnimator.SetBool("Drill", _isDrilling);
+    //     }
+    // }
 
 
     void Update()
     {
-        if (!_isDrilling)
+        bool drilling = _isDrilling || ForceDrilling;
+        if (!drilling)
         {
             return;
         }
 
         RaycastHit[] hits = Physics.RaycastAll(transform.position, transform.forward, DrillDistance, TargetLayers);
         var drillLength = DrillDistance;
+        var showHitEnd = false;
 
         if (hits.Length > 0)
         {
@@ -65,16 +79,11 @@ public class LaserDrill : MonoBehaviour
                 damagable.Damage(DrillPower * Time.deltaTime);
             }
 
-            // foreach (RaycastHit hit in hits)
-            // {
-            //     if (hit.collider.gameObject.TryGetComponent<Damagable>(out var damagable)) {
-            //         damagable.Damage(DrillPower * Time.deltaTime);
-            //     }
-            // }
-
-            if (hit != null) {
+            if (hit != null)
+            {
                 drillLength = distance;
-                LaserEnd.SetActive(true);
+                showHitEnd = true;
+
                 RaycastHit resultHit = hit.Value;
                 LaserEnd.transform.position = resultHit.point + resultHit.normal * 0.1f;
                 LaserEnd.transform.rotation = Quaternion.LookRotation(hits[0].normal);
@@ -82,5 +91,7 @@ public class LaserDrill : MonoBehaviour
         }
 
         SetLength(drillLength);
+        LaserEnd.SetActive(showHitEnd);
     }
+
 }

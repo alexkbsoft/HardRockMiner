@@ -11,6 +11,7 @@ public class EventBus : MonoBehaviour
     public UnityEvent<ResourceBlock> BlockDamaged;
     public UnityEvent<Resource> ResourceCollected;
     public UnityEvent<bool> FireEnabled;
+    public UnityEvent<bool> DrillEnabled;
 
     void Start()
     {

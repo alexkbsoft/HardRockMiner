@@ -11,6 +11,7 @@ public class MechController : MonoBehaviour
     [SerializeField] private FloatingJoyStick joystick;
     [SerializeField] private FloatingJoyStick rightJoystick;
     [SerializeField] private GameObject _bodyAim;
+    [SerializeField] private AudioSource _stepAudio;
 
 
     private Animator _animator;
@@ -160,5 +161,9 @@ public class MechController : MonoBehaviour
         }
 
         _bodyAim.transform.position = Vector3.Slerp(_bodyAim.transform.position, _newDir, 5 * Time.fixedDeltaTime);
+    }
+
+    public void OnStep() {
+        _stepAudio.Play();
     }
 }

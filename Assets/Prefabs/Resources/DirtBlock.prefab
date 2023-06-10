@@ -157,7 +157,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8079006084909606039, guid: ab2b36bfe21b5ba488218225f8e879a0, type: 3}
       propertyPath: m_Name
-      value: Block (2)
+      value: DirtBlock
       objectReference: {fileID: 0}
     - target: {fileID: 8079006084909606039, guid: ab2b36bfe21b5ba488218225f8e879a0, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -167,5 +167,6 @@ PrefabInstance:
       propertyPath: m_StaticEditorFlags
       value: 2147483647
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8667940115261631026, guid: ab2b36bfe21b5ba488218225f8e879a0, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: ab2b36bfe21b5ba488218225f8e879a0, type: 3}

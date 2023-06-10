@@ -27,7 +27,7 @@ public class Gun : MonoBehaviour
     {
         // _elbow.TargetSelected.AddListener(OnTargetChanged);
 
-                _eventBus = GameObject.FindObjectOfType<EventBus>();
+        _eventBus = GameObject.FindObjectOfType<EventBus>();
         _eventBus.FireEnabled?.AddListener(EnableFire);
     }
 
@@ -46,7 +46,8 @@ public class Gun : MonoBehaviour
         AnimatedGun.Fire(_Fire);
     }
 
-    private void EnableFire(bool enableFire) {
+    private void EnableFire(bool enableFire)
+    {
         _Fire = enableFire;
     }
 
@@ -62,17 +63,19 @@ public class Gun : MonoBehaviour
         GameObject closest = null;
         float dist = float.PositiveInfinity;
 
-        foreach(RaycastHit target in hitTargets) {
+        foreach (RaycastHit target in hitTargets)
+        {
             var newDist = Vector3.Distance(transform.position, target.point);
 
-            if (newDist < dist) {
+            if (newDist < dist)
+            {
                 dist = newDist;
                 closest = target.collider.gameObject;
             }
         }
 
-        return 
-            closest != null && 
+        return
+            closest != null &&
             closest.tag == "Enemy" ? closest : null;
     }
 
@@ -91,7 +94,7 @@ public class Gun : MonoBehaviour
         // if (_currentTarget == null) {
         //     return;
         // }
-        
+
         var forward = transform.forward;
         forward.y = 0;
 
