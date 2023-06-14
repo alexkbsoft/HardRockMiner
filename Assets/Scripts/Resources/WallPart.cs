@@ -33,7 +33,7 @@ public class WallPart : MonoBehaviour
     private IEnumerator DelayedActivate() {
         yield return new WaitForSeconds(LifeTime);
 
-        gameObject.layer = LayerMask.NameToLayer("Default");
+        gameObject.layer = LayerMask.NameToLayer("DestroyedCube");
         Destroy(_rb);
         
         this.enabled = true;
