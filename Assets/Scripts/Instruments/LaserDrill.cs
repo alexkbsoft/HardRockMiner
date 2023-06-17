@@ -4,10 +4,12 @@ using UnityEngine;
 
 public class LaserDrill : MonoBehaviour
 {
+    [SerializeField] MinerState _minerState;
     public bool ForceDrilling = false;
     public LayerMask TargetLayers;
     public float DrillDistance = 3;
     public float DrillPower = 5;
+    public float DrillNoise = 5;
     public GameObject LaserEffect;
     public GameObject LaserStart;
     public GameObject LaserEnd;
@@ -15,6 +17,8 @@ public class LaserDrill : MonoBehaviour
     private bool _isDrilling;
     private Animator _drillingAnimator;
     private Transform _drillRay;
+    private EventBus _eventBus;
+
 
 
     void Start()
@@ -27,6 +31,9 @@ public class LaserDrill : MonoBehaviour
 
         LaserEffect.SetActive(ForceDrilling);
         LaserStart.SetActive(ForceDrilling);
+
+        _eventBus = FindObjectOfType<EventBus>();
+
     }
 
     public void EnableDrill(bool drilling)
@@ -77,6 +84,9 @@ public class LaserDrill : MonoBehaviour
             if (closesObj.TryGetComponent<Damagable>(out var damagable))
             {
                 damagable.Damage(DrillPower * Time.deltaTime);
+                var noiseDelta = DrillNoise * Time.deltaTime;
+                _minerState.AddAlarm(noiseDelta);
+                _eventBus.AlarmChanged?.Invoke(noiseDelta);
             }
 
             if (hit != null)

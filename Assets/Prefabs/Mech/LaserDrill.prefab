@@ -187,12 +187,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c0b5007c7df8c342a68537f67a6818e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _minerState: {fileID: 11400000, guid: 7d3383433a505f442a009b8f9fd833a2, type: 2}
   ForceDrilling: 0
   TargetLayers:
     serializedVersion: 2
     m_Bits: 8704
   DrillDistance: 5
   DrillPower: 30
+  DrillNoise: 5
   LaserEffect: {fileID: 3387569691829914995}
   LaserStart: {fileID: 201335473943746727}
   LaserEnd: {fileID: 1275411930079782288}
