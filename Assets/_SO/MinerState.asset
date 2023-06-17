@@ -12,4 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 410752465715faf43be97489486258ad, type: 3}
   m_Name: MinerState
   m_EditorClassIdentifier: 
-  resources: []
+  MaximumAlarm: 100
+  resources:
+  - name: green
+    count: 4
+  - name: blue
+    count: 1
+  CurrentAlarm: 0.9

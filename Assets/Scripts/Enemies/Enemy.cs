@@ -82,11 +82,11 @@ public class Enemy : MonoBehaviour
         _anim.SetBool("Run", !_closeEnough);
         _closeEnough = TargetDist() <= AttackDistance;
 
-        if (!_isAttacking)
-        {
+        // if (!_isAttacking)
+        // {
             _anim.SetBool("Attack", _closeEnough);
 
-        }
+        // }
         if (_closeEnough && _aiPathFinder.updatePosition)
         {
             _aiPathFinder.updatePosition = false;
@@ -153,13 +153,13 @@ public class Enemy : MonoBehaviour
 
     public void AttackEnd()
     {
-        _isAttacking = false;
+        // _isAttacking = false;
         // _destinationSetter.target = _target;
     }
 
     public void AttackStart()
     {
-        _isAttacking = true;
+        // _isAttacking = true;
         // _destinationSetter.target = null;
     }
 

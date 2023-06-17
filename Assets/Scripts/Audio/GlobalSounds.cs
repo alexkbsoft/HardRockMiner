@@ -17,13 +17,11 @@ public class GlobalSounds : MonoBehaviour
 
     private void OnBlockDamaged(ResourceBlock block) {
         if (!BlockCrushAudio.isPlaying) {
-            
-            BlockCrushAudio.Play();
+            // BlockCrushAudio.Play();
         }
     }
 
     private void OnResourceCollected(Resource res) {
-        Debug.Log("Collected");
         ResourceCollectedAudio.Play();
     }
 

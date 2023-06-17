@@ -38,7 +38,7 @@ public class Elbow : MonoBehaviour
 
         _mechSpine = GameObject.FindGameObjectWithTag("MechSpine").transform;
 
-        StartCoroutine(SelectTarget());
+        // StartCoroutine(SelectTarget());
     }
 
     void Update()
