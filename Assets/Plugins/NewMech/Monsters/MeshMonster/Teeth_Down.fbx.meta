@@ -1,9 +1,14 @@
 fileFormatVersion: 2
-guid: afc291ed548a17d4f9bdcaf18fa0b62b
+guid: 23e7317353f4eb04db22be4bd279805b
 ModelImporter:
   serializedVersion: 21300
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Teeth
+    second: {fileID: 2100000, guid: af51e662d5c89aa49ae84c360ed47f85, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
