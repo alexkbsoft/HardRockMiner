@@ -11,7 +11,9 @@ public class NavigationRebuilder : MonoBehaviour
     void Start()
     {
         _eventBus = FindObjectOfType<EventBus>();
-        _eventBus.BlockDestroyed?.AddListener(BlockDestroyed);   
+        _eventBus.BlockDestroyed?.AddListener(BlockDestroyed);
+
+        _astarPathBuilder.Scan();
     }
 
     private void BlockDestroyed(ResourceBlock block) {

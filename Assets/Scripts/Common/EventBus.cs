@@ -14,7 +14,8 @@ public class EventBus : MonoBehaviour
     public UnityEvent<bool> DrillEnabled;
     public UnityEvent<string> ItemSpawn;
     public UnityEvent<float> AlarmChanged;
-
+    public UnityEvent<bool> AlarmInvoked;
+    public UnityEvent<bool> ActivateSpawner;
 
     void Start()
     {
