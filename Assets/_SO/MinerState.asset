@@ -15,7 +15,7 @@ MonoBehaviour:
   MaximumAlarm: 100
   resources:
   - name: green
-    count: 4
+    count: 17
   - name: blue
-    count: 1
-  CurrentAlarm: 0.9
+    count: 4
+  CurrentAlarm: 0

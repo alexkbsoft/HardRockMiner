@@ -84,8 +84,8 @@ public class LaserDrill : MonoBehaviour
             if (closesObj.TryGetComponent<Damagable>(out var damagable))
             {
                 damagable.Damage(DrillPower * Time.deltaTime);
+                
                 var noiseDelta = DrillNoise * Time.deltaTime;
-                _minerState.AddAlarm(noiseDelta);
                 _eventBus.AlarmChanged?.Invoke(noiseDelta);
             }
 

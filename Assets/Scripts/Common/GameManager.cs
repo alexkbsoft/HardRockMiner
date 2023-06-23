@@ -5,30 +5,43 @@ using UnityEngine.AI;
 
 public class GameManager : MonoBehaviour
 {
-    public GameObject[] Enemies;
-    public GameObject EnemyPrefab;
+    [SerializeField] MinerState _minerState;
+
+    private EventBus _eventBus;
+    private bool _haveActiveSpawner = false;
+
     void Start()
     {
-        // StartCoroutine(StartWave());
+        _minerState.Reset();
+
+        _eventBus = FindObjectOfType<EventBus>();
+        _eventBus.AlarmChanged?.AddListener(OnAlarmChanged);   
+        _eventBus.ActivateSpawner?.AddListener(SpawnerActivated);
+
     }
 
-    private IEnumerator StartWave()
-    {
-        yield return new WaitForSeconds(15);
+    private void OnAlarmChanged(float delta) {
+        if (!_haveActiveSpawner) {
+            return;
+        }
 
-        var enemy = Instantiate(EnemyPrefab, new Vector3(64.01001f, 0.1128006f, -121.83f), Quaternion.identity);
-        enemy.GetComponent<NavMeshAgent>().enabled = false;
-        enemy.GetComponent<NavMeshAgent>().enabled = true;
+        var currntAlarm = _minerState.CurrentAlarm;
 
-        // foreach (GameObject e in Enemies)
-        // {
-        //     e.SetActive(true);
-        //     e.GetComponent<NavMeshAgent>().isStopped = true;
-        // }
+        if (currntAlarm < 1) {
+            _minerState.AddAlarm(delta);
+
+            if (_minerState.CurrentAlarm >= 1) {
+                _eventBus.AlarmInvoked?.Invoke(true);
+            }
+        }
     }
 
-    void Update()
-    {
+    private void SpawnerActivated(bool activated) {
+        _haveActiveSpawner = true;
+    }
 
+    void OnDestroy()
+    {
+        _eventBus.AlarmChanged?.RemoveListener(OnAlarmChanged);
     }
 }

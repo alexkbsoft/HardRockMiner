@@ -46,4 +46,12 @@ public class ToolsSpawner : MonoBehaviour
                 break;
         }
     }
+
+    /// <summary>
+    /// This function is called when the MonoBehaviour will be destroyed.
+    /// </summary>
+    void OnDestroy()
+    {
+        _eventBus.ItemSpawn?.RemoveListener(SpawnItem);
+    }
 }
