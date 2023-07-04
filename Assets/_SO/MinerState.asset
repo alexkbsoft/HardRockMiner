@@ -13,9 +13,7 @@ MonoBehaviour:
   m_Name: MinerState
   m_EditorClassIdentifier: 
   MaximumAlarm: 100
-  resources:
-  - name: green
-    count: 17
-  - name: blue
-    count: 4
+  AsteroidName: Debug
+  resources: []
   CurrentAlarm: 0
+  AlarmLevel: 0

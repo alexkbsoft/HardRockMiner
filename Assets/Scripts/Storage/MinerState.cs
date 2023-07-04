@@ -6,6 +6,8 @@ using UnityEngine;
 public class MinerState : ScriptableObject
 {
     public float MaximumAlarm = 100;
+    public string AsteroidName = "default";
+    
     [System.Serializable]
     public class StoredResource
     {
@@ -14,6 +16,7 @@ public class MinerState : ScriptableObject
     }
     public List<StoredResource> resources;
     public float CurrentAlarm = 0;
+    public int AlarmLevel = 0;
 
     public void Add(Resource res)
     {
@@ -38,10 +41,17 @@ public class MinerState : ScriptableObject
         CurrentAlarm += alarmDelta / MaximumAlarm;
     }
 
+    public void EscalateAlarm()
+    {
+        CurrentAlarm = 0;
+        AlarmLevel++;
+    }
+
     public void Reset()
     {
         resources.Clear();
         CurrentAlarm = 0;
+        AlarmLevel = 0;
     }
 
 }

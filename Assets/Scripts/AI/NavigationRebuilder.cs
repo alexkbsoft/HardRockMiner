@@ -12,7 +12,11 @@ public class NavigationRebuilder : MonoBehaviour
     {
         _eventBus = FindObjectOfType<EventBus>();
         _eventBus.BlockDestroyed?.AddListener(BlockDestroyed);
+        _eventBus.ScanNavigationGrid?.AddListener(ForceScan);
+    }
 
+    private void ForceScan()
+    {
         _astarPathBuilder.Scan();
     }
 
@@ -27,7 +31,5 @@ public class NavigationRebuilder : MonoBehaviour
 
         _astarPathBuilder.Scan();
         _corutine = null;
-        
-        Debug.Log("REBUILD SUCESS");
     }
 }

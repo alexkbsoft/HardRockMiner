@@ -7,6 +7,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 65377098, guid: ab2b36bfe21b5ba488218225f8e879a0, type: 3}
+      propertyPath: BlockType
+      value: DirtBlock
+      objectReference: {fileID: 0}
     - target: {fileID: 1208782584, guid: ab2b36bfe21b5ba488218225f8e879a0, type: 3}
       propertyPath: m_Volume
       value: 0.388
@@ -173,7 +177,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8079006084909606039, guid: ab2b36bfe21b5ba488218225f8e879a0, type: 3}
       propertyPath: m_Name
-      value: Block (36)
+      value: DirtBlock
       objectReference: {fileID: 0}
     - target: {fileID: 8079006084909606039, guid: ab2b36bfe21b5ba488218225f8e879a0, type: 3}
       propertyPath: m_StaticEditorFlags
