@@ -8,4 +8,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/AsteroidInternals.unity
     guid: 7b30c95370400384aa82eaaab1ee143e
+  - enabled: 1
+    path: Assets/Scenes/MapScreen.unity
+    guid: 0960a630114b65f43937edd48aa6dec1
+  - enabled: 1
+    path: Assets/Scenes/ResultScreen.unity
+    guid: de53a9af42be49449ace0ccb3389c039
   m_configObjects: {}

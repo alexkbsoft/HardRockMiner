@@ -65,7 +65,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3bab82d0e8a22b849943b775661e2873, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Name: 
+  Name: Resource
   TypeObjs:
   - {fileID: 8416611008533050039}
   - {fileID: 3407870363127932930}

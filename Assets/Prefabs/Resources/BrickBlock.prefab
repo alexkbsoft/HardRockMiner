@@ -7,6 +7,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 65377098, guid: ab2b36bfe21b5ba488218225f8e879a0, type: 3}
+      propertyPath: BlockType
+      value: BrickBlock
+      objectReference: {fileID: 0}
     - target: {fileID: 1822729186, guid: ab2b36bfe21b5ba488218225f8e879a0, type: 3}
       propertyPath: m_Size.x
       value: 1

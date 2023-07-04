@@ -1,11 +1,14 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using Random = UnityEngine.Random;
 
 
 public class ResourceBlock : MonoBehaviour
 {
+    public string BlockType;
     
     [System.Serializable]
     public struct Probability
@@ -22,18 +25,22 @@ public class ResourceBlock : MonoBehaviour
     [SerializeField] private GameObject _block75;
     [SerializeField] private GameObject _block50;
     [SerializeField] private GameObject _block25;
+    
 
     private GameObject _currentVisual;
     private EventBus _eventBus;
     
     private bool _shaking = false;
 
+    void Awake()
+    {
+        _currentVisual = _block100;
+    }
 
     void Start()
     {
-        _currentVisual = _block100;
         GetComponent<Damagable>().OnDamaged.AddListener(Damaged);
-
+        
         _eventBus = FindObjectOfType<EventBus>();
     }
 
@@ -57,7 +64,15 @@ public class ResourceBlock : MonoBehaviour
 
     public void Damaged(float livesRemain)
     {
-        var nextVisual = livesRemain switch
+        ChooseAppearance(livesRemain);
+        _eventBus.BlockDamaged?.Invoke(this);
+
+        Shake();
+    }
+
+    public void ChooseAppearance(float life)
+    {
+        var nextVisual = life switch
         {
             var l when l > 75 => _block100,
             var l when l > 50 => _block75,
@@ -71,10 +86,7 @@ public class ResourceBlock : MonoBehaviour
             _currentVisual = nextVisual;
             nextVisual.SetActive(true);
         }
-
-        _eventBus.BlockDamaged?.Invoke(this);
-
-        Shake();
+        
     }
 
     private void Shake() {

@@ -16,6 +16,8 @@ public class EventBus : MonoBehaviour
     public UnityEvent<float> AlarmChanged;
     public UnityEvent<bool> AlarmInvoked;
     public UnityEvent<bool> ActivateSpawner;
+    public UnityEvent ScanNavigationGrid;
+    public UnityEvent WaveUnitsDead;
 
     void Start()
     {

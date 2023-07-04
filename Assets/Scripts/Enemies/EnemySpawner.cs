@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEditor;
 using Pathfinding;
@@ -7,12 +8,27 @@ using Pathfinding;
 public class EnemySpawner : MonoBehaviour
 {
     public float Period = 1.0f;
-    public int WaveSize = 3;
-    [SerializeField] private GameObject EnemyPrefab;
+    [SerializeField] private WaveDescriptor[] _waveLevels;
+    [SerializeField] private MinerState _minerState;
 
     private Coroutine _spawnCo;
     private bool _isActive = false;
     private EventBus _eventBus;
+
+    private int UnitsAlife = 0;
+    
+    [System.Serializable]
+    public class WaveDescriptor
+    {
+        public WaveContent[] Content;
+    }
+    
+    [System.Serializable]
+    public class WaveContent
+    {
+        public GameObject EnemyPrefab;
+        public int UnitsCount = 1;
+    }
 
     void Start()
     {
@@ -43,26 +59,56 @@ public class EnemySpawner : MonoBehaviour
 
     private void AlarmHappend(bool alarm) {
         if (alarm) {
+            Debug.Log("Alarm Start!");
             StartSpawn();
         }
     }
 
     private IEnumerator SpawnEnemy()
     {
-        int tmpSize = WaveSize;
+        yield return new WaitForEndOfFrame();
 
-        while (tmpSize > 0)
+        var alarmLevel = _minerState.AlarmLevel;
+
+        if (_minerState.AlarmLevel > _waveLevels.Length - 1 ||
+            _waveLevels[alarmLevel].Content == null ||
+            _waveLevels[alarmLevel].Content.Length == 0)
         {
-            tmpSize--;
-            yield return new WaitForSeconds(Period);
-            var pos = transform.position + Random.onUnitSphere;
-            pos.y = 0;
+            _eventBus.WaveUnitsDead?.Invoke();
+            _spawnCo = null;
 
-            var newEnemy = Instantiate(EnemyPrefab, pos, Quaternion.identity);
-
-            var destination = newEnemy.GetComponent<AIDestinationSetter>();
-            destination.target = MechController.Instance.transform;
+            yield break;
         }
+        
+        var waveDescriptors = _waveLevels[alarmLevel];
+
+        UnitsAlife = waveDescriptors.Content
+            .Aggregate(0, (acc, waveContnt) => waveContnt.UnitsCount);
+        
+        Debug.Log("Units: " + UnitsAlife);
+        
+        foreach (var oneContent in waveDescriptors.Content)
+        {
+            int tmpSize = oneContent.UnitsCount;
+            GameObject _enemyPrefab = oneContent.EnemyPrefab;
+
+            while (tmpSize > 0)
+            {
+                tmpSize--;
+                yield return new WaitForSeconds(Period);
+                var pos = transform.position + Random.onUnitSphere;
+                pos.y = 0;
+        
+                var newEnemy = Instantiate(_enemyPrefab, pos, Quaternion.identity);
+        
+                var destination = newEnemy.GetComponent<AIDestinationSetter>();
+                destination.target = MechController.Instance.transform;
+                
+                newEnemy.GetComponent<Damagable>().OnDestroyed.AddListener(DecrementUnits);
+            }
+        }
+        
+        _spawnCo = null;
     }
 
     private IEnumerator CheckPlayerReach()
@@ -79,6 +125,16 @@ public class EnemySpawner : MonoBehaviour
                 _isActive = true;
                 _eventBus.ActivateSpawner?.Invoke(true);
             }
+        }
+    }
+
+    private void DecrementUnits()
+    {
+        UnitsAlife--;
+
+        if (UnitsAlife <= 0)
+        {
+            _eventBus.WaveUnitsDead?.Invoke();
         }
     }
 }

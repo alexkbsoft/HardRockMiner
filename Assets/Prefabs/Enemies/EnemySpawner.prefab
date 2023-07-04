@@ -45,4 +45,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Period: 1
+  WaveSize: 3
   EnemyPrefab: {fileID: 4381377849589530412, guid: 2350e5be0f7d46c4cac6395709ce5732, type: 3}
+  _minerState: {fileID: 11400000, guid: 7d3383433a505f442a009b8f9fd833a2, type: 2}
