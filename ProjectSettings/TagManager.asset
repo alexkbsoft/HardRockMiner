@@ -8,6 +8,8 @@ TagManager:
   - Enemy
   - MechSpine
   - Drill
+  - ValidDrop
+  - InvalidDrop
   layers:
   - Default
   - TransparentFX
@@ -30,9 +32,9 @@ TagManager:
   - DestroyedCube
   - Border
   - LightTarget
-  - 
-  - 
-  - 
+  - Dragging
+  - NotDragging
+  - Slot
   - 
   - 
   - 
