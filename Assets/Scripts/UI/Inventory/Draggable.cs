@@ -9,7 +9,7 @@ public class Draggable : MonoBehaviour
 {
     public bool IsDragging;
     public DragSlot Slot;
-    public Vector3 LastPosition;
+    public event Action<bool> OnDragChange;
 
     private Collider2D _collider;
     private DragController _dragController;
@@ -27,6 +27,12 @@ public class Draggable : MonoBehaviour
         }
     }
 
+    public void SetDragging(bool isDragging)
+    {
+        IsDragging = isDragging;
+        OnDragChange?.Invoke(isDragging);
+    }
+
     void FixedUpdate()
     {
         if (IsDragging)
@@ -38,46 +44,10 @@ public class Draggable : MonoBehaviour
             transform.position,
             Slot.transform.position,
             _movementTime * Time.fixedDeltaTime);
-        
-        
-        // if (_movementDestination.HasValue)
-        // {
-        //     if (IsDragging)
-        //     {
-        //         _movementDestination = null;
-        //         
-        //         return;
-        //     }
-        //
-        //     if (transform.position == _movementDestination)
-        //     {
-        //         gameObject.layer = Layer.Default;
-        //         _movementDestination = null;
-        //     }
-        //     else
-        //     {
-        //         transform.position = Vector3.Lerp(
-        //             transform.position,
-        //             _movementDestination.Value,
-        //             _movementTime * Time.fixedDeltaTime);
-        //     }
-        // }
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        // other.bounds
-        // Debug.Log("Trigger enter: " + other.gameObject.name);
-        //
-        // if (other.CompareTag("ValidDrop"))
-        // {
-        //     _movementDestination = other.transform.position;
-        // }
-        // else if (other.CompareTag("InvalidDrop"))
-        // {
-        //     _movementDestination = LastPosition;
-        // }
-        
         CheckValidDrop(other);
     }
 

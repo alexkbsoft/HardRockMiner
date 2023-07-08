@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 494700252}
   - component: {fileID: 494700253}
-  m_Layer: 0
+  m_Layer: 23
   m_Name: InvalidBg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,7 +94,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1038007493}
   - component: {fileID: 1038007494}
-  m_Layer: 0
+  m_Layer: 23
   m_Name: ValidBg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -178,7 +178,7 @@ GameObject:
   m_Component:
   - component: {fileID: 922517690188111788}
   - component: {fileID: 81974127081485422}
-  m_Layer: 0
+  m_Layer: 23
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -264,7 +264,7 @@ GameObject:
   - component: {fileID: 2333744301526967574}
   - component: {fileID: 2333744301526967573}
   - component: {fileID: 5852747044283865454}
-  m_Layer: 0
+  m_Layer: 23
   m_Name: DragSlot
   m_TagString: ValidDrop
   m_Icon: {fileID: 0}

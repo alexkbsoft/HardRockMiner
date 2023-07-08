@@ -9,11 +9,18 @@ public class DragController : MonoBehaviour
     public Draggable LastDragged => _lastDragged;
     public DragSlot CurrentSlot => _currentSlot;
     
+
     private bool _isDragActive = false;
     private Vector2 _screenPosition;
     private Vector2 _worldPosition;
     private Draggable _lastDragged;
     private DragSlot _currentSlot;
+    private Camera _camera;
+
+    private void Start()
+    {
+        _camera = GameObject.Find("InventoryCamera").GetComponent<Camera>();
+    }
 
     void Update()
     {
@@ -41,7 +48,7 @@ public class DragController : MonoBehaviour
             return;
         }
 
-        _worldPosition = Camera.main.ScreenToWorldPoint(_screenPosition);
+        _worldPosition = _camera.ScreenToWorldPoint(_screenPosition);
         // _worldPosition = Camera.main.ScreenToWorldPoint(_screenPosition);
 
         if (_isDragActive)
@@ -82,7 +89,6 @@ public class DragController : MonoBehaviour
 
     void InitDrag()
     {
-        // _lastDragged.LastPosition = _lastDragged.transform.position;
         UpdateDragStatus(true);
     }
 
@@ -119,6 +125,7 @@ public class DragController : MonoBehaviour
     void Drop()
     {
         UpdateDragStatus(false);
+        
         if (_currentSlot != null)
         {
             _currentSlot.Reset();
@@ -129,7 +136,8 @@ public class DragController : MonoBehaviour
 
     void UpdateDragStatus(bool isDragging)
     {
-        _isDragActive = _lastDragged.IsDragging = isDragging;
+        _lastDragged.SetDragging(isDragging);
+        _isDragActive = isDragging;
         _lastDragged.gameObject.layer = isDragging ? Layer.Dragging : Layer.NotDragging;
     }
 }

@@ -2,11 +2,12 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class DragSlot : MonoBehaviour
 {
     public float CurrentIntersectArea;
-    public Draggable CurrentDragging;
+    public Draggable LinkedDraggable;
     
     
     [SerializeField] private GameObject validImg;
@@ -34,7 +35,15 @@ public class DragSlot : MonoBehaviour
 
     public void SetDraggable(Draggable draggable)
     {
-        CurrentDragging = draggable;
+        if (LinkedDraggable != null && LinkedDraggable != draggable)
+        {
+            LinkedDraggable.Slot = draggable.Slot;
+            draggable.Slot.LinkedDraggable = LinkedDraggable;
+        } else if (LinkedDraggable == null)
+        {
+            draggable.Slot.LinkedDraggable = null;
+        }
+        LinkedDraggable = draggable;
         draggable.Slot = this;
     }
 }
