@@ -90,6 +90,7 @@ public class DataManager
     private StorageDto CreateStorageDto(MainStorage storage)
     {
         List<ResourceDto> resources = new List<ResourceDto>();
+        List<MechPartDto> mechParts = new();
 
         foreach (MinerState.StoredResource res in storage.resources)
         {
@@ -100,9 +101,20 @@ public class DataManager
             });
         }
 
+        foreach (var onePart in storage.MechParts)
+        {
+            mechParts.Add(new MechPartDto()
+            {
+                name = onePart.Key,
+                item = onePart.Value
+            });
+        }
+
         return new StorageDto()
         {
-            Resources = resources
+            Resources = resources,
+            Inventory = storage.InventoryItems,
+            MechParts = mechParts
         };
     }
 

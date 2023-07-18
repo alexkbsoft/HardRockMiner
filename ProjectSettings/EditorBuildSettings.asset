@@ -6,9 +6,6 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/Base.unity
-    guid: 88fa3d14e5cf0784eb2e48e23dcac7a5
-  - enabled: 1
     path: Assets/Scenes/AsteroidInternals.unity
     guid: 7b30c95370400384aa82eaaab1ee143e
   - enabled: 1
@@ -17,4 +14,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/ResultScreen.unity
     guid: de53a9af42be49449ace0ccb3389c039
+  - enabled: 1
+    path: Assets/Scenes/Base1.unity
+    guid: 060df1b44a2a431449a81fc7fe53fde9
   m_configObjects: {}

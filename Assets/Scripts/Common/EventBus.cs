@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,15 +19,8 @@ public class EventBus : MonoBehaviour
     public UnityEvent<bool> ActivateSpawner;
     public UnityEvent ScanNavigationGrid;
     public UnityEvent WaveUnitsDead;
+    public UnityEvent<Draggable> DraggableTapped;
+    public UnityEvent InventoryReordered;
 
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public UnityEvent DataReady;
 }

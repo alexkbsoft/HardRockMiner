@@ -30,6 +30,8 @@ public class GameManager : MonoBehaviour
         _eventBus.ActivateSpawner?.AddListener(SpawnerActivated);
 
         LoadStorage();
+        
+        _eventBus.DataReady?.Invoke();
 
         if (_loadOnStart)
         {
@@ -118,7 +120,6 @@ public class GameManager : MonoBehaviour
         }
 
         StartCoroutine(RescanNavigation());
-
     }
 
     private void LoadStorage()
@@ -127,6 +128,7 @@ public class GameManager : MonoBehaviour
         var storageDto = dataManager.LoadMainStorage();
         
         _mainStorage.resources.Clear();
+        _mainStorage.InventoryItems.Clear();
 
         foreach (var resDto in storageDto.Resources)
         {
@@ -136,6 +138,20 @@ public class GameManager : MonoBehaviour
                 count = resDto.count
             });
         }
+
+        foreach (string itemId in storageDto.Inventory)
+        {
+            _mainStorage.InventoryItems.Add(itemId);
+        }
+
+        Dictionary<string, string> tmpParts = new();
+
+        foreach (var partDto in storageDto.MechParts)
+        {
+            tmpParts[partDto.name] = partDto.item;
+        }
+
+        _mainStorage.SetMechPartsDict(tmpParts);
     }
 
     private IEnumerator RescanNavigation()

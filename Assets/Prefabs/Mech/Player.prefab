@@ -505,7 +505,7 @@ GameObject:
   - component: {fileID: 8509397992827663908}
   - component: {fileID: 1630903864901134237}
   m_Layer: 11
-  m_Name: Shoulders_Diablo_Geom
+  m_Name: ShouldersDiablo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2264,6 +2264,7 @@ GameObject:
   - component: {fileID: 9011796404367767654}
   - component: {fileID: 1804213587}
   - component: {fileID: 9011796403687630150}
+  - component: {fileID: 9011796403687630145}
   m_Layer: 11
   m_Name: Player
   m_TagString: Player
@@ -2496,6 +2497,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _laserDrill: {fileID: 5914147403011834714}
+--- !u!114 &9011796403687630145
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9011796404367767662}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5888d545b44fc5448b6870a015c80a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _replacebleParts:
+  - {fileID: 1257271570892927252}
+  - {fileID: 1869525070844284279}
+  - {fileID: 9011796404716223013}
+  - {fileID: 9011796404525046846}
+  _mainStorage: {fileID: 11400000, guid: 78c8d489945e2df48ab1f0079bf94b9b, type: 2}
 --- !u!1 &9011796404379933052
 GameObject:
   m_ObjectHideFlags: 0
@@ -4266,6 +4285,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 100012, guid: 4917da9497db3d4499948842c1e5d334, type: 3}
+      propertyPath: m_Name
+      value: CockpitLidv1
+      objectReference: {fileID: 0}
+    - target: {fileID: 100012, guid: 4917da9497db3d4499948842c1e5d334, type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
@@ -4334,6 +4357,11 @@ PrefabInstance:
 --- !u!4 &1869525070844252491 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400016, guid: 4917da9497db3d4499948842c1e5d334, type: 3}
+  m_PrefabInstance: {fileID: 1869525070844382171}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1869525070844284279 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 100012, guid: 4917da9497db3d4499948842c1e5d334, type: 3}
   m_PrefabInstance: {fileID: 1869525070844382171}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &5317550859760966835
@@ -4908,6 +4936,10 @@ PrefabInstance:
       value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 100024, guid: 79150fedb950c394f9f3f3bb76d2d14b, type: 3}
+      propertyPath: m_Name
+      value: GadgetHandClaw_V3
+      objectReference: {fileID: 0}
+    - target: {fileID: 100024, guid: 79150fedb950c394f9f3f3bb76d2d14b, type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
@@ -4961,6 +4993,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 79150fedb950c394f9f3f3bb76d2d14b, type: 3}
+--- !u!1 &9011796404525046846 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 100024, guid: 79150fedb950c394f9f3f3bb76d2d14b, type: 3}
+  m_PrefabInstance: {fileID: 9011796404524948102}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &9011796404525072384 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400006, guid: 79150fedb950c394f9f3f3bb76d2d14b, type: 3}
@@ -5092,7 +5129,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 100010, guid: c17aa45be8e84854fac6293ef5b5127a, type: 3}
       propertyPath: m_Name
-      value: Shortgun
+      value: ShortgunV1
       objectReference: {fileID: 0}
     - target: {fileID: 400010, guid: c17aa45be8e84854fac6293ef5b5127a, type: 3}
       propertyPath: m_RootOrder

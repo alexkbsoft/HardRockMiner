@@ -5,6 +5,18 @@ using UnityEngine;
 public class LaserDrill : MonoBehaviour
 {
     [SerializeField] MinerState _minerState;
+    [SerializeField] private LineRenderer _liserLine;
+    [SerializeField] private ParticleSystemRenderer _startRenderer;
+    [SerializeField] private ParticleSystemRenderer _sparkleRenderer;
+    [SerializeField] private ParticleSystemRenderer _ringRenderer;
+    [SerializeField] private ParticleSystemRenderer _sideRenderer;
+    [SerializeField] private ParticleSystemRenderer _forwardRenderer;
+    [SerializeField] private ParticleSystemRenderer _particleRenderer;
+    [SerializeField] private ParticleSystemRenderer _spikesRenderer;
+    [SerializeField] private ParticleSystemRenderer _lingerRenderer;
+    [SerializeField] private ParticleSystem _startParticle;
+    
+    
     public bool ForceDrilling = false;
     public LayerMask TargetLayers;
     public float DrillDistance = 3;
@@ -102,6 +114,26 @@ public class LaserDrill : MonoBehaviour
 
         SetLength(drillLength);
         LaserEnd.SetActive(showHitEnd);
+    }
+
+    public void SetMaterial(Material mat, Material startMat, Material sparkleMat, Material ring, Material smallfire)
+    {
+        _liserLine.material = mat;
+        _startRenderer.sharedMaterial = startMat;
+        _sparkleRenderer.sharedMaterial = sparkleMat;
+        _ringRenderer.sharedMaterial = ring;
+        _sideRenderer.sharedMaterial = smallfire;
+        _forwardRenderer.sharedMaterial = smallfire;
+        _particleRenderer.sharedMaterial = smallfire;
+        _spikesRenderer.sharedMaterial = smallfire;
+        _lingerRenderer.sharedMaterial = smallfire;
+
+    }
+
+    public void SetSparksColor(Color sparksColor)
+    {
+        var mainModule = _startParticle.main;
+        mainModule.startColor = sparksColor;
     }
 
 }

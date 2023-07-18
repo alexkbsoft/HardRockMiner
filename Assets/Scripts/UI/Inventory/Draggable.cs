@@ -8,18 +8,23 @@ using Utils;
 public class Draggable : MonoBehaviour
 {
     public bool IsDragging;
+    public bool IsSelected;
     public DragSlot Slot;
     public event Action<bool> OnDragChange;
+    public event Action<bool> OnSelectChange;
 
     private Collider2D _collider;
     private DragController _dragController;
     private float _movementTime = 15;
     private Vector3? _movementDestination;
 
+    private EventBus _eventBus;
+
     void Start()
     {
         _collider = GetComponent<Collider2D>();
         _dragController = FindObjectOfType<DragController>();
+        _eventBus = GameObject.FindObjectOfType<EventBus>();
 
         if (Slot != null)
         {
@@ -30,7 +35,30 @@ public class Draggable : MonoBehaviour
     public void SetDragging(bool isDragging)
     {
         IsDragging = isDragging;
+
+        if (IsSelected && IsDragging)
+        {
+            SetSelected(false);
+        }
+        
         OnDragChange?.Invoke(isDragging);
+    }
+
+    public void SetSelected(bool selected)
+    {
+        var oldVal = IsSelected;
+        
+        IsSelected = selected;
+        
+        if (IsSelected != oldVal)
+        {
+            OnSelectChange?.Invoke(selected);
+            
+            if (IsSelected)
+            {
+                _eventBus.DraggableTapped?.Invoke(this);
+            }
+        }
     }
 
     void FixedUpdate()

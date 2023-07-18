@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Storage;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class ResultsUI : MonoBehaviour
 {
@@ -22,15 +23,15 @@ public class ResultsUI : MonoBehaviour
             pos -= 105;
         }
         
-        pos = -700;
-        foreach (MinerState.StoredResource res in _mainStorage.resources)
-        {
-            var newPanel = Instantiate(_resourcePanelPrefab, transform);
-
-            var resPanel = newPanel.GetComponent<ResultsResourcePanel>();
-            resPanel.UpdateUI(res.name, res.count, pos);
-            pos -= 105;
-        }
+        // pos = -700;
+        // foreach (MinerState.StoredResource res in _mainStorage.resources)
+        // {
+        //     var newPanel = Instantiate(_resourcePanelPrefab, transform);
+        //
+        //     var resPanel = newPanel.GetComponent<ResultsResourcePanel>();
+        //     resPanel.UpdateUI(res.name, res.count, pos);
+        //     pos -= 105;
+        // }
     }
 
     private void SaveResults()
@@ -43,5 +44,10 @@ public class ResultsUI : MonoBehaviour
         }
         
         dataManager.SaveMainStorage(_mainStorage);
+    }
+
+    public void OnGoToBase()
+    {
+        SceneManager.LoadScene("Base1");
     }
 }

@@ -8,7 +8,7 @@ public class DragSlot : MonoBehaviour
 {
     public float CurrentIntersectArea;
     public Draggable LinkedDraggable;
-    
+    public string MechPartName;
     
     [SerializeField] private GameObject validImg;
     [SerializeField] private GameObject invalidImg;
