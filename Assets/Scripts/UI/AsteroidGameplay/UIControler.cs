@@ -57,7 +57,7 @@ public class UIControler : MonoBehaviour
 
             var resPanel = newPanel.GetComponent<ResourcePanel>();
             resPanel.UpdateUI(res.name, res.count, pos);
-            pos -= 303;
+            pos -= 280;
             _resourcePanels.Add(newPanel);
         }
     }

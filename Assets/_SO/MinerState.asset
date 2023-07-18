@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: MinerState
   m_EditorClassIdentifier: 
   MaximumAlarm: 100
-  AsteroidName: Debug
+  AsteroidName: Dirt
   resources: []
-  CurrentAlarm: 0
+  CurrentAlarm: 0.69795746
   AlarmLevel: 0

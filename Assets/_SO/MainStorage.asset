@@ -12,4 +12,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7162c85405244b29ec6191b003a9972, type: 3}
   m_Name: MainStorage
   m_EditorClassIdentifier: 
-  resources: []
+  resources:
+  - name: blue
+    count: 19
+  - name: green
+    count: 28
+  InventoryItems:
+  - 
+  - GadgetHandClaw_V3
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 

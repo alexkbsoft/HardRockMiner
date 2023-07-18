@@ -16,10 +16,14 @@ public class DragController : MonoBehaviour
     private Draggable _lastDragged;
     private DragSlot _currentSlot;
     private Camera _camera;
+    private Vector2 _clickPos;
+
+    private EventBus _eventBus;
 
     private void Start()
     {
         _camera = GameObject.Find("InventoryCamera").GetComponent<Camera>();
+        _eventBus = GameObject.FindObjectOfType<EventBus>();
     }
 
     void Update()
@@ -39,6 +43,7 @@ public class DragController : MonoBehaviour
         {
             Vector3 mousePos = Input.mousePosition;
             _screenPosition = new Vector2(mousePos.x, mousePos.y);
+            
         } else if (Input.touchCount > 0)
         {
             _screenPosition = Input.GetTouch(0).position;
@@ -49,42 +54,49 @@ public class DragController : MonoBehaviour
         }
 
         _worldPosition = _camera.ScreenToWorldPoint(_screenPosition);
-        // _worldPosition = Camera.main.ScreenToWorldPoint(_screenPosition);
 
         if (_isDragActive)
         {
-            Drag();
+            if (!_lastDragged.IsDragging && _screenPosition != _clickPos)
+            {
+                StartActualDragging(true);
+            }
+            
+            if (_lastDragged.IsDragging)
+            {
+                Drag();
+            }
         }
         else
         {
-            RaycastHit2D hit = Physics2D.Raycast(_worldPosition, 
+            RaycastHit2D hit = Physics2D.Raycast(_worldPosition,
                 Vector2.zero, 
                 20,
                 1 << Layer.NotDragging);
             
-            // var isHit = Physics.Raycast(_worldPosition, 
-            //     Vector3.forward,
-            //     out var hit,
-            //     20,
-            //     1 << Layer.NotDragging);
-            
-            // RaycastHit2D hit = Physics2D.GetRayIntersection(
-            //     Camera.main.ScreenPointToRay(_screenPosition),
-            //     20,
-            //     1 << Layer.NotDragging);
-
             if (hit.collider != null)
             {
                 Draggable draggable = hit.transform.gameObject.GetComponent<Draggable>();
 
                 if (draggable != null)
                 {
+                    if (_lastDragged != null && draggable != _lastDragged)
+                    {
+                        _lastDragged.SetSelected(false);
+                    }
+                    
+                    _clickPos = _screenPosition;
                     _lastDragged = draggable;
+                    SelectDraggable(draggable);
                     InitDrag();
                 }
-
             }
         }
+    }
+
+    private void SelectDraggable(Draggable draggable)
+    {
+        draggable.SetSelected(true);
     }
 
     void InitDrag()
@@ -125,19 +137,27 @@ public class DragController : MonoBehaviour
     void Drop()
     {
         UpdateDragStatus(false);
-        
+        StartActualDragging(false);
+
         if (_currentSlot != null)
         {
             _currentSlot.Reset();
             _currentSlot.SetDraggable(_lastDragged);
             _currentSlot = null;
+            
+            _eventBus.InventoryReordered?.Invoke();
         }
     }
+    
 
     void UpdateDragStatus(bool isDragging)
     {
-        _lastDragged.SetDragging(isDragging);
         _isDragActive = isDragging;
-        _lastDragged.gameObject.layer = isDragging ? Layer.Dragging : Layer.NotDragging;
+    }
+
+    void StartActualDragging(bool dragging)
+    {
+        _lastDragged.gameObject.layer = dragging ? Layer.Dragging : Layer.NotDragging;
+        _lastDragged.SetDragging(dragging);
     }
 }
