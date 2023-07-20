@@ -11,7 +11,11 @@ public class HandClaw : MonoBehaviour
     [SerializeField] private Material _laserSmallfire;
     [SerializeField] private Color _sparksStartColor;
     
-    // [SerializeField] private LaserDrill laserDrill;
+    public float DrillDistance = 3;
+    public float DrillPower = 5;
+    public float DrillNoise = 5;
+    public float DrillWidth = 0.7f;
+    
     private Animator _animator;
     private EventBus _eventBus;
     
@@ -29,6 +33,11 @@ public class HandClaw : MonoBehaviour
             _laserRing, 
             _laserSmallfire);
         laserDrill.SetSparksColor(_sparksStartColor);
+        laserDrill.SetWidth(DrillWidth);
+        
+        laserDrill.DrillDistance = DrillDistance;
+        laserDrill.DrillPower = DrillPower;
+        laserDrill.DrillNoise = DrillNoise;
     }
 
     public void OnEnableDrill(bool drilling)
