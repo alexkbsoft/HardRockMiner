@@ -27,16 +27,14 @@ public class LaserDrill : MonoBehaviour
     public GameObject LaserEnd;
     private Coroutine _checkDistance;
     private bool _isDrilling;
-    private Animator _drillingAnimator;
+    public Animator DrillingAnimator;
     private Transform _drillRay;
     private EventBus _eventBus;
-
-
 
     void Start()
     {
         // _checkDistance = StartCoroutine(CheckDistanceToTarget());
-        _drillingAnimator = GameObject.FindWithTag("Drill").GetComponent<Animator>();
+        // _drillingAnimator = GameObject.FindWithTag("Drill").GetComponent<Animator>();
         _drillRay = transform.Find("DrillRay");
 
         SetLength(DrillDistance);
@@ -136,4 +134,9 @@ public class LaserDrill : MonoBehaviour
         mainModule.startColor = sparksColor;
     }
 
+    public void SetWidth(float width)
+    {
+        _liserLine.startWidth = width;
+        _liserLine.endWidth = width;
+    }
 }

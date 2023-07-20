@@ -14,18 +14,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   resources:
   - name: blue
-    count: 19
+    count: 22
   - name: green
-    count: 28
+    count: 33
   InventoryItems:
   - 
-  - GadgetHandClaw_V3
   - 
   - 
   - 
   - 
   - 
-  - 
+  - GadgetHandClaw_V1
+  - GadgetHandClaw_V2
   - 
   - 
   - 
