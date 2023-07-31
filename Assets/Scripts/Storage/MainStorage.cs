@@ -9,6 +9,7 @@ namespace Storage
     {
         public List<MinerState.StoredResource> resources;
         public List<string> InventoryItems;
+        public List<string> StackableItems;
         
         private Dictionary<string, string> _mechParts = new();
 

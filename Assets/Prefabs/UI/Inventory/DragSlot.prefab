@@ -356,7 +356,7 @@ BoxCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
+    border: {x: 0.099999994, y: 0.089999996, z: 0.08, w: 0.089999996}
     pivot: {x: 0.5, y: 0.5}
     oldSize: {x: 1.77, y: 1.77}
     newSize: {x: 1.77, y: 1.77}
@@ -380,6 +380,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CurrentIntersectArea: 0
-  CurrentDragging: {fileID: 0}
+  LinkedDraggable: {fileID: 0}
+  MechPartName: 
   validImg: {fileID: 1038007492}
   invalidImg: {fileID: 494700251}
+  IsCraftSlot: 0
+  ItemPrefab: {fileID: 4664060376473886527, guid: 0d08c1f173badf149bbaf2d846b5d9f7, type: 3}

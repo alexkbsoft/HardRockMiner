@@ -10,6 +10,9 @@ public class Draggable : MonoBehaviour
     public bool IsDragging;
     public bool IsSelected;
     public DragSlot Slot;
+    public int ItemCount;
+    
+    
     public event Action<bool> OnDragChange;
     public event Action<bool> OnSelectChange;
 
@@ -79,6 +82,13 @@ public class Draggable : MonoBehaviour
         CheckValidDrop(other);
     }
 
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.gameObject.TryGetComponent<DragSlot>(out var slot))
+        {
+            _dragController.ResetCurrentSlot(slot);
+        }
+    }
     private void OnTriggerStay2D(Collider2D other)
     {
         CheckValidDrop(other);
@@ -92,15 +102,6 @@ public class Draggable : MonoBehaviour
         {
             slot.CurrentIntersectArea = area;
             _dragController.CheckIfBetter(slot);
-        }
-    }
-
-    private void OnTriggerExit2D(Collider2D other)
-    {
-        Debug.Log("Exit - " + other.gameObject.name);
-        if (other.gameObject.TryGetComponent<DragSlot>(out var slot))
-        {
-            _dragController.ResetCurrentSlot(slot);
         }
     }
 }

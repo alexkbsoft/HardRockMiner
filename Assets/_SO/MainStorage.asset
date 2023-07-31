@@ -16,16 +16,9 @@ MonoBehaviour:
   - name: blue
     count: 22
   - name: green
-    count: 33
+    count: 36
   InventoryItems:
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
   - GadgetHandClaw_V1
-  - GadgetHandClaw_V2
   - 
   - 
   - 
@@ -33,3 +26,12 @@ MonoBehaviour:
   - 
   - 
   - 
+  - 
+  - 
+  - green
+  - 
+  - 
+  - 
+  - 
+  StackableItems:
+  - green

@@ -8,7 +8,7 @@ public class DragController : MonoBehaviour
 {
     public Draggable LastDragged => _lastDragged;
     public DragSlot CurrentSlot => _currentSlot;
-    
+
 
     private bool _isDragActive = false;
     private Vector2 _screenPosition;
@@ -30,21 +30,21 @@ public class DragController : MonoBehaviour
     {
         if (_isDragActive)
         {
-            if (Input.GetMouseButtonUp(0) || 
+            if (Input.GetMouseButtonUp(0) ||
                 (Input.touchCount == 1 && Input.GetTouch(0).phase == TouchPhase.Ended))
             {
                 Drop();
-                
+
                 return;
             }
         }
-        
+
         if (Input.GetMouseButton(0))
         {
             Vector3 mousePos = Input.mousePosition;
             _screenPosition = new Vector2(mousePos.x, mousePos.y);
-            
-        } else if (Input.touchCount > 0)
+        }
+        else if (Input.touchCount > 0)
         {
             _screenPosition = Input.GetTouch(0).position;
         }
@@ -61,7 +61,7 @@ public class DragController : MonoBehaviour
             {
                 StartActualDragging(true);
             }
-            
+
             if (_lastDragged.IsDragging)
             {
                 Drag();
@@ -70,10 +70,10 @@ public class DragController : MonoBehaviour
         else
         {
             RaycastHit2D hit = Physics2D.Raycast(_worldPosition,
-                Vector2.zero, 
+                Vector2.zero,
                 20,
                 1 << Layer.NotDragging);
-            
+
             if (hit.collider != null)
             {
                 Draggable draggable = hit.transform.gameObject.GetComponent<Draggable>();
@@ -84,7 +84,7 @@ public class DragController : MonoBehaviour
                     {
                         _lastDragged.SetSelected(false);
                     }
-                    
+
                     _clickPos = _screenPosition;
                     _lastDragged = draggable;
                     SelectDraggable(draggable);
@@ -110,12 +110,18 @@ public class DragController : MonoBehaviour
         {
             return;
         }
-        
+
         if (_currentSlot == null ||
-            _currentSlot.CurrentIntersectArea < slot.CurrentIntersectArea )
+            _currentSlot.CurrentIntersectArea < slot.CurrentIntersectArea)
         {
-            if (_currentSlot != null) _currentSlot.Reset();
-            slot.SetValidity(true);
+            if (_currentSlot != null)
+            {
+                _currentSlot.Reset();
+            };
+
+            bool isValid = IsValidTargertSlot(slot);
+            slot.SetValidity(isValid);
+
             _currentSlot = slot;
         }
     }
@@ -141,14 +147,36 @@ public class DragController : MonoBehaviour
 
         if (_currentSlot != null)
         {
-            _currentSlot.Reset();
-            _currentSlot.SetDraggable(_lastDragged);
-            _currentSlot = null;
-            
+            if (IsValidTargertSlot(_currentSlot)) {
+                _currentSlot.SetDraggable(_lastDragged);
+            } else {
+                DeleteClone();
+            }
+
+            ResetCurrentSlot(_currentSlot);
+
             _eventBus.InventoryReordered?.Invoke();
         }
+        else
+        {
+            DeleteClone();
+        }
     }
-    
+
+    private void DeleteClone()
+    {
+        InventoryItem item = _lastDragged.gameObject.GetComponent<InventoryItem>();
+
+        if (item.IsCraftClone)
+        {
+            item.OriginalItem.GetFrom(item, item.Count);
+            _lastDragged.Slot.LinkedDraggable = null;
+            _lastDragged.Slot = null;
+            Destroy(_lastDragged.gameObject);
+            _lastDragged = null;
+        }
+    }
+
 
     void UpdateDragStatus(bool isDragging)
     {
@@ -159,5 +187,23 @@ public class DragController : MonoBehaviour
     {
         _lastDragged.gameObject.layer = dragging ? Layer.Dragging : Layer.NotDragging;
         _lastDragged.SetDragging(dragging);
+    }
+
+    private bool IsValidTargertSlot(DragSlot targetSlot)
+    {
+        if (_lastDragged == null)
+        {
+            return false;
+        }
+
+        InventoryItem item = _lastDragged.gameObject.GetComponent<InventoryItem>();
+        bool result = true;
+
+        if (item.IsCraftClone && !targetSlot.IsCraftSlot)
+        {
+            result = false;
+        }
+
+        return result;
     }
 }
