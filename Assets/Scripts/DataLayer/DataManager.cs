@@ -31,6 +31,7 @@ public class DataManager
     public StorageDto LoadMainStorage()
     {
         var path = Path.Combine(Application.persistentDataPath, $"main_storage.json");
+        Debug.Log("PATH: " + path);
 
         var jsonString = File.ReadAllText(path);
         return JsonUtility.FromJson<StorageDto>(jsonString);

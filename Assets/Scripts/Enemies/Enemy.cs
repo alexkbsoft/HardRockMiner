@@ -82,11 +82,8 @@ public class Enemy : MonoBehaviour
         _anim.SetBool("Run", !_closeEnough);
         _closeEnough = TargetDist() <= AttackDistance;
 
-        // if (!_isAttacking)
-        // {
-            _anim.SetBool("Attack", _closeEnough);
+        _anim.SetBool("Attack", _closeEnough);
 
-        // }
         if (_closeEnough && _aiPathFinder.updatePosition)
         {
             _aiPathFinder.updatePosition = false;
@@ -127,16 +124,16 @@ public class Enemy : MonoBehaviour
 
         this.tag = "Untagged";
         _destinationSetter.target = null;
-        
+
         _anim.SetTrigger("Dead");
 
-        
+
 
         Destroy(GetComponent<Rigidbody>());
         Destroy(GetComponent<CapsuleCollider>());
         Destroy(GetComponent<CharacterController>());
         Destroy(GetComponent<AIPath>());
-        
+
 
         Destroy(gameObject, 3.5f);
         StartCoroutine(StartFading());

@@ -5,7 +5,7 @@ using System.Linq;
 using Storage;
 using UnityEngine;
 using DG.Tweening;
-
+using DataLayer;
 
 public class InventoryManager : MonoBehaviour
 {
@@ -38,13 +38,12 @@ public class InventoryManager : MonoBehaviour
     {
     }
 
-    [ContextMenu("RebuildInventory")]
     private void RebuildInventory()
     {
         for (int oneItem = 0; oneItem < MainStorage.InventoryItems.Count; oneItem++)
         {
-            var itemName = MainStorage.InventoryItems[oneItem];
-            FillSlot(_slots[oneItem], itemName, _inventoryContainer.transform);
+            var item = MainStorage.InventoryItems[oneItem];
+            FillSlot(_slots[oneItem], item.name, _inventoryContainer.transform, item.count);
         }
 
         foreach (var partPair in MainStorage.MechParts)
@@ -54,7 +53,7 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
-    private void FillSlot(DragSlot slot, string itemName, Transform container)
+    private void FillSlot(DragSlot slot, string itemName, Transform container, int count = 0)
     {
         if (string.IsNullOrEmpty(itemName))
         {
@@ -71,6 +70,7 @@ public class InventoryManager : MonoBehaviour
         var inventoryItem = newItem.GetComponent<InventoryItem>();
         inventoryItem.UniqName = itemName;
         inventoryItem.SetSprite(sprite);
+        inventoryItem.Count = count;
 
         if (MainStorage.StackableItems.Contains(itemName))
         {
@@ -80,7 +80,7 @@ public class InventoryManager : MonoBehaviour
 
     private void OnInventoryReordered()
     {
-        var tmpList = new List<string>();
+        var tmpList = new List<ResourceDto>();
 
         for (int i = 0; i < _slots.Length; i++)
         {
@@ -88,12 +88,20 @@ public class InventoryManager : MonoBehaviour
 
             if (draggable != null)
             {
-                string linkedItemId = _slots[i].LinkedDraggable.GetComponent<InventoryItem>().UniqName;
-                tmpList.Add(linkedItemId);
+                var item = _slots[i].LinkedDraggable.GetComponent<InventoryItem>();
+                
+                
+                tmpList.Add(new ResourceDto {
+                    name = item.UniqName,
+                    count = item.Count
+                });
             }
             else
             {
-                tmpList.Add(null);
+                tmpList.Add(new ResourceDto {
+                    name = null,
+                    count = 0
+                });
             }
         }
 

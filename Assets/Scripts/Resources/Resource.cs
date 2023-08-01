@@ -10,38 +10,23 @@ public class Resource : MonoBehaviour
 
     private MechController _player;
     private bool _isFollowing = false;
-
-    public void SetType(string name)
-    {
-        this.Name = name;
-
-        switch (Name)
-        {
-            case "green":
-                TypeObjs[0].SetActive(true);
-
-                break;
-            case "blue":
-                TypeObjs[1].SetActive(true);
-
-                break;
-            case "yello":
-                TypeObjs[2].SetActive(true);
-
-                break;
-            case "red":
-                TypeObjs[3].SetActive(true);
-
-                break;
-            default:
-                break;
-        }
-    }
+    private Rigidbody _rb;
+    private Transform _internalGeometry;
 
     void Start()
     {
         _player = MechController.Instance;
+        _rb = GetComponent<Rigidbody>();
+
         StartCoroutine(StartFollowing());
+    }
+
+    
+    public void SetType(string name)
+    {
+        this.Name = name;
+        _internalGeometry = transform.Find(this.Name);
+        _internalGeometry.gameObject.SetActive(true);
     }
 
     private IEnumerator StartFollowing()
@@ -49,6 +34,8 @@ public class Resource : MonoBehaviour
         yield return new WaitForSeconds(2.0f);
 
         _isFollowing = true;
+        gameObject.layer = LayerMask.NameToLayer("ResourceFollowing");
+        _internalGeometry.gameObject.layer = LayerMask.NameToLayer("ResourceFollowing");
     }
 
     void Update()
@@ -60,9 +47,15 @@ public class Resource : MonoBehaviour
 
         if (_isFollowing && Vector3.Distance(curPos, playerPos) <= _player.CollectDistance)
         {
+            // Vector3 speed = (_player.transform.position - transform.position).normalized * Speed;
+
+            // // _rb.MovePosition(transform.position + speed * Time.deltaTime);
+
+            // _rb.AddForce
+
             transform.position = Vector3.MoveTowards(
                 transform.position,
-                _player.transform.position,
+                _player.transform.position + Vector3.up,
                 Time.deltaTime * Speed);
         }
     }

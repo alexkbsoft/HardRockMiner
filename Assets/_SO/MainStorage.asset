@@ -13,25 +13,42 @@ MonoBehaviour:
   m_Name: MainStorage
   m_EditorClassIdentifier: 
   resources:
-  - name: blue
-    count: 22
-  - name: green
-    count: 36
+  - name: rock
+    count: 5
+  - name: crystal
+    count: 1
   InventoryItems:
-  - GadgetHandClaw_V1
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - green
-  - 
-  - 
-  - 
-  - 
+  - name: 
+    count: 0
+  - name: crystal
+    count: 5
+  - name: 
+    count: 0
+  - name: 
+    count: 0
+  - name: 
+    count: 0
+  - name: 
+    count: 0
+  - name: 
+    count: 0
+  - name: 
+    count: 0
+  - name: 
+    count: 0
+  - name: 
+    count: 0
+  - name: 
+    count: 0
+  - name: 
+    count: 0
+  - name: 
+    count: 0
+  - name: 
+    count: 0
+  - name: 
+    count: 0
   StackableItems:
   - green
+  - rock
+  - crystal

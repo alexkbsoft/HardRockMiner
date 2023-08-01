@@ -252,7 +252,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4320123543528952693}
-  m_LocalRotation: {x: -0.2098191, y: 0.7572197, z: -0.54293513, w: -0.29633704}
+  m_LocalRotation: {x: 0.08134728, y: 0.87334013, z: -0.45410636, w: 0.15635525}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.008283338, y: 0.00828334, z: 0.2760209}
   m_ConstrainProportionsScale: 0
@@ -521,7 +521,7 @@ MonoBehaviour:
   gravity: {x: NaN, y: NaN, z: NaN}
   groundMask:
     serializedVersion: 2
-    m_Bits: 53760
+    m_Bits: 67162624
   centerOffsetCompatibility: NaN
   repathRateCompatibility: NaN
   canSearchCompability: 0
@@ -590,7 +590,7 @@ MonoBehaviour:
   useRaycasting: 1
   mask:
     serializedVersion: 2
-    m_Bits: 512
+    m_Bits: 67633664
   thickRaycast: 1
   thickRaycastRadius: 0.5
   use2DPhysics: 0
@@ -3396,6 +3396,18 @@ PrefabInstance:
     - target: {fileID: 4782386913873806210, guid: 46d5ee047c6071044a2c3386d8fc216c, type: 3}
       propertyPath: m_Name
       value: HitPointsBar
+      objectReference: {fileID: 0}
+    - target: {fileID: 4782386913873806210, guid: 46d5ee047c6071044a2c3386d8fc216c, type: 3}
+      propertyPath: m_Layer
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 4782386914213434316, guid: 46d5ee047c6071044a2c3386d8fc216c, type: 3}
+      propertyPath: m_Layer
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 5029938970447949680, guid: 46d5ee047c6071044a2c3386d8fc216c, type: 3}
+      propertyPath: m_Layer
+      value: 20
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 46d5ee047c6071044a2c3386d8fc216c, type: 3}

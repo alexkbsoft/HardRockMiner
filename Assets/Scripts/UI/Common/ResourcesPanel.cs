@@ -36,7 +36,7 @@ public class ResourcesPanel : MonoBehaviour
 
             var resPanel = newPanel.GetComponent<ResourcePanel>();
             resPanel.UpdateUI(res.name, res.count, pos);
-            pos += 250;
+            pos += 200;
             _resourcePanels.Add(newPanel);
         }
     }

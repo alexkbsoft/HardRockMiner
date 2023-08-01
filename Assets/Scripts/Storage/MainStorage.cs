@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using DataLayer;
 using UnityEditor;
 using UnityEngine;
 
@@ -8,7 +9,7 @@ namespace Storage
     public class MainStorage: ScriptableObject
     {
         public List<MinerState.StoredResource> resources;
-        public List<string> InventoryItems;
+        public List<ResourceDto> InventoryItems;
         public List<string> StackableItems;
         
         private Dictionary<string, string> _mechParts = new();
