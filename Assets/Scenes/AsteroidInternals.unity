@@ -201,7 +201,7 @@ Light:
   m_Cookie: {fileID: 0}
   m_DrawHalo: 0
   m_Flare: {fileID: 0}
-  m_RenderMode: 0
+  m_RenderMode: 1
   m_CullingMask:
     serializedVersion: 2
     m_Bits: 34769920
@@ -5923,7 +5923,7 @@ Light:
   m_Cookie: {fileID: 0}
   m_DrawHalo: 0
   m_Flare: {fileID: 0}
-  m_RenderMode: 0
+  m_RenderMode: 1
   m_CullingMask:
     serializedVersion: 2
     m_Bits: 1181760
@@ -20784,6 +20784,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 142864603, guid: 4cf3611767b1f4c4bba2a7d1b828dcb8, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 875405438, guid: 4cf3611767b1f4c4bba2a7d1b828dcb8, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 875405439, guid: 4cf3611767b1f4c4bba2a7d1b828dcb8, type: 3}
+      propertyPath: m_Intensity
+      value: 1.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1575698878, guid: 4cf3611767b1f4c4bba2a7d1b828dcb8, type: 3}
+      propertyPath: m_RenderMode
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1257271570892927252, guid: 4cf3611767b1f4c4bba2a7d1b828dcb8, type: 3}
       propertyPath: m_IsActive
       value: 1

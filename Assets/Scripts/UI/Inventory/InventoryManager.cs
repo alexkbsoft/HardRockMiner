@@ -20,7 +20,7 @@ public class InventoryManager : MonoBehaviour
     [SerializeField] private GameObject _craftSchemaContainer;
     private EventBus _eventBus;
     private const float INITIAL_PANEL_POS = 0.6f;
-    private const float OFFSCREEN_PANEL_POS = 8;
+    private const float OFFSCREEN_PANEL_POS = 10;
     private const float PANEL_ANIMATION_DURATION = 0.3f;
 
     private const float INITIAL_SCHEMA_PANEL_POS = 8;
@@ -41,7 +41,7 @@ public class InventoryManager : MonoBehaviour
     private void RebuildInventory()
     {
         FillInventoryWithResources();
-        
+
         for (int oneItem = 0; oneItem < MainStorage.InventoryItems.Count; oneItem++)
         {
             var item = MainStorage.InventoryItems[oneItem];

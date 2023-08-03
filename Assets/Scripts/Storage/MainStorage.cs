@@ -6,12 +6,12 @@ using UnityEngine;
 namespace Storage
 {
     [CreateAssetMenu(fileName = "MainStorage", menuName = "Create general store", order = 2)]
-    public class MainStorage: ScriptableObject
+    public class MainStorage : ScriptableObject
     {
         public List<MinerState.StoredResource> resources;
         public List<ResourceDto> InventoryItems;
         public List<string> StackableItems;
-        
+
         private Dictionary<string, string> _mechParts = new();
 
         public Dictionary<string, string> MechParts
@@ -40,25 +40,33 @@ namespace Storage
         public void SetMechPart(string partName, string itemId)
         {
             _mechParts[partName] = itemId;
+#if UNITY_EDITOR
+
             EditorUtility.SetDirty(this);
+#endif
+
         }
 
         public void SetMechPartsDict(Dictionary<string, string> newParts)
         {
             _mechParts = newParts;
+#if UNITY_EDITOR
             EditorUtility.SetDirty(this);
+#endif
         }
 
-        public ResourceDto FindFreeInventorySlot() {
+        public ResourceDto FindFreeInventorySlot()
+        {
             ResourceDto found = null;
 
             for (int i = 0; i < InventoryItems.Count; i++)
             {
                 var res = InventoryItems[i];
 
-                if (string.IsNullOrEmpty(res.name)) {
+                if (string.IsNullOrEmpty(res.name))
+                {
                     found = res;
-                    
+
                     break;
                 }
             }
@@ -66,9 +74,12 @@ namespace Storage
             return found;
         }
     }
-    
+
+
+#if UNITY_EDITOR
     [CustomEditor(typeof(MainStorage))]
-    public class MainStorageEditor : Editor {
+    public class MainStorageEditor : Editor
+    {
 
         MainStorage comp;
         static bool showTileEditor = false;
@@ -93,4 +104,5 @@ namespace Storage
         }
 
     }
+#endif
 }
