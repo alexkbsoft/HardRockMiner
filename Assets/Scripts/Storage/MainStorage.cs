@@ -48,6 +48,23 @@ namespace Storage
             _mechParts = newParts;
             EditorUtility.SetDirty(this);
         }
+
+        public ResourceDto FindFreeInventorySlot() {
+            ResourceDto found = null;
+
+            for (int i = 0; i < InventoryItems.Count; i++)
+            {
+                var res = InventoryItems[i];
+
+                if (string.IsNullOrEmpty(res.name)) {
+                    found = res;
+                    
+                    break;
+                }
+            }
+
+            return found;
+        }
     }
     
     [CustomEditor(typeof(MainStorage))]

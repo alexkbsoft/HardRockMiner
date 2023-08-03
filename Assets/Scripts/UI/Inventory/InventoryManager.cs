@@ -40,6 +40,8 @@ public class InventoryManager : MonoBehaviour
 
     private void RebuildInventory()
     {
+        FillInventoryWithResources();
+        
         for (int oneItem = 0; oneItem < MainStorage.InventoryItems.Count; oneItem++)
         {
             var item = MainStorage.InventoryItems[oneItem];
@@ -51,13 +53,35 @@ public class InventoryManager : MonoBehaviour
             var slot = _mechSlots.First(item => item.MechPartName == partPair.Key);
             FillSlot(slot, partPair.Value, _mechSlotsContainer.transform);
         }
+
+
     }
 
-    private void FillSlot(DragSlot slot, string itemName, Transform container, int count = 0)
+    private void FillInventoryWithResources() {
+        foreach(MinerState.StoredResource resDto in MainStorage.resources) {
+            var inventoryItem = FindInInventory(resDto.name);
+
+            if (inventoryItem == null) {
+                var inventorySlot = MainStorage.FindFreeInventorySlot();
+                if (inventorySlot != null) {
+                    inventorySlot.name = resDto.name;
+                    inventorySlot.count = resDto.count;
+                }
+            } else {
+                inventoryItem.count = resDto.count;
+            }
+        }
+    }
+
+    private ResourceDto FindInInventory(string name) {
+        return MainStorage.InventoryItems.Find((res) => res.name == name);
+    }
+
+    private InventoryItem FillSlot(DragSlot slot, string itemName, Transform container, int count = 0)
     {
         if (string.IsNullOrEmpty(itemName))
         {
-            return;
+            return null;
         }
 
         var newItem = Instantiate(this.ItemPrefab, container);
@@ -68,14 +92,14 @@ public class InventoryManager : MonoBehaviour
 
         var sprite = Resources.Load<Sprite>(itemName);
         var inventoryItem = newItem.GetComponent<InventoryItem>();
-        inventoryItem.UniqName = itemName;
-        inventoryItem.SetSprite(sprite);
-        inventoryItem.Count = count;
+        inventoryItem.Configure(itemName, "", sprite, count);
 
         if (MainStorage.StackableItems.Contains(itemName))
         {
             inventoryItem.IsStackable = true;
         }
+
+        return inventoryItem;
     }
 
     private void OnInventoryReordered()

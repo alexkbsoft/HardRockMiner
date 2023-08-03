@@ -158,7 +158,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 3
   m_Sprite: {fileID: 21300000, guid: daaf5466f934bc1438f731242f085ba9, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.0779043, g: 0.24684434, b: 0.9528302, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -203,8 +203,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -0.1851, y: 0.1899}
-  m_SizeDelta: {x: 0.3702, y: 0.3798}
+  m_AnchoredPosition: {x: -0.4479, y: 0.1899}
+  m_SizeDelta: {x: 0.8958, y: 0.3798}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &578967855
 CanvasRenderer:
@@ -243,8 +243,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278190080
-  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -268,7 +268,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 1
-  m_HorizontalAlignment: 2
+  m_HorizontalAlignment: 4
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -606,6 +606,8 @@ MonoBehaviour:
   Description: 
   IsStackable: 0
   Count: 0
+  IsCraftClone: 0
+  OriginalItem: {fileID: 0}
   BorderSprite: {fileID: 471820538}
   SelectedSprite: {fileID: 3218039658381637864}
   ItemSprite: {fileID: 355859061}

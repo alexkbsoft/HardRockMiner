@@ -19,6 +19,7 @@ public class InventoryItem : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _countText;
 
     private Draggable _draggable;
+    private int _storedCount;
 
     void Start()
     {
@@ -44,6 +45,20 @@ public class InventoryItem : MonoBehaviour
         Description = otherItem.Description;
         ItemSprite.sprite = Resources.Load<Sprite>(UniqName);
         IsStackable = otherItem.IsStackable;
+        _storedCount = otherItem.StoredCount;
+    }
+
+    public int StoredCount {
+        get => _storedCount;
+    }
+
+    public void RestoreOriginalCount () {
+        Count = _storedCount;
+        UpdateText();
+    }
+
+    public void SetStoredCount(int count) {
+        _storedCount = count;
     }
 
     public void GetFrom(InventoryItem otherItem, int count)
@@ -58,6 +73,20 @@ public class InventoryItem : MonoBehaviour
     public void SetSprite(Sprite sprite)
     {
         ItemSprite.sprite = sprite;
+    }
+
+    public void Configure(string name,
+        string description,
+        Sprite sprite,
+        int count = 0,
+        bool isStackable = false)
+    {
+        UniqName = name;
+        Description = description;
+        ItemSprite.sprite = sprite;
+        Count = count;
+        IsStackable = isStackable;
+        _storedCount = count;
     }
 
     private void OnDragChange(bool isDragging)

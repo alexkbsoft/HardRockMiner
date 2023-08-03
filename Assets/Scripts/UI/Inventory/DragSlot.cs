@@ -33,6 +33,18 @@ public class DragSlot : MonoBehaviour
     {
         validImg.SetActive(false);
         invalidImg.SetActive(false);
+        CurrentIntersectArea = 0;
+    }
+
+    public void Clean() {
+        if (LinkedDraggable != null) {
+            var linkedItem = LinkedDraggable.GetComponent<InventoryItem>();
+            linkedItem.OriginalItem.RestoreOriginalCount();
+            Destroy(LinkedDraggable.gameObject);
+        }
+
+        LinkedDraggable = null;
+        Reset();
     }
 
     public void SetDraggable(Draggable draggable)
@@ -64,8 +76,6 @@ public class DragSlot : MonoBehaviour
 
     private void DublicateItem(Draggable draggable) {
         var otherItem = draggable.gameObject.GetComponent<InventoryItem>();
-
-        // Debug.Log($"DUBLICATE {otherItem.HaveAnyInSlot} {otherItem.IsSingleItemAlreadyDropped}");
         
         if (otherItem.EmptySlot ||
             otherItem.IsSingleItemAlreadyDropped) {
@@ -83,7 +93,6 @@ public class DragSlot : MonoBehaviour
         currentItem.IsCraftClone = true;
         currentItem.OriginalItem = otherItem;
         LinkedDraggable = currentDraggable;
-
         currentItem.GetFrom(otherItem, 1);        
     }
 

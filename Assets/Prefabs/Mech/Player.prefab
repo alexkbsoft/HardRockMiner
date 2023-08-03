@@ -2431,7 +2431,7 @@ CharacterController:
   m_Enabled: 1
   serializedVersion: 2
   m_Height: 5.2
-  m_Radius: 1.7
+  m_Radius: 1.5
   m_SlopeLimit: 2
   m_StepOffset: 0
   m_SkinWidth: 0.08
@@ -2447,10 +2447,10 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 1.7
-  m_Height: 4.8490024
+  m_Radius: 1.8
+  m_Height: 5.7103853
   m_Direction: 1
-  m_Center: {x: 0, y: 2.5438368, z: 0}
+  m_Center: {x: 9.767956e-10, y: 2.9745378, z: -2.4516572e-10}
 --- !u!114 &9011796404367767654
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2476,7 +2476,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82414b6137fa8964fbcab466888b69df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MaxLive: 100
+  MaxLive: 500
   CurrentLife: 0
   OnDestroyed:
     m_PersistentCalls:
@@ -2514,6 +2514,8 @@ MonoBehaviour:
   - {fileID: 1869525070844284279}
   - {fileID: 9011796404716223013}
   - {fileID: 9011796404525046846}
+  - {fileID: 960127953212121871}
+  - {fileID: 2505479371250019218}
   _mainStorage: {fileID: 11400000, guid: 78c8d489945e2df48ab1f0079bf94b9b, type: 2}
 --- !u!1 &9011796404379933052
 GameObject:
@@ -4381,6 +4383,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: GadgetHandClaw_V2
       objectReference: {fileID: 0}
+    - target: {fileID: 100016, guid: 7a8e24d54571d654482e5bfddfb9f844, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 400016, guid: 7a8e24d54571d654482e5bfddfb9f844, type: 3}
       propertyPath: m_RootOrder
       value: 3
@@ -4465,16 +4471,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: becbbca3df0f7c848a84b747bab896a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _laserMat: {fileID: 2100000, guid: bc1a9ca1bc3387145816c217ff6ec865, type: 2}
-  _glowMat: {fileID: 2100000, guid: b9a1b65604adb4a458f4cdd51d23ae90, type: 2}
-  _sparkleMat: {fileID: 2100000, guid: 5e9f9502fb36dd14ba91b14b2b8a10aa, type: 2}
-  _laserRing: {fileID: 2100000, guid: 7023a66548b35514e9af65bf57ed3493, type: 2}
-  _laserSmallfire: {fileID: 2100000, guid: 5e9f9502fb36dd14ba91b14b2b8a10aa, type: 2}
-  _sparksStartColor: {r: 0.44705883, g: 0.95686275, b: 0.972549, a: 0}
-  DrillDistance: 3
-  DrillPower: 5
-  DrillNoise: 5
-  DrillWidth: 0.7
+  _laserMat: {fileID: 2100000, guid: 4d2e941d363318248bda5ebd54922e05, type: 2}
+  _glowMat: {fileID: 2100000, guid: e675e8380cf897a47abcbaa025901210, type: 2}
+  _sparkleMat: {fileID: 2100000, guid: 796b34055dbdb934e97651089da2d843, type: 2}
+  _laserRing: {fileID: 2100000, guid: a8e6fb127999dd947b9c4f665fb6167b, type: 2}
+  _laserSmallfire: {fileID: 2100000, guid: 796b34055dbdb934e97651089da2d843, type: 2}
+  _sparksStartColor: {r: 0.972549, g: 0.77198964, b: 0.44705886, a: 0}
+  DrillDistance: 5
+  DrillPower: 50
+  DrillNoise: 15
+  DrillWidth: 1.2
 --- !u!1001 &4606261934622669085
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4798,7 +4804,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 6990813279320841600, guid: c728f53e63818df4688a1c469b00c820, type: 3}
       propertyPath: m_Name
-      value: Gadget_Hand_Claw_2x_Lvl1
+      value: GadgetHandClaw_V1
       objectReference: {fileID: 0}
     - target: {fileID: 6990813279321260448, guid: c728f53e63818df4688a1c469b00c820, type: 3}
       propertyPath: m_RootOrder
@@ -4862,6 +4868,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c728f53e63818df4688a1c469b00c820, type: 3}
+--- !u!1 &960127953212121871 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6990813279320841600, guid: c728f53e63818df4688a1c469b00c820, type: 3}
+  m_PrefabInstance: {fileID: 7806801843792723599}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &960127953212423983 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6990813279321260448, guid: c728f53e63818df4688a1c469b00c820, type: 3}

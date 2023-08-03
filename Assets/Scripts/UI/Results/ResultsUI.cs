@@ -22,16 +22,6 @@ public class ResultsUI : MonoBehaviour
             resPanel.UpdateUI(res.name, res.count, pos);
             pos -= 105;
         }
-        
-        // pos = -700;
-        // foreach (MinerState.StoredResource res in _mainStorage.resources)
-        // {
-        //     var newPanel = Instantiate(_resourcePanelPrefab, transform);
-        //
-        //     var resPanel = newPanel.GetComponent<ResultsResourcePanel>();
-        //     resPanel.UpdateUI(res.name, res.count, pos);
-        //     pos -= 105;
-        // }
     }
 
     private void SaveResults()
@@ -48,6 +38,6 @@ public class ResultsUI : MonoBehaviour
 
     public void OnGoToBase()
     {
-        SceneManager.LoadScene("Base1");
+        SceneManager.LoadScene("Base");
     }
 }
