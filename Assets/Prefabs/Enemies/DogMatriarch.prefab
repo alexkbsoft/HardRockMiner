@@ -121,7 +121,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 780595254602384154}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.23, z: 0.404}
+  m_LocalPosition: {x: 0, y: 0.847, z: 0.404}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -155,7 +155,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 780595255473440828}
-  m_LocalRotation: {x: 0.13366027, y: 0.79219854, z: -0.56651354, w: 0.18335456}
+  m_LocalRotation: {x: 0.08134728, y: 0.87334013, z: -0.45410636, w: 0.15635525}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.008283338, y: 0.00828334, z: 0.2760209}
   m_ConstrainProportionsScale: 0
@@ -261,6 +261,8 @@ GameObject:
   - component: {fileID: 3005920226212881024}
   - component: {fileID: 3005920226212881025}
   - component: {fileID: 3005920226212881031}
+  - component: {fileID: -2232247236946805543}
+  - component: {fileID: -8926180667419274991}
   m_Layer: 13
   m_Name: DogMatriarch
   m_TagString: Enemy
@@ -385,8 +387,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d71294d4f2d71914b8640d56111adf3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HitPower: 5
-  HitEffectDistance: 4
+  HitPower: 50
+  HitEffectDistance: 5
   HitSphereRadius: 0.5
   HitSource: {fileID: 780595254602384153}
   HitEffect: {fileID: 3273858813118834862, guid: 93ea03465073d7147b4e67a520126192, type: 3}
@@ -424,7 +426,7 @@ MonoBehaviour:
   gravity: {x: NaN, y: NaN, z: NaN}
   groundMask:
     serializedVersion: 2
-    m_Bits: 53760
+    m_Bits: 16384
   centerOffsetCompatibility: NaN
   repathRateCompatibility: NaN
   canSearchCompability: 0
@@ -432,14 +434,11 @@ MonoBehaviour:
   enableRotation: 1
   autoRepath:
     mode: 1
-    interval: 0.5
+    period: 0.5
     sensitivity: 10
-    maximumInterval: 2
+    maximumPeriod: 2
     visualizeSensitivity: 0
   targetCompatibility: {fileID: 0}
-  TargetReachedEvent:
-    m_PersistentCalls:
-      m_Calls: []
   maxAcceleration: -2.5
   rotationSpeed: 360
   slowdownDistance: 0.6
@@ -448,7 +447,7 @@ MonoBehaviour:
   alwaysDrawGizmos: 0
   slowWhenNotFacingTarget: 1
   whenCloseToDestination: 0
-  constrainInsideGraph: 0
+  constrainInsideGraph: 1
 --- !u!114 &3005920226212881025
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -493,13 +492,62 @@ MonoBehaviour:
   useRaycasting: 1
   mask:
     serializedVersion: 2
-    m_Bits: 512
+    m_Bits: 67109376
   thickRaycast: 1
   thickRaycastRadius: 0.5
   use2DPhysics: 0
   raycastOffset: {x: 0, y: 0, z: 0}
   useGraphRaycasting: 0
   quality: 1
+--- !u!114 &-2232247236946805543
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1003411795757343845}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 560112f876f5746c780eca0d404e7139, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 2
+  radiusBackingField: 0.5
+  heightBackingField: 2
+  centerBackingField: 1
+  locked: 0
+  lockWhenNotMoving: 0
+  agentTimeHorizon: 2
+  obstacleTimeHorizon: 2
+  maxNeighbours: 15
+  layer: 1
+  collidesWith: -1
+  wallAvoidForce: 1
+  wallAvoidFalloff: 1
+  priority: 0.5
+  debug: 0
+--- !u!114 &-8926180667419274991
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1003411795757343845}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb6a34d769a1e4ac7b0b30e433aa443c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 1
+  smoothType: 1
+  subdivisions: 3
+  iterations: 2
+  strength: 0.5
+  uniformLength: 1
+  maxSegmentLength: 2
+  bezierTangentLength: 0.4
+  offset: 0.2
+  factor: 0.1
 --- !u!1 &3540130876461669444
 GameObject:
   m_ObjectHideFlags: 0

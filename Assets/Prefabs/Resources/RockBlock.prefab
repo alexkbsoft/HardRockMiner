@@ -988,9 +988,9 @@ MonoBehaviour:
   DropRate:
   - name: none
     rate: 0.6
-  - name: green
+  - name: rock
     rate: 0.3
-  - name: blue
+  - name: crystal
     rate: 0.1
   ResourcePrefab: {fileID: 735405454991264240, guid: 63bbc011fb7b68b4c82df8b1671a661b, type: 3}
   _block100: {fileID: 4958252512998398614}

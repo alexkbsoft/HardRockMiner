@@ -50,14 +50,14 @@ public class UIControler : MonoBehaviour
         }
         _resourcePanels.Clear();
 
-        int pos = -300;
+        int pos = -200;
         foreach (MinerState.StoredResource res in _minerState.resources)
         {
             var newPanel = Instantiate(_resourcePrefab, _infoPanel.transform);
 
             var resPanel = newPanel.GetComponent<ResourcePanel>();
             resPanel.UpdateUI(res.name, res.count, pos);
-            pos -= 280;
+            pos -= 150;
             _resourcePanels.Add(newPanel);
         }
     }

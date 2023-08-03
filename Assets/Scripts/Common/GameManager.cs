@@ -139,9 +139,9 @@ public class GameManager : MonoBehaviour
             });
         }
 
-        foreach (string itemId in storageDto.Inventory)
+        foreach (ResourceDto item in storageDto.Inventory)
         {
-            _mainStorage.InventoryItems.Add(itemId);
+            _mainStorage.InventoryItems.Add(item);
         }
 
         Dictionary<string, string> tmpParts = new();

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using DataLayer;
 using Storage;
 using UnityEditor;
 using UnityEngine;
@@ -36,9 +37,9 @@ public class BaseDataLoader : MonoBehaviour
             });
         }
 
-        foreach (string itemId in storageDto.Inventory)
+        foreach (ResourceDto item in storageDto.Inventory)
         {
-            _mainStorage.InventoryItems.Add(itemId);
+            _mainStorage.InventoryItems.Add(item);
         }
 
         Dictionary<string, string> tmpParts = new();
@@ -49,6 +50,14 @@ public class BaseDataLoader : MonoBehaviour
         }
 
         _mainStorage.SetMechPartsDict(tmpParts);
+
+        AddResourcesFromInventory(storageDto);
+    }
+
+    private void AddResourcesFromInventory(StorageDto storageDto) {
+        foreach (var resDto in storageDto.Resources) {
+
+        }
     }
 
     [ContextMenu("SaveStorage")]

@@ -46,17 +46,19 @@ public class ResourceBlock : MonoBehaviour
 
     public void Destroyed()
     {
-        for (int i = 0; i < ResourceCount; i++)
-        {
-            GenerateResource();
-        }
-
         _eventBus.BlockDestroyed?.Invoke(this);
 
         foreach (Transform part in _block25.transform)
         {
             part.transform.parent = null;
             part.GetComponent<WallPart>().Activate();
+        }
+
+        gameObject.layer = LayerMask.NameToLayer("Default");
+
+        for (int i = 0; i < ResourceCount; i++)
+        {
+            GenerateResource();
         }
 
         Destroy(gameObject);

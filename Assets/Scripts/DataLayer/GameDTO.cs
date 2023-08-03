@@ -30,7 +30,7 @@ namespace DataLayer
     public class StorageDto
     {
         public List<ResourceDto> Resources = new();
-        public List<string> Inventory = new();
+        public List<ResourceDto> Inventory = new();
         public List<MechPartDto> MechParts = new();
     }
 

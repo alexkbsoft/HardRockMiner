@@ -35,9 +35,9 @@ TagManager:
   - Dragging
   - NotDragging
   - Slot
-  - 
-  - 
-  - 
+  - UiCamera
+  - ResourceFollowing
+  - Decoration
   - 
   - 
   - 
