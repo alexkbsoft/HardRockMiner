@@ -100,3 +100,5 @@ MonoBehaviour:
     RotationVariants: []
     RandomGroup: 0
   RandomGroups: 0
+  CaveRooms:
+  - {fileID: 11400000, guid: b6e38da615baa3d44940e96fa1d0072a, type: 2}

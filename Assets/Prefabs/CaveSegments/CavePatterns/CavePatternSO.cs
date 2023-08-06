@@ -4,13 +4,14 @@ using UnityEngine;
 using UnityEngine.Serialization;
 using System;
 
-[CreateAssetMenu(menuName = "Cave pattern")]
+[CreateAssetMenu(menuName = "Cave/Cave pattern")]
 
 public class CavePatternSO : ScriptableObject
 {
     public Vector2 Size;
     public CaveSegmet[] Pattern;
     public int RandomGroups;
+    public CaveRoom[] CaveRooms;
 
     [Serializable]
     public struct CaveSegmet
