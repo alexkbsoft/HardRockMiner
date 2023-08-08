@@ -8,6 +8,7 @@ public class DragSlot : MonoBehaviour
 {
     public float CurrentIntersectArea;
     public Draggable LinkedDraggable;
+    public InventoryItem LinkedItemCached;
     public string MechPartName;
     public bool IsCraftSlot;
 
@@ -36,14 +37,22 @@ public class DragSlot : MonoBehaviour
         CurrentIntersectArea = 0;
     }
 
-    public void Clean() {
-        if (LinkedDraggable != null) {
+    public void Clean(bool returnResources = false)
+    {
+        if (LinkedDraggable != null)
+        {
             var linkedItem = LinkedDraggable.GetComponent<InventoryItem>();
-            linkedItem.OriginalItem.RestoreOriginalCount();
+
+            if (linkedItem.OriginalItem != null && returnResources)
+            {
+                linkedItem.OriginalItem.RestoreOriginalCount();
+            }
+            
             Destroy(LinkedDraggable.gameObject);
         }
 
         LinkedDraggable = null;
+        LinkedItemCached = null;
         Reset();
     }
 
@@ -52,7 +61,9 @@ public class DragSlot : MonoBehaviour
         if (IsCraftSlot && !draggable.Slot.IsCraftSlot)
         {
             DublicateItem(draggable);
-        } else {
+        }
+        else
+        {
             ExchangeWith(draggable);
         }
     }
@@ -63,25 +74,31 @@ public class DragSlot : MonoBehaviour
         {
             LinkedDraggable.Slot = draggable.Slot;
             draggable.Slot.LinkedDraggable = LinkedDraggable;
+            draggable.Slot.LinkedItemCached = LinkedItemCached;
         }
         else if (LinkedDraggable == null)
         {
             draggable.Slot.LinkedDraggable = null;
+            draggable.Slot.LinkedItemCached = null;
         }
 
         draggable.Slot = this;
         draggable.transform.parent = transform.parent;
         LinkedDraggable = draggable;
+        LinkedItemCached = LinkedDraggable.GetComponent<InventoryItem>();
     }
 
-    private void DublicateItem(Draggable draggable) {
+    private void DublicateItem(Draggable draggable)
+    {
         var otherItem = draggable.gameObject.GetComponent<InventoryItem>();
-        
-        if (otherItem.EmptySlot ||
-            otherItem.IsSingleItemAlreadyDropped) {
 
+        if (otherItem.EmptySlot ||
+            otherItem.IsSingleItemAlreadyDropped)
+        {
             return;
         }
+
+        LinkedItemCached = otherItem;
 
         GameObject itemInCrafting = FindItemInCraftOrCreate();
 
@@ -93,11 +110,12 @@ public class DragSlot : MonoBehaviour
         currentItem.IsCraftClone = true;
         currentItem.OriginalItem = otherItem;
         LinkedDraggable = currentDraggable;
-        currentItem.GetFrom(otherItem, 1);        
+        currentItem.GetFrom(otherItem, 1);
     }
 
-    private GameObject FindItemInCraftOrCreate() {
-        return LinkedDraggable != null ? 
+    private GameObject FindItemInCraftOrCreate()
+    {
+        return LinkedDraggable != null ?
             LinkedDraggable.gameObject : Instantiate(ItemPrefab, transform.parent);
     }
 }

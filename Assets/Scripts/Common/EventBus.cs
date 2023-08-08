@@ -21,7 +21,10 @@ public class EventBus : MonoBehaviour
     public UnityEvent WaveUnitsDead;
     public UnityEvent<Draggable> DraggableTapped;
     public UnityEvent InventoryReordered;
+    public UnityEvent DroppedInCraft;
     public UnityEvent<int> InventoryTabSelected;
+    public UnityEvent UpdateMechStructure;
+    public UnityEvent ResourcesUpdated;
 
     public UnityEvent DataReady;
 }
