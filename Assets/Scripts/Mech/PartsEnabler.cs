@@ -16,6 +16,7 @@ public class PartsEnabler : MonoBehaviour
         _eventBus = GameObject.FindObjectOfType<EventBus>();
         _eventBus.InventoryReordered?.AddListener(UpdateStructure);
         _eventBus.DataReady?.AddListener(UpdateStructure);
+        _eventBus.UpdateMechStructure?.AddListener(UpdateStructure);
     }
 
     public void UpdateStructure()
@@ -24,5 +25,12 @@ public class PartsEnabler : MonoBehaviour
         {
             partGO.SetActive(_mainStorage.MechParts.ContainsValue(partGO.name));
         }
+    }
+
+    void OnDestroy()
+    {
+        _eventBus.InventoryReordered?.RemoveListener(UpdateStructure);
+        _eventBus.DataReady?.RemoveListener(UpdateStructure);
+        _eventBus.UpdateMechStructure?.RemoveListener(UpdateStructure);
     }
 }

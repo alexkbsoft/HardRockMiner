@@ -11,8 +11,9 @@ public class Draggable : MonoBehaviour
     public bool IsSelected;
     public DragSlot Slot;
     public int ItemCount;
-    
-    
+    public bool IsDragEnabled = true;
+
+
     public event Action<bool> OnDragChange;
     public event Action<bool> OnSelectChange;
 
@@ -37,26 +38,31 @@ public class Draggable : MonoBehaviour
 
     public void SetDragging(bool isDragging)
     {
+        if (!IsDragEnabled)
+        {
+            return;
+        }
+
         IsDragging = isDragging;
 
         if (IsSelected && IsDragging)
         {
             SetSelected(false);
         }
-        
+
         OnDragChange?.Invoke(isDragging);
     }
 
     public void SetSelected(bool selected)
     {
         var oldVal = IsSelected;
-        
+
         IsSelected = selected;
-        
+
         if (IsSelected != oldVal)
         {
             OnSelectChange?.Invoke(selected);
-            
+
             if (IsSelected)
             {
                 _eventBus.DraggableTapped?.Invoke(this);
@@ -70,7 +76,7 @@ public class Draggable : MonoBehaviour
         {
             return;
         }
-        
+
         transform.position = Vector3.Lerp(
             transform.position,
             Slot.transform.position,
@@ -79,11 +85,21 @@ public class Draggable : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
+        if (!IsDragEnabled)
+        {
+            return;
+        }
+
         CheckValidDrop(other);
     }
 
     private void OnTriggerExit2D(Collider2D other)
     {
+        if (!IsDragEnabled)
+        {
+            return;
+        }
+
         if (other.gameObject.TryGetComponent<DragSlot>(out var slot))
         {
             _dragController.ResetCurrentSlot(slot);

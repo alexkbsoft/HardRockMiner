@@ -18,6 +18,7 @@ public class ResourcesPanel : MonoBehaviour
         _eventBus = GameObject.FindObjectOfType<EventBus>();
         
         _eventBus.DataReady?.AddListener(UpdatePanel);
+        _eventBus.ResourcesUpdated?.AddListener(UpdatePanel);
     }
 
     private void UpdatePanel()
@@ -44,6 +45,7 @@ public class ResourcesPanel : MonoBehaviour
     private void OnDestroy()
     {
         _eventBus.DataReady?.RemoveListener(UpdatePanel);
+        _eventBus.ResourcesUpdated?.RemoveListener(UpdatePanel);
 
     }
 }

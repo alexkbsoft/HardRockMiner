@@ -13,15 +13,13 @@ MonoBehaviour:
   m_Name: MainStorage
   m_EditorClassIdentifier: 
   resources:
-  - name: rock
-    count: 16
   - name: crystal
-    count: 7
+    count: 10
+  - name: rock
+    count: 14
   InventoryItems:
-  - name: rock
-    count: 16
   - name: crystal
-    count: 7
+    count: 10
   - name: 
     count: 0
   - name: 
@@ -40,6 +38,8 @@ MonoBehaviour:
     count: 0
   - name: 
     count: 0
+  - name: rock
+    count: 14
   - name: 
     count: 0
   - name: 
@@ -52,3 +52,76 @@ MonoBehaviour:
   - green
   - rock
   - crystal
+  Recipies:
+  - Id: launcher-item
+    Resources:
+    - 
+    - crystal
+    - crystal
+    - 
+    - 
+    - rock
+    - rock
+    - 
+    - rock
+    - rock
+    - rock
+    - rock
+    - 
+    - 
+    - 
+    - 
+  - Id: GadgetHandClaw_V1
+    Resources:
+    - rock
+    - 
+    - 
+    - rock
+    - rock
+    - 
+    - 
+    - rock
+    - rock
+    - rock
+    - rock
+    - rock
+    - 
+    - rock
+    - rock
+    - 
+  - Id: GadgetHandClaw_V2
+    Resources:
+    - crystal
+    - 
+    - crystal
+    - 
+    - crystal
+    - 
+    - crystal
+    - 
+    - rock
+    - GadgetHandClaw_V1
+    - rock
+    - 
+    - 
+    - 
+    - 
+    - 
+  - Id: GadgetHandClaw_V3
+    Resources:
+    - rock
+    - 
+    - rock
+    - 
+    - rock
+    - 
+    - rock
+    - 
+    - crystal
+    - GadgetHandClaw_V2
+    - crystal
+    - 
+    - 
+    - 
+    - 
+    - 

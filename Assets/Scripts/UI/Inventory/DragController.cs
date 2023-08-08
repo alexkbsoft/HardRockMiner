@@ -78,7 +78,7 @@ public class DragController : MonoBehaviour
             {
                 Draggable draggable = hit.transform.gameObject.GetComponent<Draggable>();
 
-                if (draggable != null)
+                if (draggable != null && draggable.IsDragEnabled)
                 {
                     if (_lastDragged != null && draggable != _lastDragged)
                     {
@@ -147,6 +147,8 @@ public class DragController : MonoBehaviour
 
         if (_currentSlot != null)
         {
+            bool isChangeInCraft = _currentSlot.IsCraftSlot;
+
             if (IsValidTargertSlot(_currentSlot)) {
                 _currentSlot.SetDraggable(_lastDragged);
             } else {
@@ -154,13 +156,14 @@ public class DragController : MonoBehaviour
             }
 
             ResetCurrentSlot(_currentSlot);
-
-            _eventBus.InventoryReordered?.Invoke();
         }
         else
         {
             DeleteClone();
         }
+
+        _eventBus.DroppedInCraft?.Invoke();
+        _eventBus.InventoryReordered?.Invoke();
     }
 
     private void DeleteClone()

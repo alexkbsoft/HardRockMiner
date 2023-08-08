@@ -3,14 +3,26 @@ using DataLayer;
 using UnityEditor;
 using UnityEngine;
 
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
 namespace Storage
 {
+    [Serializable]
+    public class RecipieItem
+    {
+        public string Id;
+        public List<string> Resources = new();
+    }
+
     [CreateAssetMenu(fileName = "MainStorage", menuName = "Create general store", order = 2)]
     public class MainStorage : ScriptableObject
     {
         public List<MinerState.StoredResource> resources;
         public List<ResourceDto> InventoryItems;
         public List<string> StackableItems;
+        public List<RecipieItem> Recipies = new();
 
         private Dictionary<string, string> _mechParts = new();
 
@@ -55,6 +67,30 @@ namespace Storage
 #endif
         }
 
+        public void SubtractResources(List<string> names)
+        {
+            foreach (var name in names)
+            {
+                var existing = resources.Find(
+                    (MinerState.StoredResource item) => !string.IsNullOrEmpty(name) && item.name == name);
+
+                if (existing != null)
+                {
+                    existing.count--;
+                }
+
+                var inInventory = InventoryItems.Find((ResourceDto itemDto) => !string.IsNullOrEmpty(name) && itemDto.name == name);
+                
+                if (inInventory != null) {
+                    inInventory.count --;
+                    if (inInventory.count <= 0) {
+                        inInventory.name = null;
+                    }
+                }
+            }
+
+            resources.RemoveAll((MinerState.StoredResource item) => item.count == 0);
+        }
         public ResourceDto FindFreeInventorySlot()
         {
             ResourceDto found = null;

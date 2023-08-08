@@ -27,6 +27,7 @@ public class CraftSlotsCleaner : MonoBehaviour
         }
 
         _eventBus.InventoryReordered?.Invoke();
+        _eventBus.DroppedInCraft?.Invoke();
     }
 
     void OnDestroy()
