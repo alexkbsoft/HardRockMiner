@@ -34,15 +34,35 @@ public class MechController : MonoBehaviour
     {
         _animator = GetComponent<Animator>();
         _chController = GetComponent<CharacterController>();
+        _damagable = GetComponent<Damagable>();
+
         _fixedY = transform.position.y;
 
         _newDir = transform.position + transform.forward;
         _curAimRotation = Quaternion.identity;
-        _damagable = GetComponent<Damagable>();
+
         _damagable.OnDamaged.AddListener(OnDamaged);
         _damagable.OnDestroyed.AddListener(OnDead);
 
         _Instance = this;
+    }
+
+    void Start()
+    {
+        var pos = Constants.LevelOrigin;
+        pos.y = transform.position.y;
+
+        transform.position = pos;
+    }
+
+    public void SetInitialPlace()
+    {
+        var pos = Constants.LevelOrigin;
+        pos.y = transform.position.y;
+
+        transform.position = pos;
+
+        Debug.Log("SetInitialPlace -" + transform.position.ToString());
     }
 
 
@@ -55,6 +75,8 @@ public class MechController : MonoBehaviour
 
     void FixedUpdate()
     {
+        Debug.Log("FixedUpdate - " + transform.position.ToString());
+
         FixYPos();
 
         if (!IsActive)
@@ -83,7 +105,7 @@ public class MechController : MonoBehaviour
 
     public void OnDamaged(float lifeRemained)
     {
-        
+
     }
 
     public void OnDead()
@@ -106,7 +128,7 @@ public class MechController : MonoBehaviour
     }
 
     private void FixYPos()
-    {
+    {   
         var curPos = transform.position;
         curPos.y = _fixedY;
 
@@ -163,7 +185,8 @@ public class MechController : MonoBehaviour
         _bodyAim.transform.position = Vector3.Slerp(_bodyAim.transform.position, _newDir, 5 * Time.fixedDeltaTime);
     }
 
-    public void OnStep() {
+    public void OnStep()
+    {
         _stepAudio.Play();
     }
 }

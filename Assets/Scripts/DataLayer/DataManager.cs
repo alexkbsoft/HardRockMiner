@@ -31,7 +31,8 @@ public class DataManager
     public StorageDto LoadMainStorage()
     {
         var path = Path.Combine(Application.persistentDataPath, $"main_storage.json");
-        Debug.Log("PATH: " + path);
+
+        Debug.Log("path" + path);
 
         var jsonString = File.ReadAllText(path);
         return JsonUtility.FromJson<StorageDto>(jsonString);
@@ -45,9 +46,23 @@ public class DataManager
         return JsonUtility.FromJson<GameDto>(jsonString);
     }
 
+    public void DeleteAsteroid(string asteroidName)
+    {
+        var path = Path.Combine(Application.persistentDataPath, $"{asteroidName}_asteroid.json");
+
+        File.Delete(path);
+    }
+
     public bool IsAsteroidExists(string asteroidName)
     {
         var path = Path.Combine(Application.persistentDataPath, $"{asteroidName}_asteroid.json");
+
+        return File.Exists(path);
+    }
+
+    public bool IsMainStorageExists()
+    {
+        var path = Path.Combine(Application.persistentDataPath, $"main_storage.json");
 
         return File.Exists(path);
     }
@@ -63,8 +78,10 @@ public class DataManager
     private GameDto CreateDTO()
     {
         var blocks = GameObject.FindObjectsOfType<ResourceBlock>();
+        var segments = GameObject.FindObjectsOfType<CaveSegmentInfo>();
 
         List<BlockDto> blockDtos = new List<BlockDto>();
+        List<SegmentDto> segDtos = new List<SegmentDto>();
 
         foreach (var block in blocks)
         {
@@ -76,15 +93,32 @@ public class DataManager
                 Life = dmg.CurrentLife,
                 Type = block.BlockType,
                 X = position.x,
+                Y = position.y,
                 Z = position.z
             };
             
             blockDtos.Add(dto);
         }
 
+        foreach (var segment in segments)
+        {
+            var pos = segment.transform.position;
+
+            SegmentDto seg = new() {
+                Type = segment.UniqName,
+                YRotation = segment.transform.rotation.eulerAngles.y,
+                X = pos.x,
+                Y = pos.y,
+                Z = pos.z
+            };
+            
+            segDtos.Add(seg);
+        }
+
         return new GameDto()
         {
-            Blocks = blockDtos
+            Blocks = blockDtos,
+            Segments = segDtos
         };
     }
 

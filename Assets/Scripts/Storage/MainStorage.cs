@@ -24,11 +24,17 @@ namespace Storage
         public List<string> StackableItems;
         public List<RecipieItem> Recipies = new();
 
-        private Dictionary<string, string> _mechParts = new();
+        public Dictionary<string, string> _mechParts = new();
 
         public Dictionary<string, string> MechParts
         {
             get => _mechParts;
+        }
+
+        public void SetDefaults() {
+            _mechParts["Foot"] = "FootLight";
+            _mechParts["LeftArm"] = "GadgetHandClaw_V2";
+            _mechParts["RightArm"] = "ShortgunV1";
         }
 
         public void Add(MinerState.StoredResource res)

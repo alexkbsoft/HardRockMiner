@@ -10,19 +10,21 @@ public class EnemySpawner : MonoBehaviour
     public float Period = 1.0f;
     [SerializeField] private WaveDescriptor[] _waveLevels;
     [SerializeField] private MinerState _minerState;
+    [SerializeField] private float _initialYPos = 0.47f;
 
     private Coroutine _spawnCo;
     private bool _isActive = false;
     private EventBus _eventBus;
 
     private int UnitsAlife = 0;
-    
+    private bool _mapReady = false;
+
     [System.Serializable]
     public class WaveDescriptor
     {
         public WaveContent[] Content;
     }
-    
+
     [System.Serializable]
     public class WaveContent
     {
@@ -34,8 +36,14 @@ public class EnemySpawner : MonoBehaviour
     {
         _eventBus = FindObjectOfType<EventBus>();
         _eventBus.AlarmInvoked?.AddListener(AlarmHappend);
+        _eventBus.MapReady?.AddListener(MapReady);
 
         StartCoroutine(CheckPlayerReach());
+    }
+
+    private void MapReady()
+    {
+        _mapReady = true;
     }
 
     [ContextMenu("Start spawn")]
@@ -57,8 +65,10 @@ public class EnemySpawner : MonoBehaviour
         }
     }
 
-    private void AlarmHappend(bool alarm) {
-        if (alarm) {
+    private void AlarmHappend(bool alarm)
+    {
+        if (alarm)
+        {
             Debug.Log("Alarm Start!");
             StartSpawn();
         }
@@ -79,14 +89,14 @@ public class EnemySpawner : MonoBehaviour
 
             yield break;
         }
-        
+
         var waveDescriptors = _waveLevels[alarmLevel];
 
         UnitsAlife = waveDescriptors.Content
             .Aggregate(0, (acc, waveContnt) => waveContnt.UnitsCount);
-        
+
         Debug.Log("Units: " + UnitsAlife);
-        
+
         foreach (var oneContent in waveDescriptors.Content)
         {
             int tmpSize = oneContent.UnitsCount;
@@ -97,17 +107,17 @@ public class EnemySpawner : MonoBehaviour
                 tmpSize--;
                 yield return new WaitForSeconds(Period);
                 var pos = transform.position + Random.onUnitSphere;
-                pos.y = 0;
-        
+                pos.y = _initialYPos;
+
                 var newEnemy = Instantiate(_enemyPrefab, pos, Quaternion.identity);
-        
+
                 var destination = newEnemy.GetComponent<AIDestinationSetter>();
                 destination.target = MechController.Instance.transform;
-                
+
                 newEnemy.GetComponent<Damagable>().OnDestroyed.AddListener(DecrementUnits);
             }
         }
-        
+
         _spawnCo = null;
     }
 
@@ -117,14 +127,18 @@ public class EnemySpawner : MonoBehaviour
         {
             yield return new WaitForSeconds(1);
 
-            GraphNode node1 = AstarPath.active.GetNearest(transform.position, NNConstraint.Default).node;
-            GraphNode node2 = AstarPath.active.GetNearest(MechController.Instance.transform.position, NNConstraint.Default).node;
-
-            if (PathUtilities.IsPathPossible(node1, node2))
+            if (_mapReady)
             {
-                _isActive = true;
-                _eventBus.ActivateSpawner?.Invoke(true);
+                GraphNode node1 = AstarPath.active.GetNearest(transform.position, NNConstraint.Default).node;
+                GraphNode node2 = AstarPath.active.GetNearest(MechController.Instance.transform.position, NNConstraint.Default).node;
+
+                if (PathUtilities.IsPathPossible(node1, node2))
+                {
+                    _isActive = true;
+                    _eventBus.ActivateSpawner?.Invoke(true);
+                }
             }
+
         }
     }
 
@@ -136,5 +150,11 @@ public class EnemySpawner : MonoBehaviour
         {
             _eventBus.WaveUnitsDead?.Invoke();
         }
+    }
+
+    void OnDestroy()
+    {
+        _eventBus.AlarmInvoked?.RemoveListener(AlarmHappend);
+        _eventBus.MapReady?.RemoveListener(MapReady);
     }
 }

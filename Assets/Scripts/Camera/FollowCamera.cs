@@ -9,18 +9,27 @@ public class FollowCamera : MonoBehaviour
     private Vector3 playerPosition;
     private float cameraDist = 1;
 
-    private Vector3 _offset;
+    [SerializeField] private Vector3 _offset;
     private void Start()
     {
+        var pos = Constants.LevelOrigin;
+        pos.y = transform.position.y;
+
+        transform.position = pos;
+        transform.localRotation = Quaternion.Euler(50, 65, 0);
+
         RememberOffset();
     }
 
     public void RememberOffset()
     {
-        _offset = transform.position - player.transform.position;
+        // _offset = transform.position - player.transform.position;
+
+        
     }
 
-    public void SetDistance(float dist) {
+    public void SetDistance(float dist)
+    {
         cameraDist = dist;
     }
 

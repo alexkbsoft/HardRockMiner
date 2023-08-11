@@ -8,35 +8,71 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    public static GameManager Instance => _instance;
+
     [SerializeField] MinerState _minerState;
     [SerializeField] MainStorage _mainStorage;
-    [SerializeField] private bool _loadOnStart = true; 
+    [SerializeField] private bool _loadOnStart = true;
 
     private EventBus _eventBus;
     private bool _haveActiveSpawner = false;
 
     private static GameManager _instance;
-
-    public static GameManager Instance => _instance;
+    private CaveBuilder _caveBuilder;
 
     void Start()
     {
         _instance = this;
-        
+
         _minerState.Reset();
 
         _eventBus = FindObjectOfType<EventBus>();
+        _caveBuilder = FindObjectOfType<CaveBuilder>();
+
         _eventBus.AlarmChanged?.AddListener(OnAlarmChanged);
         _eventBus.ActivateSpawner?.AddListener(SpawnerActivated);
+        _eventBus.MapGenerationDone?.AddListener(ScanMap);
 
         LoadStorage();
-        
-        _eventBus.DataReady?.Invoke();
+
+        bool isExists = false;
 
         if (_loadOnStart)
         {
-            LoadLevel();
+            isExists = LoadLevel();
         }
+
+        if (isExists)
+        {
+            ScanMap();
+        }
+        else
+        {
+            GenerateLevel();
+        }
+
+        _eventBus.DataReady?.Invoke();
+    }
+
+    public void ScanMap()
+    {
+        GameObject caveGO = GameObject.Find("Cave");
+
+        var finishPrefab = Resources.Load<GameObject>("FinishPoint");
+        var finishPoint = Instantiate(
+            finishPrefab,
+            Constants.LevelOrigin + Vector3.up * 2.73f - Vector3.forward * 10.0f,
+            Quaternion.identity,
+            caveGO.transform);
+
+        MechController.Instance.SetInitialPlace();
+
+        StartCoroutine(RescanNavigation());
+    }
+
+    public void GenerateLevel()
+    {
+        _caveBuilder.Generate();
     }
 
     [ContextMenu("Save asteroid")]
@@ -48,28 +84,33 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene("ResultScreen");
     }
 
-    private void OnAlarmChanged(float delta) {
-        if (!_haveActiveSpawner) {
+    private void OnAlarmChanged(float delta)
+    {
+        if (!_haveActiveSpawner)
+        {
             return;
         }
 
         var currntAlarm = _minerState.CurrentAlarm;
 
-        if (currntAlarm < 1) {
+        if (currntAlarm < 1)
+        {
             _minerState.AddAlarm(delta);
 
-            if (_minerState.CurrentAlarm >= 1) {
+            if (_minerState.CurrentAlarm >= 1)
+            {
                 _eventBus.AlarmInvoked?.Invoke(true);
             }
         }
-        
+
         if (currntAlarm > 1)
         {
             _minerState.CurrentAlarm = 1;
         }
     }
 
-    private void SpawnerActivated(bool activated) {
+    private void SpawnerActivated(bool activated)
+    {
         _haveActiveSpawner = true;
     }
 
@@ -79,23 +120,25 @@ public class GameManager : MonoBehaviour
     {
         _eventBus.AlarmChanged?.RemoveListener(OnAlarmChanged);
         _eventBus.ActivateSpawner?.RemoveListener(SpawnerActivated);
+        _eventBus.MapGenerationDone?.RemoveListener(ScanMap);
+
+
+
     }
 
-    private void LoadLevel()
+    private bool LoadLevel()
     {
         var dataManager = new DataManager();
         if (!dataManager.IsAsteroidExists(_minerState.AsteroidName))
         {
-            return;
+            _mainStorage.SetDefaults();
+
+            return false;
         }
-        
+
         var levelData = dataManager.LoadAsteroid(_minerState.AsteroidName);
 
-        var walls = GameObject.Find("Walls");
-        
-        foreach (Transform child in walls.transform) {
-            GameObject.Destroy(child.gameObject);
-        }
+        var walls = GameObject.Find("Cave");
 
         var blockPrefabs = new Dictionary<string, GameObject>()
         {
@@ -103,30 +146,45 @@ public class GameManager : MonoBehaviour
             ["BrickBlock"] = Resources.Load("BrickBlock") as GameObject,
             ["RockBlock"] = Resources.Load("RockBlock") as GameObject,
         };
-        
+
         foreach (BlockDto blockDto in levelData.Blocks)
         {
             var newBlock = Instantiate(blockPrefabs[blockDto.Type],
-                new Vector3(blockDto.X, 0.216f, blockDto.Z),
+                new Vector3(blockDto.X, blockDto.Y, blockDto.Z),
                 Quaternion.identity);
             var resourceBlock = newBlock.GetComponent<ResourceBlock>();
-            
 
             var damagable = newBlock.GetComponent<Damagable>();
             damagable.CurrentLife = blockDto.Life;
             newBlock.transform.parent = walls.transform;
-            
+
             resourceBlock.ChooseAppearance(blockDto.Life);
         }
 
-        StartCoroutine(RescanNavigation());
+        foreach (SegmentDto segmentDto in levelData.Segments)
+        {
+            var segmentPref = Resources.Load(segmentDto.Type);
+            Debug.Log(segmentDto.Type);
+            var segment = Instantiate(segmentPref,
+                new Vector3(segmentDto.X, segmentDto.Y, segmentDto.Z),
+                Quaternion.Euler(0, segmentDto.YRotation, 0),
+                walls.transform);
+        };
+
+        return true;
     }
 
     private void LoadStorage()
     {
         var dataManager = new DataManager();
+
+        if (!dataManager.IsMainStorageExists())
+        {
+            return;
+        }
+
         var storageDto = dataManager.LoadMainStorage();
-        
+
         _mainStorage.resources.Clear();
         _mainStorage.InventoryItems.Clear();
 
@@ -159,5 +217,7 @@ public class GameManager : MonoBehaviour
         yield return new WaitForEndOfFrame();
 
         _eventBus.ScanNavigationGrid?.Invoke();
+
+        _eventBus.MapReady?.Invoke();
     }
 }

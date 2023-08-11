@@ -23,6 +23,13 @@ public class BaseDataLoader : MonoBehaviour
     private void LoadStorage()
     {
         var dataManager = new DataManager();
+
+        if (!dataManager.IsMainStorageExists()) {
+            _mainStorage.SetDefaults();
+            
+            return;
+        }
+
         var storageDto = dataManager.LoadMainStorage();
         
         _mainStorage.resources.Clear();

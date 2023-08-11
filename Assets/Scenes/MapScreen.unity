@@ -400,6 +400,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _minerState: {fileID: 11400000, guid: 7d3383433a505f442a009b8f9fd833a2, type: 2}
   LevelButtonPrefab: {fileID: 487031656465525623, guid: 1f168c5d2ff814947982e03748dabd36, type: 3}
+  DeleteButtonPrefab: {fileID: 4573351453409305628, guid: 955702b2218bd9c4dab5d23b3adcca9f, type: 3}
+  LevelNames:
+  - 1
+  - 2
+  - 3
+  - 4
 --- !u!1 &2097087980
 GameObject:
   m_ObjectHideFlags: 0
