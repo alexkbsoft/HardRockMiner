@@ -10,6 +10,7 @@ TagManager:
   - Drill
   - ValidDrop
   - InvalidDrop
+  - Cube
   layers:
   - Default
   - TransparentFX

@@ -6,6 +6,7 @@ using System;
 public class CaveSegmentInfo : MonoBehaviour
 {
     [SerializeField] public string[] FreeSpaceMap;
+    [SerializeField] public string UniqName;
 
     public int RowSize = 10;
     private int[,] _caveInfo;
@@ -29,7 +30,6 @@ public class CaveSegmentInfo : MonoBehaviour
                     {
                         _caveInfo[x, y] = 1;
                     }
-                    
                 }
             }
             else

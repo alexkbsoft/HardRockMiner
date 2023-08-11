@@ -7,6 +7,7 @@ namespace DataLayer
     public class GameDto
     {
         public List<BlockDto> Blocks = new();
+        public List<SegmentDto> Segments = new();
     }
     
     [Serializable]
@@ -15,6 +16,18 @@ namespace DataLayer
         public string Type;
         public float Life;
         public float X;
+        public float Y;
+        public float Z;
+
+    }
+
+    [Serializable]
+    public class SegmentDto
+    {
+        public string Type;
+        public float YRotation;
+        public float X;
+        public float Y;
         public float Z;
 
     }

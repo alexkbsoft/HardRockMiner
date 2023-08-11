@@ -25,6 +25,8 @@ public class EventBus : MonoBehaviour
     public UnityEvent<int> InventoryTabSelected;
     public UnityEvent UpdateMechStructure;
     public UnityEvent ResourcesUpdated;
+    public UnityEvent MapReady;
+    public UnityEvent MapGenerationDone;
 
     public UnityEvent DataReady;
 }
