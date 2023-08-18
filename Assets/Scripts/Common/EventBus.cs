@@ -22,6 +22,7 @@ public class EventBus : MonoBehaviour
     public UnityEvent<Draggable> DraggableTapped;
     public UnityEvent InventoryReordered;
     public UnityEvent DroppedInCraft;
+    public UnityEvent<string, string> DroppedInMech;
     public UnityEvent<int> InventoryTabSelected;
     public UnityEvent UpdateMechStructure;
     public UnityEvent ResourcesUpdated;

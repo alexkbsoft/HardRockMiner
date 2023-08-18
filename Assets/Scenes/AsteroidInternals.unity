@@ -2122,7 +2122,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-1955142
+  m_Name: pb_Mesh-11826
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -3562,7 +3562,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 729407538}
   m_LocalRotation: {x: -0.6403381, y: 0.29994532, z: 0.29994527, w: 0.64033806}
-  m_LocalPosition: {x: 13.4830475, y: 2, z: 1.4348221}
+  m_LocalPosition: {x: 14.61, y: 1.74, z: 1.05}
   m_LocalScale: {x: 17.555109, y: 17.555107, z: 17.555109}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3831,14 +3831,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 792268193}
-  m_LocalRotation: {x: 0.28678823, y: -0.70940655, z: 0.40957606, w: 0.49673176}
-  m_LocalPosition: {x: 3.6428394, y: 29.02687, z: 16.481302}
+  m_LocalRotation: {x: 0.42169574, y: 0.4653151, z: -0.26864982, w: 0.7303984}
+  m_LocalPosition: {x: -10.24, y: 26.22, z: 43.22}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 60, y: -110, z: 0}
+  m_LocalEulerAnglesHint: {x: 60, y: 65, z: 0}
 --- !u!114 &792268197
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3853,7 +3853,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 2
   player: {fileID: 7507845795706073492}
-  _offset: {x: -15, y: 25, z: -9}
+  cameraDist: 1
+  _offset: {x: -15, y: 26, z: -9}
 --- !u!1 &808776013
 GameObject:
   m_ObjectHideFlags: 0
