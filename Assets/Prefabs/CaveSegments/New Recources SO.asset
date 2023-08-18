@@ -1,0 +1,56 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36562b5240f35034e9501ea3ae481963, type: 3}
+  m_Name: New Recources SO
+  m_EditorClassIdentifier: 
+  BlockDictionary:
+    _serializedList:
+    - Key: 0
+      Value: {fileID: 0}
+    - Key: 1
+      Value: {fileID: 6035768090903981938, guid: 84e465e329f672e478d14252c9993646, type: 3}
+    - Key: 2
+      Value: {fileID: 8079006084909606039, guid: ab2b36bfe21b5ba488218225f8e879a0, type: 3}
+    - Key: 3
+      Value: {fileID: 0}
+    - Key: 4
+      Value: {fileID: 0}
+    - Key: 5
+      Value: {fileID: 0}
+    - Key: 6
+      Value: {fileID: 0}
+    - Key: 7
+      Value: {fileID: 0}
+    - Key: 8
+      Value: {fileID: 0}
+    - Key: 9
+      Value: {fileID: 2419118585963096927, guid: bd7ffb631b2c65249beeebc59a17e274, type: 3}
+    - Key: 10
+      Value: {fileID: 8237962011881307448, guid: 559eee7ee89fb304a8326a075c3eed0d, type: 3}
+    - Key: 11
+      Value: {fileID: 4693821978988795681, guid: 450f7a5ec4f50cb488dbc8e38e6895a5, type: 3}
+    - Key: 12
+      Value: {fileID: 5203495999936452996, guid: 272f3c85b2e8ddb4487228c2870f49e0, type: 3}
+    - Key: 13
+      Value: {fileID: 0}
+    - Key: 14
+      Value: {fileID: 0}
+    - Key: 15
+      Value: {fileID: 0}
+    - Key: 16
+      Value: {fileID: 0}
+    - Key: 17
+      Value: {fileID: 0}
+    - Key: 18
+      Value: {fileID: 0}
+    - Key: 19
+      Value: {fileID: 0}
