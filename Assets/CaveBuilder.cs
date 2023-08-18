@@ -4,17 +4,20 @@ using UnityEngine;
 using UnityEngine.UI;
 using NaughtyAttributes;
 
-[RequireComponent(typeof(RecourcesManager))]
-
 public class CaveBuilder : MonoBehaviour
 {
     [SerializeField] private CavePatternSO _currentPattern;
+    [SerializeField] private RecourcesSO _recourcesList;
     [SerializeField] private float _segmentSize;
+    [SerializeField] private float _wallOffset;
     [SerializeField] private float _blockSize = 5;
+    [SerializeField] private int _maxColumnCount = 5;
     [SerializeField] private Text _testText;
-    [SerializeField] private RecourcesManager _recourcesManager;
+    //[SerializeField] private RecourcesManager _recourcesManager;
     [SerializeField] private Vector3 _blockSpawnOffset;
+    [SerializeField] private BiomeSO[] Biomes;
 
+    private CavePatternSO[] _patterns;
     private Transform _cave;
     private int _row = 0;
     private int _segmentInRow = 0;
@@ -23,6 +26,7 @@ public class CaveBuilder : MonoBehaviour
     private int _blockCountX;
     private int _blockCountY;
     private const int segmentBlockCount = 10;
+    private BiomeSO _currentBiome;
 
     private EventBus _eventBus;
 
@@ -34,7 +38,11 @@ public class CaveBuilder : MonoBehaviour
 
         //TestFill();
         //Generate();
-        if (_recourcesManager == null) _recourcesManager = GetComponent<RecourcesManager>();
+        if (_recourcesList == null)
+        {
+            return;
+            Debug.Log("Не установлен лист ресурсов!!!");
+        }
     }
 
     // Update is called once per frame
@@ -46,15 +54,31 @@ public class CaveBuilder : MonoBehaviour
     [Button]
     public void Generate()
     {
-        var _blockContainer = GameObject.Find("BlocksContainer");
+        GameObject caveGO = GameObject.Find("Cave");
+        GameObject spawnersGO = GameObject.Find("Spawners");
+        _cave = caveGO.transform;
 
-        if (_blockContainer != null)
+        for (int i = _cave.childCount-1; i >= 0; i--)
         {
-            DestroyImmediate(_blockContainer);
+            DestroyImmediate(_cave.GetChild(i).gameObject);
+        }
+        for (int i = spawnersGO.transform.childCount - 1; i >= 0; i--)
+        {
+            DestroyImmediate(spawnersGO.transform.GetChild(i).gameObject);
         }
 
-        _blockCountX = Mathf.RoundToInt(_currentPattern.Size.x * segmentBlockCount);
-        _blockCountY = Mathf.RoundToInt(_currentPattern.Size.y * segmentBlockCount);
+        _currentBiome = Biomes[Random.Range(0, Biomes.Length)];
+        _patterns = Resources.LoadAll<CavePatternSO>("CavePatterns");
+        _currentPattern = _patterns[Random.Range(0, _patterns.Length)];
+        //var _blockContainer = GameObject.Find("BlocksContainer");
+
+        //if (_blockContainer != null)
+        //{
+        //    DestroyImmediate(_blockContainer);
+        //}
+
+        _blockCountX = _currentPattern.SizeX * segmentBlockCount;
+        _blockCountY = _currentPattern.SizeY * segmentBlockCount;
         _caveBlockMap = new int[_blockCountX, _blockCountY];
         
         if (_currentPattern == null) return;
@@ -62,61 +86,84 @@ public class CaveBuilder : MonoBehaviour
         _segmentInRow = 0;
 
         // if (_cave != null) DestroyImmediate(_cave.gameObject);
-        
-        GameObject caveGO = GameObject.Find("Cave");
-        _cave = caveGO.transform;
-
         _randomGroups = new float[_currentPattern.RandomGroups];
-        foreach (CavePatternSO.CaveSegmet segment in _currentPattern.Pattern)
+
+        _currentPattern.Init();
+
+        for (int y = 0; y < _currentPattern.SizeY; y++)
         {
-            if (segment.SegmentVariants.Count > 0)
+            for (int x = 0; x < _currentPattern.SizeX; x++)
             {
-                int segmentVariant = 0;
-                int rotationVariant = 0;
-                if (segment.RandomGroup == 0)
+                GameObject newSegmnet;
+                if (_currentPattern.Map[x, y] != 0)
                 {
-                    segmentVariant = Random.RandomRange(0, segment.SegmentVariants.Count);
-                    rotationVariant = Random.RandomRange(0, segment.RotationVariants.Count);
+                    newSegmnet = new();
                 }
-                else
-                {
+                else { continue; }
+                newSegmnet.transform.SetParent(_cave);
+                newSegmnet.name = "Segment-" + y.ToString() + "-" + x.ToString();
+                newSegmnet.transform.SetAsLastSibling();
 
+                // Генерируем полы пещеры
+                if (_currentPattern.Map[x,y] == 1)
+                {
+                    var newFloorSegment = Instantiate<GameObject>(_currentBiome.FlatFloor, newSegmnet.transform);
+                    newFloorSegment.transform.position = new Vector3(x * _segmentSize, 0, y * _segmentSize);
                 }
 
-                var newSegment = Instantiate<GameObject>(segment.SegmentVariants[segmentVariant], _cave);
-                newSegment.transform.position = new Vector3(_row * _segmentSize, 0, _segmentInRow * _segmentSize);
-                if (segment.RotationVariants.Count > 0)
-                    newSegment.transform.rotation = Quaternion.Euler(0, segment.RotationVariants[rotationVariant], 0);
-                if (newSegment.TryGetComponent<CaveSegmentInfo>(out var segmentInfo))
-                {
-                    float rotation = 0f;
-                    if (segment.RotationVariants.Count > 0) rotation = segment.RotationVariants[rotationVariant];
-                    segmentInfo.Init(rotation);
-                    FillSegmentSpace(_segmentInRow * segmentBlockCount, _row * segmentBlockCount, segmentInfo.GetSegmentMap());
-                }
-                else
-                {
-                    FillSegmentSpace(_segmentInRow * segmentBlockCount, _row * segmentBlockCount, null);
-                }
-            }
-            else
-            {
+                FillSegmentSpace(x * segmentBlockCount, y * segmentBlockCount, null);
 
-            };
-            if (_segmentInRow == _currentPattern.Size.x - 1)
-            {
-                _segmentInRow = 0;
-                _row++;
-            }
-            else
-            {
-                _segmentInRow++;
+                // Генерируем полы Стены
+
+                if (x==0||_currentPattern.Map[x-1, y] == 0)
+                {
+                    int wallIndex = Random.Range(0, _currentBiome.Walls.Length);
+                    var newWall = Instantiate<GameObject>(_currentBiome.Walls[wallIndex], newSegmnet.transform);
+                    newWall.transform.position = new Vector3(x * _segmentSize - _segmentSize/2 - _wallOffset, 0, y * _segmentSize);
+                    newWall.transform.rotation = Quaternion.Euler(0,0,0);
+                }
+
+                if (x == _currentPattern.SizeX-1 || _currentPattern.Map[x + 1, y] == 0)
+                {
+                    int wallIndex = Random.Range(0, _currentBiome.Walls.Length);
+                    var newWall = Instantiate<GameObject>(_currentBiome.Walls[wallIndex], newSegmnet.transform);
+                    newWall.transform.position = new Vector3(x * _segmentSize + _segmentSize / 2 + _wallOffset, 0, y * _segmentSize);
+                    newWall.transform.rotation = Quaternion.Euler(0, 180, 0);
+                }
+
+                if (y == 0 || _currentPattern.Map[x, y - 1] == 0)
+                {
+                    int wallIndex = Random.Range(0, _currentBiome.Walls.Length);
+                    var newWall = Instantiate<GameObject>(_currentBiome.Walls[wallIndex], newSegmnet.transform);
+                    newWall.transform.position = new Vector3(x * _segmentSize, 0, y * _segmentSize - _segmentSize / 2 - _wallOffset);
+                    newWall.transform.rotation = Quaternion.Euler(0, 270, 0);
+                }
+
+                if (y == _currentPattern.SizeY - 1 || _currentPattern.Map[x, y + 1] == 0)
+                {
+                    int wallIndex = Random.Range(0, _currentBiome.Walls.Length);
+                    var newWall = Instantiate<GameObject>(_currentBiome.Walls[wallIndex], newSegmnet.transform);
+                    newWall.transform.position = new Vector3(x * _segmentSize, 0, y * _segmentSize + _segmentSize / 2 + _wallOffset);
+                    newWall.transform.rotation = Quaternion.Euler(0, 90, 0);
+                }
+
+                for (int i = 0; i < _maxColumnCount; i++)
+                {
+                    if (Random.Range(0,100)<=_currentPattern.ColumnChance) {
+                        var newColumn = Instantiate<GameObject>(_currentBiome.Column, newSegmnet.transform);
+                        int columnX = Random.Range(2, 8);
+                        int columnY = Random.Range(2, 8);
+                        newColumn.transform.position = new Vector3((x - 0.5f) * _segmentSize + columnX*_blockSize+ _blockSize/2, 0, (y-0.5f) * _segmentSize + columnY * _blockSize + _blockSize / 2);
+                        int columnRotation = Random.Range(0, 4);
+                        newColumn.transform.rotation = Quaternion.Euler(0, 90*columnRotation, 0);
+                        _caveBlockMap[x * segmentBlockCount + columnX, y * segmentBlockCount + columnY] = 0;
+                    }
+                }
             }
         }
 
         CaveFillerModel caveFiller = new CaveFillerModel(_currentPattern, 10);
         _caveBlockMap = caveFiller.Init(_caveBlockMap);
-        // _testText.text = caveFiller.Fill();
         SpawnBlocks();
     }
 
@@ -126,10 +173,14 @@ public class CaveBuilder : MonoBehaviour
         {
             for (int x = 0; x < segmentBlockCount; x++)
             {
-                int currentBlockContent = 0;
+                int currentBlockContent = -1;
                 if (segmentMap != null)
                 {
                     currentBlockContent = segmentMap[x, y];
+                }
+                else
+                {
+                    currentBlockContent = 1;
                 }
                 _caveBlockMap[offsetX + x, offsetY + y] = currentBlockContent;
             }
@@ -138,23 +189,44 @@ public class CaveBuilder : MonoBehaviour
 
     private void SpawnBlocks()
     {
+        if (_recourcesList == null)
+        {
+            return;
+            Debug.Log("Не установлен лист ресурсов!!!");
+        }
+
         GameObject blockContainer = new GameObject("BlocksContainer");
+        var spawnParent = GameObject.Find("Spawners");
         blockContainer.transform.SetParent(_cave);
         for (int y = 0; y < _blockCountY; y++)
         {
             for (int x = 0; x < _blockCountX; x++)
             {
-                if (_caveBlockMap[x, y] != 0)
+                if (_caveBlockMap[x, y] > 0)
                 {
-                    GameObject newBlock = Instantiate(_recourcesManager.GetBlock(_caveBlockMap[x, y]), blockContainer.transform);
-                    newBlock.transform.rotation = Quaternion.EulerAngles(0, 0, 0);
-                    //newBlock.transform.position = new Vector3(_blockSpawnOffset.x + x * _blockSize, _blockSpawnOffset.z, _blockSpawnOffset.y - y * _blockSize);
-                    newBlock.transform.position = new Vector3(_blockSpawnOffset.y + y * _blockSize, _blockSpawnOffset.z, _blockSpawnOffset.x + x * _blockSize);
+                    var currentBlock = _recourcesList.GetBlock(_caveBlockMap[x, y]);
+                    var currentParent = blockContainer.transform;
+                    if (currentBlock!=null&&currentBlock.TryGetComponent<EnemySpawner>(out _)) 
+                    {
+                        currentParent = spawnParent.transform;
+                    }
+                    GameObject newBlock = Instantiate(currentBlock, currentParent);
+                    int randomRotationX = Random.Range(0, 4);
+                    int randomRotationY = Random.Range(0, 4);
+                    int randomRotationZ = Random.Range(0, 4);
+                    if (currentBlock.TryGetComponent<CaveDecoration>(out _))
+                    {
+                        randomRotationX = 0;
+                        randomRotationZ = 0;
+                    }
+                    newBlock.transform.rotation = Quaternion.Euler(90f * randomRotationX, 90f*randomRotationY, 90f * randomRotationZ);
+                    newBlock.transform.position = new Vector3(_blockSpawnOffset.x + x * _blockSize, _blockSpawnOffset.z, _blockSpawnOffset.y + y * _blockSize);
+                    //newBlock.transform.position = new Vector3(_blockSpawnOffset.y + y * _blockSize, _blockSpawnOffset.z, _blockSpawnOffset.x + x * _blockSize);
                 }
             }
         }
 
-        StartCoroutine(CutPlayer());
+        //StartCoroutine(CutPlayer());
     }
 
     private IEnumerator CutPlayer()
@@ -196,7 +268,7 @@ public class CaveBuilder : MonoBehaviour
 
         foreach (var hit in cubes)
         {
-            Destroy(hit.collider.gameObject);
+            DestroyImmediate(hit.collider.gameObject);
         }
     }
 
