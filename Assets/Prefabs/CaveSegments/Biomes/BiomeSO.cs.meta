@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 66a79e0cdcb5d144791dc9c74ca40854
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - FlatFloor: {fileID: 5726212486530280893, guid: a81d3dc91d38a17418fb738914c6aef3, type: 3}
+  - TrencedFloorFull: {instanceID: 0}
+  - TrencedFloorHalf: {instanceID: 0}
+  - Wall: {fileID: 1808546817557025019, guid: 3f7216ba276358c4592f5aff301cca6b, type: 3}
+  - Column: {fileID: 6664708036797771298, guid: a0575354d8310324a878771583206e34, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
