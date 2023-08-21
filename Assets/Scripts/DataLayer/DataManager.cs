@@ -11,10 +11,10 @@ public class DataManager
     public void SaveCurrentAsteroid(string asteroidName)
     {
         var path = Path.Combine(Application.persistentDataPath, $"{asteroidName}_asteroid.json");
-        
+
         var gameDto = CreateDTO();
         var jsonString = JsonUtility.ToJson(gameDto, true);
-        
+
         File.WriteAllText(path, jsonString);
     }
 
@@ -24,7 +24,7 @@ public class DataManager
 
         var storageDto = CreateStorageDto(storage);
         var jsonString = JsonUtility.ToJson(storageDto, true);
-        
+
         File.WriteAllText(path, jsonString);
     }
 
@@ -78,16 +78,18 @@ public class DataManager
     private GameDto CreateDTO()
     {
         var blocks = GameObject.FindObjectsOfType<ResourceBlock>();
-        var segments = GameObject.FindObjectsOfType<CaveSegmentInfo>();
+        var walls = GameObject.FindObjectsOfType<WallTag>();
+        var floors = GameObject.FindObjectsOfType<FloorTag>();
 
         List<BlockDto> blockDtos = new List<BlockDto>();
-        List<SegmentDto> segDtos = new List<SegmentDto>();
+        List<SegmentDto> wallDtos = new List<SegmentDto>();
+        List<SegmentDto> floorsDtos = new List<SegmentDto>();
 
         foreach (var block in blocks)
         {
             Damagable dmg = block.gameObject.GetComponent<Damagable>();
             var position = block.transform.position;
-            
+
             BlockDto dto = new()
             {
                 Life = dmg.CurrentLife,
@@ -96,29 +98,47 @@ public class DataManager
                 Y = position.y,
                 Z = position.z
             };
-            
+
             blockDtos.Add(dto);
         }
 
-        foreach (var segment in segments)
+        foreach (var wall in walls)
         {
-            var pos = segment.transform.position;
+            var pos = wall.transform.position;
 
-            SegmentDto seg = new() {
-                Type = segment.UniqName,
-                YRotation = segment.transform.rotation.eulerAngles.y,
+            SegmentDto seg = new()
+            {
+                Type = wall.Name,
+                YRotation = wall.transform.rotation.eulerAngles.y,
                 X = pos.x,
                 Y = pos.y,
                 Z = pos.z
             };
-            
-            segDtos.Add(seg);
+
+            wallDtos.Add(seg);
+        }
+
+        foreach (var fl in floors)
+        {
+            var pos = fl.transform.position;
+
+            SegmentDto seg = new()
+            {
+                Type = fl.Name,
+                YRotation = fl.transform.rotation.eulerAngles.y,
+                X = pos.x,
+                Y = pos.y,
+                Z = pos.z
+            };
+
+            floorsDtos.Add(seg);
         }
 
         return new GameDto()
         {
             Blocks = blockDtos,
-            Segments = segDtos
+            Walls = wallDtos,
+            Floors = floorsDtos
         };
     }
 

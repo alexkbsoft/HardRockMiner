@@ -59,14 +59,16 @@ public class GameManager : MonoBehaviour
         GameObject caveGO = GameObject.Find("Cave");
 
         var finishPrefab = Resources.Load<GameObject>("FinishPoint");
-        Instantiate(
-            finishPrefab,
-            Constants.LevelOrigin + Vector3.up * 2.73f - Vector3.forward * 10.0f,
-            Quaternion.identity,
-            caveGO.transform);
+
 
         var (xStart, yStart) = _caveBuilder.GetPlayerPosition();
         MechController.Instance.SetInitialPlace(xStart, yStart);
+
+        Instantiate(
+            finishPrefab,
+            new Vector3(xStart, 0, yStart) + Vector3.up * 2.73f - Vector3.forward * 5.0f,
+            Quaternion.identity,
+            caveGO.transform);
 
         StartCoroutine(RescanNavigation());
     }
@@ -148,6 +150,18 @@ public class GameManager : MonoBehaviour
             ["RockBlock"] = Resources.Load("RockBlock") as GameObject,
         };
 
+        var wallPrefabs = new Dictionary<string, GameObject>()
+        {
+            ["Wall1"] = Resources.Load("Wall1") as GameObject,
+            ["Wall2"] = Resources.Load("Wall2") as GameObject,
+            ["Wall3"] = Resources.Load("Wall3") as GameObject,
+        };
+
+        var floorPrefabs = new Dictionary<string, GameObject>()
+        {
+            ["Floor"] = Resources.Load("Floor") as GameObject,
+        };
+
         foreach (BlockDto blockDto in levelData.Blocks)
         {
             var newBlock = Instantiate(blockPrefabs[blockDto.Type],
@@ -162,14 +176,22 @@ public class GameManager : MonoBehaviour
             resourceBlock.ChooseAppearance(blockDto.Life);
         }
 
-        foreach (SegmentDto segmentDto in levelData.Segments)
+        foreach (SegmentDto wallDto in levelData.Walls)
         {
-            var segmentPref = Resources.Load(segmentDto.Type);
-            Debug.Log(segmentDto.Type);
-            var segment = Instantiate(segmentPref,
-                new Vector3(segmentDto.X, segmentDto.Y, segmentDto.Z),
-                Quaternion.Euler(0, segmentDto.YRotation, 0),
-                walls.transform);
+            var newWall = Instantiate(wallPrefabs[wallDto.Type],
+                new Vector3(wallDto.X, wallDto.Y, wallDto.Z),
+                Quaternion.Euler(0, wallDto.YRotation, 0));
+
+            newWall.transform.parent = walls.transform;
+        };
+
+        foreach (SegmentDto floorDto in levelData.Floors)
+        {
+            var newFloor = Instantiate(floorPrefabs[floorDto.Type],
+                new Vector3(floorDto.X, floorDto.Y, floorDto.Z),
+                Quaternion.Euler(0, floorDto.YRotation, 0));
+
+            newFloor.transform.parent = walls.transform;
         };
 
         return true;

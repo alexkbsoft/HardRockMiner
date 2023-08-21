@@ -76,8 +76,6 @@ public class MechController : MonoBehaviour
 
     void FixedUpdate()
     {
-        Debug.Log("FixedUpdate - " + transform.position.ToString());
-
         FixYPos();
 
         if (!IsActive)

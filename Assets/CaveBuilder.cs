@@ -193,7 +193,6 @@ public class CaveBuilder : MonoBehaviour
         if (_recourcesList == null)
         {
             return;
-            Debug.Log("�� ���������� ���� ��������!!!");
         }
 
         GameObject blockContainer = new GameObject("BlocksContainer");
