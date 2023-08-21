@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2940195059777713966}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Column
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -43,7 +43,7 @@ GameObject:
   - component: {fileID: 6387149778650878221}
   - component: {fileID: 3162434027411581747}
   - component: {fileID: 209474113446343629}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: stolpLP_Mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -127,7 +127,7 @@ GameObject:
   - component: {fileID: 5864400183228829535}
   - component: {fileID: 4179300095753202795}
   - component: {fileID: 1459345546419059498}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Cylinder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -222,7 +222,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9084334650726678534}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Stolp
   m_TagString: Untagged
   m_Icon: {fileID: 0}

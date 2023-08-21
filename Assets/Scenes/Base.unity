@@ -6854,6 +6854,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Girl_Idel
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: edf95a80d4c39b44f962fb53759e6cfc, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1630794972795428178, guid: edf95a80d4c39b44f962fb53759e6cfc, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
@@ -99246,7 +99250,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1394396661251730162
 GameObject:
   m_ObjectHideFlags: 0
@@ -117879,7 +117883,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1766851789113907566}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.008490094, y: 0.1209, z: 0.1084208}
+  m_LocalPosition: {x: -0.008490094, y: 0.0866, z: 0.1084208}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

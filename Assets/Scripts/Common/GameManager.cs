@@ -59,13 +59,14 @@ public class GameManager : MonoBehaviour
         GameObject caveGO = GameObject.Find("Cave");
 
         var finishPrefab = Resources.Load<GameObject>("FinishPoint");
-        var finishPoint = Instantiate(
+        Instantiate(
             finishPrefab,
             Constants.LevelOrigin + Vector3.up * 2.73f - Vector3.forward * 10.0f,
             Quaternion.identity,
             caveGO.transform);
 
-        MechController.Instance.SetInitialPlace();
+        var (xStart, yStart) = _caveBuilder.GetPlayerPosition();
+        MechController.Instance.SetInitialPlace(xStart, yStart);
 
         StartCoroutine(RescanNavigation());
     }

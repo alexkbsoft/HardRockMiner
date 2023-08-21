@@ -248,7 +248,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 1179
+  m_VersionIndex: 1185
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -355,7 +355,8 @@ GameObject:
   - component: {fileID: 9006021500774561632}
   - component: {fileID: 1654346413950284035}
   - component: {fileID: 4624529326190659129}
-  m_Layer: 0
+  - component: {fileID: 6228163503524219441}
+  m_Layer: 14
   m_Name: polySurface14
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -427,6 +428,19 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &6228163503524219441
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5238501480686578602}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 5.964728, y: 0.13190563, z: 5.964728}
+  m_Center: {x: 0, y: -0.065952815, z: 0}
 --- !u!1 &5726212486530280893
 GameObject:
   m_ObjectHideFlags: 0

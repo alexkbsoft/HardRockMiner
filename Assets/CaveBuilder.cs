@@ -41,14 +41,15 @@ public class CaveBuilder : MonoBehaviour
         if (_recourcesList == null)
         {
             return;
-            Debug.Log("Не установлен лист ресурсов!!!");
+            Debug.Log("пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ!!!");
         }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
+    public (float, float) GetPlayerPosition() {
+        var startPos = _currentPattern.StartPosition;
 
+        return (startPos.x * _blockSize + _blockSpawnOffset.x,
+            startPos.y * _blockSize + _blockSpawnOffset.y);
     }
 
     [Button]
@@ -104,7 +105,7 @@ public class CaveBuilder : MonoBehaviour
                 newSegmnet.name = "Segment-" + y.ToString() + "-" + x.ToString();
                 newSegmnet.transform.SetAsLastSibling();
 
-                // Генерируем полы пещеры
+                // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
                 if (_currentPattern.Map[x,y] == 1)
                 {
                     var newFloorSegment = Instantiate<GameObject>(_currentBiome.FlatFloor, newSegmnet.transform);
@@ -113,7 +114,7 @@ public class CaveBuilder : MonoBehaviour
 
                 FillSegmentSpace(x * segmentBlockCount, y * segmentBlockCount, null);
 
-                // Генерируем полы Стены
+                // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
 
                 if (x==0||_currentPattern.Map[x-1, y] == 0)
                 {
@@ -192,7 +193,7 @@ public class CaveBuilder : MonoBehaviour
         if (_recourcesList == null)
         {
             return;
-            Debug.Log("Не установлен лист ресурсов!!!");
+            Debug.Log("пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ!!!");
         }
 
         GameObject blockContainer = new GameObject("BlocksContainer");
@@ -225,6 +226,8 @@ public class CaveBuilder : MonoBehaviour
                 }
             }
         }
+
+        _eventBus.MapGenerationDone?.Invoke();
 
         //StartCoroutine(CutPlayer());
     }

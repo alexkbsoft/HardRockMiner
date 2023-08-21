@@ -19,7 +19,7 @@ MonoBehaviour:
     count: 54
   InventoryItems:
   - name: crystal
-    count: 30
+    count: 33
   - name: 
     count: 0
   - name: 
@@ -39,7 +39,7 @@ MonoBehaviour:
   - name: 
     count: 0
   - name: rock
-    count: 50
+    count: 54
   - name: 
     count: 0
   - name: 
