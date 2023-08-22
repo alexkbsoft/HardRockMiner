@@ -10,10 +10,9 @@ Material:
   m_Name: Mat_Dog
   m_Shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
   m_ValidKeywords:
-  - _EMISSION
-  - _NORMALMAP
+  - _METALLICGLOSSMAP
   m_InvalidKeywords: []
-  m_LightmapFlags: 2
+  m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
@@ -23,7 +22,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _BumpMap:
-        m_Texture: {fileID: 2800000, guid: 48637f4bd82b653448689319882d4775, type: 3}
+        m_Texture: {fileID: 2800000, guid: 7e5e117885e9150448097c255d69fafe, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DetailAlbedoMap:
@@ -39,15 +38,15 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _EmissionMap:
-        m_Texture: {fileID: 2800000, guid: cbee8b1e2a9023648aee4044ffe9eb03, type: 3}
+        m_Texture: {fileID: 2800000, guid: 64bba8f505bc0a94d8a4de9a1f1cb25a, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: af9b939e47f16ea41a45d66e8af90afc, type: 3}
+        m_Texture: {fileID: 2800000, guid: 2258a90f6a366214482a17e0475caa7c, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 843a0d83ee18b824fa3a74b635091b2a, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
@@ -64,7 +63,7 @@ Material:
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
-    - _GlossMapScale: 1
+    - _GlossMapScale: 0.718
     - _Glossiness: 0.5
     - _GlossyReflections: 1
     - _Metallic: 0
