@@ -7,7 +7,6 @@ using UnityEngine.Events;
 public class Gun : MonoBehaviour
 {
     public GameObject BulletPref;
-    public float FirePeriod = 1;
     public float AttackAngle = 30;
     public float AttackDistance = 20;
     public AnimatedGun AnimatedGun;

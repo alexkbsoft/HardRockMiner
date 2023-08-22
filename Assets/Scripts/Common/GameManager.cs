@@ -12,7 +12,7 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] MinerState _minerState;
     [SerializeField] MainStorage _mainStorage;
-    [SerializeField] private bool _loadOnStart = true;
+    [SerializeField] private bool _debugMap = false;
 
     private EventBus _eventBus;
     private bool _haveActiveSpawner = false;
@@ -35,12 +35,13 @@ public class GameManager : MonoBehaviour
 
         LoadStorage();
 
-        bool isExists = false;
-
-        if (_loadOnStart)
-        {
-            isExists = LoadLevel();
+        if (_debugMap) {
+            _eventBus.DataReady?.Invoke();
+            
+            return;    
         }
+
+        bool isExists = LoadLevel();
 
         if (isExists)
         {

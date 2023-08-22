@@ -13,6 +13,7 @@ public class Hitter : MonoBehaviour
 
     public void OnAnimationHitMoment()
     {
+        Debug.Log("ON ANIMATION HIT");
         if (Physics.SphereCast(HitSource.position,
             HitSphereRadius,
             HitSource.forward,
