@@ -35,10 +35,11 @@ public class GameManager : MonoBehaviour
 
         LoadStorage();
 
-        if (_debugMap) {
+        if (_debugMap)
+        {
             _eventBus.DataReady?.Invoke();
-            
-            return;    
+
+            return;
         }
 
         bool isExists = LoadLevel();
@@ -55,7 +56,17 @@ public class GameManager : MonoBehaviour
         _eventBus.DataReady?.Invoke();
     }
 
-    public void ScanMap()
+    public void Clean()
+    {
+        GameObject caveGO = GameObject.Find("Cave");
+
+        foreach (Transform t in caveGO.transform)
+        {
+            Destroy(t.gameObject);
+        }
+    }
+
+    private void ScanMap()
     {
         GameObject caveGO = GameObject.Find("Cave");
 
@@ -142,7 +153,12 @@ public class GameManager : MonoBehaviour
 
         var levelData = dataManager.LoadAsteroid(_minerState.AsteroidName);
 
-        var walls = GameObject.Find("Cave");
+        var cave = GameObject.Find("Cave");
+
+        for (int i = cave.transform.childCount - 1; i >= 0; i--)
+        {
+            DestroyImmediate(cave.transform.GetChild(i).gameObject);
+        }
 
         var blockPrefabs = new Dictionary<string, GameObject>()
         {
@@ -163,6 +179,22 @@ public class GameManager : MonoBehaviour
             ["Floor"] = Resources.Load("Floor") as GameObject,
         };
 
+        var decorPrefabs = new Dictionary<string, GameObject>()
+        {
+            ["Crystal1"] = Resources.Load("Crystal1") as GameObject,
+            ["Crystal2"] = Resources.Load("Crystal2") as GameObject,
+        };
+
+        var spawnPrefabs = new Dictionary<string, GameObject>()
+        {
+            ["EnemySpawner"] = Resources.Load("EnemySpawner") as GameObject,
+        };
+
+        var pillarPrefabs = new Dictionary<string, GameObject>()
+        {
+            ["Stolp"] = Resources.Load("Stolp") as GameObject,
+        };
+
         foreach (BlockDto blockDto in levelData.Blocks)
         {
             var newBlock = Instantiate(blockPrefabs[blockDto.Type],
@@ -172,7 +204,7 @@ public class GameManager : MonoBehaviour
 
             var damagable = newBlock.GetComponent<Damagable>();
             damagable.CurrentLife = blockDto.Life;
-            newBlock.transform.parent = walls.transform;
+            newBlock.transform.parent = cave.transform;
 
             resourceBlock.ChooseAppearance(blockDto.Life);
         }
@@ -183,7 +215,7 @@ public class GameManager : MonoBehaviour
                 new Vector3(wallDto.X, wallDto.Y, wallDto.Z),
                 Quaternion.Euler(0, wallDto.YRotation, 0));
 
-            newWall.transform.parent = walls.transform;
+            newWall.transform.parent = cave.transform;
         };
 
         foreach (SegmentDto floorDto in levelData.Floors)
@@ -192,7 +224,34 @@ public class GameManager : MonoBehaviour
                 new Vector3(floorDto.X, floorDto.Y, floorDto.Z),
                 Quaternion.Euler(0, floorDto.YRotation, 0));
 
-            newFloor.transform.parent = walls.transform;
+            newFloor.transform.parent = cave.transform;
+        };
+
+        foreach (SegmentDto decorDto in levelData.Decorations)
+        {
+            var newDecor = Instantiate(decorPrefabs[decorDto.Type],
+                new Vector3(decorDto.X, decorDto.Y, decorDto.Z),
+                Quaternion.Euler(0, decorDto.YRotation, 0));
+
+            newDecor.transform.parent = cave.transform;
+        };
+
+        foreach (SegmentDto spawnerDto in levelData.Spawners)
+        {
+            var newSpawner = Instantiate(spawnPrefabs[spawnerDto.Type],
+                new Vector3(spawnerDto.X, spawnerDto.Y, spawnerDto.Z),
+                Quaternion.Euler(0, spawnerDto.YRotation, 0));
+
+            newSpawner.transform.parent = cave.transform;
+        };
+
+        foreach (SegmentDto pillarDto in levelData.Pillars)
+        {
+            var newPillar = Instantiate(pillarPrefabs[pillarDto.Type],
+                new Vector3(pillarDto.X, pillarDto.Y, pillarDto.Z),
+                Quaternion.Euler(0, pillarDto.YRotation, 0));
+
+            newPillar.transform.parent = cave.transform;
         };
 
         return true;
@@ -241,6 +300,8 @@ public class GameManager : MonoBehaviour
         yield return new WaitForEndOfFrame();
 
         _eventBus.ScanNavigationGrid?.Invoke();
+
+        yield return new WaitForEndOfFrame();
 
         _eventBus.MapReady?.Invoke();
     }

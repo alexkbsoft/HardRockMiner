@@ -205,6 +205,7 @@ public class CaveBuilder : MonoBehaviour
                 if (_caveBlockMap[x, y] > 0)
                 {
                     var currentBlock = _recourcesList.GetBlock(_caveBlockMap[x, y]);
+                    Debug.Log("Block: " + _caveBlockMap[x, y]);
                     var currentParent = blockContainer.transform;
                     if (currentBlock!=null&&currentBlock.TryGetComponent<EnemySpawner>(out _)) 
                     {

@@ -9,6 +9,9 @@ namespace DataLayer
         public List<BlockDto> Blocks = new();
         public List<SegmentDto> Walls = new();
         public List<SegmentDto> Floors = new();
+        public List<SegmentDto> Decorations = new();
+        public List<SegmentDto> Spawners = new();
+        public List<SegmentDto> Pillars = new();
     }
     
     [Serializable]

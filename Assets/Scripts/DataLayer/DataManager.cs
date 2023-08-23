@@ -80,10 +80,16 @@ public class DataManager
         var blocks = GameObject.FindObjectsOfType<ResourceBlock>();
         var walls = GameObject.FindObjectsOfType<WallTag>();
         var floors = GameObject.FindObjectsOfType<FloorTag>();
+        var decors = GameObject.FindObjectsOfType<CaveDecoration>();
+        var spawners = GameObject.FindObjectsOfType<EnemySpawner>();
+        var pillars = GameObject.FindObjectsOfType<PillarTag>();
 
         List<BlockDto> blockDtos = new List<BlockDto>();
         List<SegmentDto> wallDtos = new List<SegmentDto>();
         List<SegmentDto> floorsDtos = new List<SegmentDto>();
+        List<SegmentDto> decorationDtos = new List<SegmentDto>();
+        List<SegmentDto> spawnersDtos = new List<SegmentDto>();
+        List<SegmentDto> pillarDtos = new List<SegmentDto>();
 
         foreach (var block in blocks)
         {
@@ -134,11 +140,62 @@ public class DataManager
             floorsDtos.Add(seg);
         }
 
+        foreach (var oneDecor in decors)
+        {
+            var pos = oneDecor.transform.position;
+
+            SegmentDto seg = new()
+            {
+                Type = oneDecor.UniqName,
+                YRotation = oneDecor.transform.rotation.eulerAngles.y,
+                X = pos.x,
+                Y = pos.y,
+                Z = pos.z
+            };
+
+            decorationDtos.Add(seg);
+        }
+
+        foreach (var oneSpawner in spawners)
+        {
+            var pos = oneSpawner.transform.position;
+
+            SegmentDto seg = new()
+            {
+                Type = oneSpawner.UniqName,
+                YRotation = oneSpawner.transform.rotation.eulerAngles.y,
+                X = pos.x,
+                Y = pos.y,
+                Z = pos.z
+            };
+
+            spawnersDtos.Add(seg);
+        }
+
+        foreach (var onePillar in pillars)
+        {
+            var pos = onePillar.transform.position;
+
+            SegmentDto seg = new()
+            {
+                Type = onePillar.UniqName,
+                YRotation = onePillar.transform.rotation.eulerAngles.y,
+                X = pos.x,
+                Y = pos.y,
+                Z = pos.z
+            };
+
+            pillarDtos.Add(seg);
+        }
+
         return new GameDto()
         {
             Blocks = blockDtos,
             Walls = wallDtos,
-            Floors = floorsDtos
+            Floors = floorsDtos,
+            Decorations = decorationDtos,
+            Spawners = spawnersDtos,
+            Pillars = pillarDtos
         };
     }
 

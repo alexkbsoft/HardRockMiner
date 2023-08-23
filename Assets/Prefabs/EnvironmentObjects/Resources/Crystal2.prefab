@@ -129,6 +129,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a80613bd45a0d484eb1df419bd99a496, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  UniqName: Crystal2
 --- !u!1 &8999454307024529564
 GameObject:
   m_ObjectHideFlags: 0

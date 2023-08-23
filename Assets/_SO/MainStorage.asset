@@ -14,13 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   resources:
   - name: crystal
-    count: 36
+    count: 41
   - name: rock
-    count: 57
+    count: 76
   InventoryItems:
   - name: crystal
-    count: 36
-  - name: 
+    count: 37
+  - name: ShouldersDiablo
     count: 0
   - name: 
     count: 0
@@ -39,7 +39,7 @@ MonoBehaviour:
   - name: 
     count: 0
   - name: rock
-    count: 57
+    count: 67
   - name: 
     count: 0
   - name: 
