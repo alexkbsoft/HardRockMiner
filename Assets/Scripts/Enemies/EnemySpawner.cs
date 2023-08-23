@@ -8,6 +8,8 @@ using Pathfinding;
 public class EnemySpawner : MonoBehaviour
 {
     public float Period = 1.0f;
+    public string UniqName;
+    
     [SerializeField] private WaveDescriptor[] _waveLevels;
     [SerializeField] private MinerState _minerState;
     [SerializeField] private float _initialYPos = 0.47f;

@@ -55,14 +55,15 @@ public class MechController : MonoBehaviour
         transform.position = pos;
     }
 
-    public void SetInitialPlace()
+    public void SetInitialPlace(float x, float z)
     {
         var pos = Constants.LevelOrigin;
         pos.y = transform.position.y;
+        pos.x = x;
+        pos.z = z;
 
         transform.position = pos;
-
-        Debug.Log("SetInitialPlace -" + transform.position.ToString());
+        FollowCamera.Instance.SetPosition(pos);
     }
 
 
@@ -75,8 +76,6 @@ public class MechController : MonoBehaviour
 
     void FixedUpdate()
     {
-        Debug.Log("FixedUpdate - " + transform.position.ToString());
-
         FixYPos();
 
         if (!IsActive)

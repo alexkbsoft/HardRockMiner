@@ -3,29 +3,34 @@ using UnityEngine;
 
 public class FollowCamera : MonoBehaviour
 {
-    [SerializeField] private float speed = 2f;
+    public static FollowCamera Instance => _instance;
+
     public GameObject player;
+    public float cameraDist = 1;
+
+    [SerializeField] private float speed = 2f;
 
     private Vector3 playerPosition;
-    private float cameraDist = 1;
 
     [SerializeField] private Vector3 _offset;
-    private void Start()
+
+    private static FollowCamera _instance;
+
+    void Awake() {
+        _instance = this;
+    }
+    void Start()
     {
-        var pos = Constants.LevelOrigin;
-        pos.y = transform.position.y;
-
-        transform.position = pos;
-        transform.localRotation = Quaternion.Euler(50, 65, 0);
-
         RememberOffset();
+    }
+
+    public void SetPosition(Vector3 pos) {
+        transform.position = pos + _offset * cameraDist;
     }
 
     public void RememberOffset()
     {
-        // _offset = transform.position - player.transform.position;
-
-        
+        _offset = transform.position - player.transform.position;        
     }
 
     public void SetDistance(float dist)

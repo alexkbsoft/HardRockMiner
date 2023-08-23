@@ -9,7 +9,6 @@ public class DragController : MonoBehaviour
     public Draggable LastDragged => _lastDragged;
     public DragSlot CurrentSlot => _currentSlot;
 
-
     private bool _isDragActive = false;
     private Vector2 _screenPosition;
     private Vector2 _worldPosition;
@@ -151,6 +150,12 @@ public class DragController : MonoBehaviour
 
             if (IsValidTargertSlot(_currentSlot)) {
                 _currentSlot.SetDraggable(_lastDragged);
+
+                if (!string.IsNullOrEmpty(_currentSlot.MechPartName)) {
+                    InventoryItem item = _lastDragged.gameObject.GetComponent<InventoryItem>();
+
+                    _eventBus.DroppedInMech?.Invoke(_currentSlot.MechPartName, item.UniqName);
+                }
             } else {
                 DeleteClone();
             }
