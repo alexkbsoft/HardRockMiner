@@ -30,24 +30,10 @@ public class Gun : MonoBehaviour
         _eventBus.FireEnabled?.AddListener(EnableFire);
     }
 
-    void Update()
-    {
-        // _timeToFire -= Time.deltaTime;
-
-        // if (_timeToFire <= 0)
-        // {
-        //     _timeToFire = 1 / FireRate;
-        //     _Fire = true;
-
-        //     // _currentTarget = WillHit();
-        // }
-
-        AnimatedGun.Fire(_Fire);
-    }
-
     private void EnableFire(bool enableFire)
     {
         _Fire = enableFire;
+        AnimatedGun.Fire(_Fire);
     }
 
     private GameObject WillHit()

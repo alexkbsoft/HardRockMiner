@@ -29,6 +29,7 @@ public class MechController : MonoBehaviour
     private Vector2 _localPos;
 
     private static MechController _Instance;
+    private Vector3 _startPosition;
 
     void Awake()
     {
@@ -38,21 +39,15 @@ public class MechController : MonoBehaviour
 
         _fixedY = transform.position.y;
 
-        _newDir = transform.position + transform.forward;
         _curAimRotation = Quaternion.identity;
 
         _damagable.OnDamaged.AddListener(OnDamaged);
         _damagable.OnDestroyed.AddListener(OnDead);
 
         _Instance = this;
-    }
+        transform.position = _startPosition;
 
-    void Start()
-    {
-        var pos = Constants.LevelOrigin;
-        pos.y = transform.position.y;
-
-        transform.position = pos;
+        Debug.Log($"AWAKE: {transform.position}");
     }
 
     public void SetInitialPlace(float x, float z)
@@ -62,8 +57,10 @@ public class MechController : MonoBehaviour
         pos.x = x;
         pos.z = z;
 
+        _startPosition = pos;
         transform.position = pos;
         FollowCamera.Instance.SetPosition(pos);
+        Debug.Log($"INITIAL POS: {transform.position}");
     }
 
 
@@ -76,8 +73,7 @@ public class MechController : MonoBehaviour
 
     void FixedUpdate()
     {
-        FixYPos();
-
+        Debug.Log($"FixedUpdate {transform.position}");
         if (!IsActive)
         {
             _animator.SetBool("move", false);
@@ -126,19 +122,6 @@ public class MechController : MonoBehaviour
         return DirectionTransform.MoveToSpecifiedDir(vector2Move, cam);
     }
 
-    private void FixYPos()
-    {   
-        var curPos = transform.position;
-        curPos.y = _fixedY;
-
-        if (_isDead)
-        {
-            curPos += Vector3.down * 1.5f;
-        }
-
-        transform.position = curPos;
-    }
-
     void OnAnimatorMove()
     {
         if (!IsActive)
@@ -147,7 +130,6 @@ public class MechController : MonoBehaviour
         }
 
         _chController.Move(_animator.deltaPosition + Vector3.down * Time.fixedDeltaTime);
-        FixYPos();
     }
 
     private Vector2 LeftJoystickInput()

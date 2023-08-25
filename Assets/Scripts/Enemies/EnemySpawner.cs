@@ -134,7 +134,7 @@ public class EnemySpawner : MonoBehaviour
                 GraphNode node1 = AstarPath.active.GetNearest(transform.position, NNConstraint.Default).node;
                 GraphNode node2 = AstarPath.active.GetNearest(MechController.Instance.transform.position, NNConstraint.Default).node;
 
-                if (PathUtilities.IsPathPossible(node1, node2))
+                if (node1 != null && node2 != null && PathUtilities.IsPathPossible(node1, node2))
                 {
                     _isActive = true;
                     _eventBus.ActivateSpawner?.Invoke(true);

@@ -17,7 +17,6 @@ public class Enemy : MonoBehaviour
 
     private Vector3 _currentDestination;
     private Animator _anim;
-    private Transform _target;
     private bool _pursue = false;
 
 
@@ -42,8 +41,6 @@ public class Enemy : MonoBehaviour
         _aiPathFinder = GetComponent<AIPath>();
         _destinationSetter = GetComponent<AIDestinationSetter>();
 
-        _target = GameObject.Find("Player").transform;
-
 
         _damagable.OnDamaged.AddListener(Damage);
 
@@ -66,10 +63,11 @@ public class Enemy : MonoBehaviour
 
         CheckAnimations();
 
+        var target = MechController.Instance;
 
-        if (_closeEnough)
+        if (target != null && _closeEnough)
         {
-            var attackRotation = _target.transform.position - transform.position;
+            var attackRotation = target.transform.position - transform.position;
             attackRotation.y = 0;
             transform.rotation = Quaternion.LookRotation(attackRotation);
         }
@@ -79,6 +77,12 @@ public class Enemy : MonoBehaviour
 
     private void CheckAnimations()
     {
+        var target = MechController.Instance;
+
+        if (target == null) {
+            return;
+        }
+
         _anim.SetBool("Run", !_closeEnough);
         _closeEnough = TargetDist() <= AttackDistance;
 
@@ -99,7 +103,13 @@ public class Enemy : MonoBehaviour
 
     private float TargetDist()
     {
-        var pos = _target.transform.position;
+        var target = MechController.Instance;
+
+        if (target == null) {
+            return 0;
+        }
+
+        var pos = target.transform.position;
         var enemyPos = transform.position;
 
         return Vector3.Distance(pos, enemyPos);

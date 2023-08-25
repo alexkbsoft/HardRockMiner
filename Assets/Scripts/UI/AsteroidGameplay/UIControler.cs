@@ -12,6 +12,7 @@ public class UIControler : MonoBehaviour
     [SerializeField] private GameObject _infoPanel;
     [SerializeField] private Image _fireImg;
     [SerializeField] private Image _drillImg;
+    [SerializeField] private Damagable _mechDamagable;
     private EventBus _eventBus;
     private List<GameObject> _resourcePanels = new();
 
@@ -25,7 +26,7 @@ public class UIControler : MonoBehaviour
         _eventBus = GameObject.FindObjectOfType<EventBus>();
         _eventBus.ResourceCollected?.AddListener(UpdateRes);
 
-        MechController.InstanceDamagable.OnDamaged.AddListener(OnMechDamaged);
+        _mechDamagable.OnDamaged.AddListener(OnMechDamaged);
     }
 
     public void FirePressed() {
@@ -68,6 +69,10 @@ public class UIControler : MonoBehaviour
 
     private void UpdateUI()
     {
+        if (MechController.Instance == null) {
+            return;
+        }
+
         _lifeText.text = $"{MechController.InstanceDamagable.CurrentLife}";
         UpdateRes(null);
 
