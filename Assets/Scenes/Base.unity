@@ -99362,28 +99362,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1394396661991760958
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1394396661991858827}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: becbbca3df0f7c848a84b747bab896a8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _laserMat: {fileID: 2100000, guid: 4d2e941d363318248bda5ebd54922e05, type: 2}
-  _glowMat: {fileID: 2100000, guid: e675e8380cf897a47abcbaa025901210, type: 2}
-  _sparkleMat: {fileID: 2100000, guid: 796b34055dbdb934e97651089da2d843, type: 2}
-  _laserRing: {fileID: 2100000, guid: a8e6fb127999dd947b9c4f665fb6167b, type: 2}
-  _laserSmallfire: {fileID: 2100000, guid: 796b34055dbdb934e97651089da2d843, type: 2}
-  _sparksStartColor: {r: 0.972549, g: 0.77198964, b: 0.44705886, a: 0}
-  DrillDistance: 5
-  DrillPower: 50
-  DrillNoise: 15
-  DrillWidth: 1.2
 --- !u!1 &1394396661991858827
 GameObject:
   m_ObjectHideFlags: 0
@@ -99394,7 +99372,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1394396661991898795}
   - component: {fileID: 1394396662001209691}
-  - component: {fileID: 1394396661991760958}
   m_Layer: 11
   m_Name: GadgetHandClaw_V2
   m_TagString: Untagged
@@ -99976,8 +99953,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1394396662333380927}
-  - component: {fileID: 1394396662340384469}
-  - component: {fileID: 1394396662332982200}
   m_Layer: 0
   m_Name: ShortgunV1
   m_TagString: Untagged
@@ -99985,33 +99960,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1394396662332982200
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1394396662332949791}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c97fd80a59593704b82f19e1c91ea814, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Fiered:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: Gun, Assembly-CSharp
-        m_MethodName: FireBullet
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!4 &1394396662333380913
 Transform:
   m_ObjectHideFlags: 0
@@ -100207,27 +100155,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!95 &1394396662340384469
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1394396662332949791}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: bfeabb5f81d0e2a44a899ac5d7e0f4aa, type: 3}
-  m_Controller: {fileID: 9100000, guid: b95577aef16748c40bd404ccfe56287b, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!4 &1394396662562632612
 Transform:
   m_ObjectHideFlags: 0
@@ -116056,7 +115983,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4349057563616302978}
-  - component: {fileID: 4349057563616302977}
   m_Layer: 0
   m_Name: HandLaserDrill
   m_TagString: Untagged
@@ -116064,40 +115990,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &4349057563616302977
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4349057563616302976}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7c0b5007c7df8c342a68537f67a6818e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _minerState: {fileID: 11400000, guid: 7d3383433a505f442a009b8f9fd833a2, type: 2}
-  _liserLine: {fileID: 4349057563398298806}
-  _startRenderer: {fileID: 1266265674357635146}
-  _sparkleRenderer: {fileID: 210200254697503281}
-  _ringRenderer: {fileID: 1266265674357553590}
-  _sideRenderer: {fileID: 1266265674357623318}
-  _forwardRenderer: {fileID: 1266265674357589934}
-  _particleRenderer: {fileID: 1266265674357543614}
-  _spikesRenderer: {fileID: 3892131914518011383}
-  _lingerRenderer: {fileID: 3892131914517992065}
-  _startParticle: {fileID: 1266265674356182628}
-  ForceDrilling: 0
-  TargetLayers:
-    serializedVersion: 2
-    m_Bits: 8704
-  DrillDistance: 3
-  DrillPower: 30
-  DrillNoise: 5
-  LaserEffect: {fileID: 4349057563398298804}
-  LaserStart: {fileID: 1266265674341681504}
-  LaserEnd: {fileID: 210200254711166039}
-  DrillingAnimator: {fileID: 0}
 --- !u!4 &4349057563616302978
 Transform:
   m_ObjectHideFlags: 0
@@ -116329,28 +116221,6 @@ Transform:
   m_Father: {fileID: 187010117626228197}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5018597002709967594
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5883121296057452735}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: becbbca3df0f7c848a84b747bab896a8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _laserMat: {fileID: 2100000, guid: bbdd736b198c3954aa3ccb5bfa7efb45, type: 2}
-  _glowMat: {fileID: 2100000, guid: e675e8380cf897a47abcbaa025901210, type: 2}
-  _sparkleMat: {fileID: 2100000, guid: ecfe9811bb7a08b4892a2a74ef08f5f9, type: 2}
-  _laserRing: {fileID: 2100000, guid: 2a00e3f3b37501e43bb8d1e50f84f90e, type: 2}
-  _laserSmallfire: {fileID: 2100000, guid: ecfe9811bb7a08b4892a2a74ef08f5f9, type: 2}
-  _sparksStartColor: {r: 1, g: 0.8627451, b: 0.20784314, a: 0}
-  DrillDistance: 7
-  DrillPower: 200
-  DrillNoise: 20
-  DrillWidth: 2
 --- !u!4 &5158881610301918974
 Transform:
   m_ObjectHideFlags: 0
@@ -116917,7 +116787,6 @@ GameObject:
   m_Component:
   - component: {fileID: 5883121296057685151}
   - component: {fileID: 5883121296066952039}
-  - component: {fileID: 5018597002709967594}
   m_Layer: 11
   m_Name: GadgetHandClaw_V3
   m_TagString: Drill
@@ -118362,7 +118231,6 @@ GameObject:
   m_Component:
   - component: {fileID: 8240953737528068376}
   - component: {fileID: 8240953737521080040}
-  - component: {fileID: 8992872414131520069}
   m_Layer: 11
   m_Name: GadgetHandClaw_V1
   m_TagString: Drill
@@ -118538,28 +118406,6 @@ MonoBehaviour:
   - {fileID: 8995521940540505402}
   - {fileID: 4053807684494849669}
   _mainStorage: {fileID: 11400000, guid: 78c8d489945e2df48ab1f0079bf94b9b, type: 2}
---- !u!114 &8992872414131520069
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8240953737528366392}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: becbbca3df0f7c848a84b747bab896a8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _laserMat: {fileID: 2100000, guid: bc1a9ca1bc3387145816c217ff6ec865, type: 2}
-  _glowMat: {fileID: 2100000, guid: b9a1b65604adb4a458f4cdd51d23ae90, type: 2}
-  _sparkleMat: {fileID: 2100000, guid: 5e9f9502fb36dd14ba91b14b2b8a10aa, type: 2}
-  _laserRing: {fileID: 2100000, guid: 7023a66548b35514e9af65bf57ed3493, type: 2}
-  _laserSmallfire: {fileID: 2100000, guid: 5e9f9502fb36dd14ba91b14b2b8a10aa, type: 2}
-  _sparksStartColor: {r: 0.44705883, g: 0.95686275, b: 0.972549, a: 0}
-  DrillDistance: 3
-  DrillPower: 20
-  DrillNoise: 50
-  DrillWidth: 0.7
 --- !u!1 &8995521940540505402
 GameObject:
   m_ObjectHideFlags: 0

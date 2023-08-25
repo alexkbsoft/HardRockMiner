@@ -20922,6 +20922,10 @@ PrefabInstance:
       propertyPath: FirePeriod
       value: 0.2
       objectReference: {fileID: 0}
+    - target: {fileID: 1485207281288644868, guid: 5e0bdf99d3ce90e439d70636de3c9588, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1485207281288644869, guid: 5e0bdf99d3ce90e439d70636de3c9588, type: 3}
       propertyPath: m_Enabled
       value: 1

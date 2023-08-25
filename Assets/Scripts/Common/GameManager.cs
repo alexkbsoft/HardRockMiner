@@ -76,8 +76,8 @@ public class GameManager : MonoBehaviour
 
         var (xStart, yStart) = _caveBuilder.GetPlayerPosition();
         
-        _playerMech.gameObject.SetActive(true);
         _playerMech.SetInitialPlace(xStart, yStart);
+        _playerMech.gameObject.SetActive(true);
 
         Instantiate(
             finishPrefab,

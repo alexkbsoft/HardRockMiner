@@ -29,6 +29,7 @@ public class MechController : MonoBehaviour
     private Vector2 _localPos;
 
     private static MechController _Instance;
+    private Vector3 _startPosition;
 
     void Awake()
     {
@@ -38,17 +39,16 @@ public class MechController : MonoBehaviour
 
         _fixedY = transform.position.y;
 
-        _newDir = transform.position + transform.forward;
         _curAimRotation = Quaternion.identity;
 
         _damagable.OnDamaged.AddListener(OnDamaged);
         _damagable.OnDestroyed.AddListener(OnDead);
 
         _Instance = this;
-    }
+        transform.position = _startPosition;
 
-    void Start()
-    {}
+        Debug.Log($"AWAKE: {transform.position}");
+    }
 
     public void SetInitialPlace(float x, float z)
     {
@@ -57,9 +57,10 @@ public class MechController : MonoBehaviour
         pos.x = x;
         pos.z = z;
 
+        _startPosition = pos;
         transform.position = pos;
         FollowCamera.Instance.SetPosition(pos);
-        Debug.Log($"INITIAL POS: {pos}");
+        Debug.Log($"INITIAL POS: {transform.position}");
     }
 
 
@@ -72,6 +73,7 @@ public class MechController : MonoBehaviour
 
     void FixedUpdate()
     {
+        Debug.Log($"FixedUpdate {transform.position}");
         if (!IsActive)
         {
             _animator.SetBool("move", false);
