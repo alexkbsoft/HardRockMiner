@@ -9,6 +9,7 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance => _instance;
+    public MechController _playerMech;
 
     [SerializeField] MinerState _minerState;
     [SerializeField] MainStorage _mainStorage;
@@ -74,7 +75,9 @@ public class GameManager : MonoBehaviour
 
 
         var (xStart, yStart) = _caveBuilder.GetPlayerPosition();
-        MechController.Instance.SetInitialPlace(xStart, yStart);
+        
+        _playerMech.gameObject.SetActive(true);
+        _playerMech.SetInitialPlace(xStart, yStart);
 
         Instantiate(
             finishPrefab,
@@ -146,8 +149,6 @@ public class GameManager : MonoBehaviour
         var dataManager = new DataManager();
         if (!dataManager.IsAsteroidExists(_minerState.AsteroidName))
         {
-            _mainStorage.SetDefaults();
-
             return false;
         }
 
@@ -263,6 +264,8 @@ public class GameManager : MonoBehaviour
 
         if (!dataManager.IsMainStorageExists())
         {
+            _mainStorage.SetDefaults();
+
             return;
         }
 

@@ -48,12 +48,7 @@ public class MechController : MonoBehaviour
     }
 
     void Start()
-    {
-        var pos = Constants.LevelOrigin;
-        pos.y = transform.position.y;
-
-        transform.position = pos;
-    }
+    {}
 
     public void SetInitialPlace(float x, float z)
     {
@@ -64,6 +59,7 @@ public class MechController : MonoBehaviour
 
         transform.position = pos;
         FollowCamera.Instance.SetPosition(pos);
+        Debug.Log($"INITIAL POS: {pos}");
     }
 
 
@@ -76,8 +72,6 @@ public class MechController : MonoBehaviour
 
     void FixedUpdate()
     {
-        FixYPos();
-
         if (!IsActive)
         {
             _animator.SetBool("move", false);
@@ -126,19 +120,6 @@ public class MechController : MonoBehaviour
         return DirectionTransform.MoveToSpecifiedDir(vector2Move, cam);
     }
 
-    private void FixYPos()
-    {   
-        var curPos = transform.position;
-        curPos.y = _fixedY;
-
-        if (_isDead)
-        {
-            curPos += Vector3.down * 1.5f;
-        }
-
-        transform.position = curPos;
-    }
-
     void OnAnimatorMove()
     {
         if (!IsActive)
@@ -147,7 +128,6 @@ public class MechController : MonoBehaviour
         }
 
         _chController.Move(_animator.deltaPosition + Vector3.down * Time.fixedDeltaTime);
-        FixYPos();
     }
 
     private Vector2 LeftJoystickInput()
