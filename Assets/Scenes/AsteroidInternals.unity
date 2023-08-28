@@ -20655,6 +20655,10 @@ PrefabInstance:
       propertyPath: target
       value: 
       objectReference: {fileID: 7507845795706073503}
+    - target: {fileID: 6668672675665228973, guid: 7b8f5133bff80a0488a33d0b09329250, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6668672675665228980, guid: 7b8f5133bff80a0488a33d0b09329250, type: 3}
       propertyPath: m_Name
       value: DogSmall
