@@ -23,7 +23,7 @@ public class CraftSlotsCleaner : MonoBehaviour
 
     private void CleanAllSlots() {
         foreach(DragSlot slot in Slots) {
-            slot.Clean();
+            slot.Clean(true);
         }
 
         _eventBus.InventoryReordered?.Invoke();

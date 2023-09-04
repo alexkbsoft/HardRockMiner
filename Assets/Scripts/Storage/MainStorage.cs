@@ -1,11 +1,10 @@
+using System;
 using System.Collections.Generic;
 using DataLayer;
 using UnityEditor;
 using UnityEngine;
-
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using AYellowpaper.SerializedCollections;
+using Lean.Pool;
 
 namespace Storage
 {
@@ -23,15 +22,18 @@ namespace Storage
         public List<ResourceDto> InventoryItems;
         public List<string> StackableItems;
         public List<RecipieItem> Recipies = new();
-
         public Dictionary<string, string> _mechParts = new();
+        public Dictionary<string, GameObject> ResPrefabs = new();
+        public Dictionary<string, Sprite> ResSprites = new();
+        [SerializedDictionary("Item ID", "Description")] public SerializedDictionary<string, ItemDescription> ItemDescriptions;
 
         public Dictionary<string, string> MechParts
         {
             get => _mechParts;
         }
 
-        public void SetDefaults() {
+        public void SetDefaults()
+        {
             _mechParts["Foot"] = "FootLight";
             _mechParts["LeftArm"] = "GadgetHandClaw_V2";
             _mechParts["RightArm"] = "ShortgunV1";
@@ -86,10 +88,12 @@ namespace Storage
                 }
 
                 var inInventory = InventoryItems.Find((ResourceDto itemDto) => !string.IsNullOrEmpty(name) && itemDto.name == name);
-                
-                if (inInventory != null) {
-                    inInventory.count --;
-                    if (inInventory.count <= 0) {
+
+                if (inInventory != null)
+                {
+                    inInventory.count--;
+                    if (inInventory.count <= 0)
+                    {
                         inInventory.name = null;
                     }
                 }

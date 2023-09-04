@@ -33,9 +33,13 @@ public class InventoryItem : MonoBehaviour
 
     public void UpdateText()
     {
-        if (IsStackable)
+        if (IsStackable && !IsCraftClone)
         {
             _countText.text = $"{Count}";
+        }
+
+        if (IsCraftClone) {
+            _countText.gameObject.SetActive(false);
         }
     }
 
@@ -43,7 +47,7 @@ public class InventoryItem : MonoBehaviour
     {
         UniqName = otherItem.UniqName;
         Description = otherItem.Description;
-        ItemSprite.sprite = Resources.Load<Sprite>(UniqName);
+        ItemSprite.sprite = otherItem.GetSprite();
         IsStackable = otherItem.IsStackable;
         _storedCount = otherItem.StoredCount;
     }
@@ -73,6 +77,11 @@ public class InventoryItem : MonoBehaviour
     public void SetSprite(Sprite sprite)
     {
         ItemSprite.sprite = sprite;
+    }
+
+    public Sprite GetSprite()
+    {
+        return ItemSprite.sprite;
     }
 
     public void Configure(string name,

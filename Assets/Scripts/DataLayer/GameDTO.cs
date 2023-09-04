@@ -13,7 +13,7 @@ namespace DataLayer
         public List<SegmentDto> Spawners = new();
         public List<SegmentDto> Pillars = new();
     }
-    
+
     [Serializable]
     public class BlockDto
     {
@@ -56,5 +56,28 @@ namespace DataLayer
     {
         public string name;
         public string item;
+    }
+
+    [Serializable]
+    public class ItemDescriptionDto
+    {
+        public string id;
+        public string title;
+        public string description;
+    }
+
+    [Serializable]
+    public class ItemDescription
+    {
+        public string title;
+        public string description;
+    }
+
+
+    [Serializable]
+    public class ItemsInfoDto
+    {
+        public List<ItemDescriptionDto> Descriptions = new();
+
     }
 }

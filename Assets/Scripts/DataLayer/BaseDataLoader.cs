@@ -24,6 +24,17 @@ public class BaseDataLoader : MonoBehaviour
     {
         var dataManager = new DataManager();
 
+        var items = dataManager.LoadItemDescriptions();
+
+        _mainStorage.ItemDescriptions = new();
+
+        foreach(ItemDescriptionDto descr in items.Descriptions) {
+            _mainStorage.ItemDescriptions[descr.id] = new ItemDescription {
+                title = descr.title,
+                description = descr.description
+            };
+        }
+
         if (!dataManager.IsMainStorageExists()) {
             _mainStorage.SetDefaults();
             

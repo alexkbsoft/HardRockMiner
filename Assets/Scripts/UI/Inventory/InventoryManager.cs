@@ -175,6 +175,11 @@ public class InventoryManager : MonoBehaviour
         return MainStorage.InventoryItems.Find((res) => res.name == name);
     }
 
+    private MinerState.StoredResource FindResource(string name)
+    {
+        return MainStorage.resources.Find((res) => res.name == name);
+    }
+
     private (InventoryItem, Draggable) FillSlot(DragSlot slot, string itemName, Transform container, int count = 0)
     {
         if (string.IsNullOrEmpty(itemName))
@@ -188,7 +193,14 @@ public class InventoryManager : MonoBehaviour
         slot.LinkedDraggable = draggable;
         draggable.Slot = slot;
 
-        var sprite = Resources.Load<Sprite>(itemName);
+        Sprite sprite;
+
+        if (FindResource(itemName) != null) {
+            sprite = MainStorage.ResSprites[itemName];
+        } else {
+            sprite = Resources.Load<Sprite>(itemName);
+        }
+
         var inventoryItem = newItem.GetComponent<InventoryItem>();
         inventoryItem.Configure(itemName, "", sprite, count);
 

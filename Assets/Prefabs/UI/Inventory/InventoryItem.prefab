@@ -261,8 +261,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 0.5
-  m_fontSizeBase: 0.5
+  m_fontSize: 0.4
+  m_fontSizeBase: 0.4
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -478,7 +478,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 3
   m_Sprite: {fileID: 21300000, guid: 5c336e8f9dc94694d977d36f9a17d921, type: 3}
-  m_Color: {r: 0, g: 0.41007438, b: 0.9716981, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -543,6 +543,7 @@ MonoBehaviour:
   IsSelected: 0
   Slot: {fileID: 0}
   ItemCount: 0
+  IsDragEnabled: 1
 --- !u!61 &4664060376473886515
 BoxCollider2D:
   m_ObjectHideFlags: 0

@@ -90,6 +90,10 @@ public class DragSlot : MonoBehaviour
 
     private void DublicateItem(Draggable draggable)
     {
+        if (LinkedDraggable != null) {
+            return;
+        }
+
         var otherItem = draggable.gameObject.GetComponent<InventoryItem>();
 
         if (otherItem.EmptySlot ||

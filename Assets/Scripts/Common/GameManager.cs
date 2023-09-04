@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using DataLayer;
+using Lean.Pool;
 using Storage;
 using UnityEngine;
 using UnityEngine.AI;
@@ -20,6 +22,7 @@ public class GameManager : MonoBehaviour
 
     private static GameManager _instance;
     private CaveBuilder _caveBuilder;
+    private Dictionary<string, GameObject> ResPrefabs = new();
 
     void Start()
     {
@@ -53,6 +56,8 @@ public class GameManager : MonoBehaviour
         {
             GenerateLevel();
         }
+
+        PrepareResourcesPool();
 
         _eventBus.DataReady?.Invoke();
     }
@@ -132,6 +137,32 @@ public class GameManager : MonoBehaviour
         _haveActiveSpawner = true;
     }
 
+    private void PrepareResourcesPool() {
+        GameObject poolsGO = GameObject.Find("Pools");
+        var allResources = Resources.LoadAll<GameObject>("Dropables");
+        var allIcons = Resources.LoadAll<Sprite>("Dropables");
+
+        foreach (var onePrefab in allResources)
+        {
+            // var newPool = new GameObject(onePrefab.name);
+            // newPool.transform.parent = poolsGO.transform;
+            _mainStorage.ResPrefabs[onePrefab.name] = onePrefab;
+
+            // var newLean = newPool.AddComponent<LeanGameObjectPool>();
+            // newLean.Prefab = onePrefab;
+            // newLean.Preload = 10;
+            // newLean.Capacity = 30;
+        }
+
+        foreach(var oneSprite in allIcons) {
+            var rgx = new Regex("-icon");
+            var name = rgx.Replace(oneSprite.name, "");
+            Debug.Log("ICON N: " + name);
+
+            _mainStorage.ResSprites[name] = oneSprite;
+        }
+
+    }
 
 
     void OnDestroy()
@@ -139,9 +170,6 @@ public class GameManager : MonoBehaviour
         _eventBus.AlarmChanged?.RemoveListener(OnAlarmChanged);
         _eventBus.ActivateSpawner?.RemoveListener(SpawnerActivated);
         _eventBus.MapGenerationDone?.RemoveListener(ScanMap);
-
-
-
     }
 
     private bool LoadLevel()

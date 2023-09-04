@@ -73,7 +73,6 @@ public class MechController : MonoBehaviour
 
     void FixedUpdate()
     {
-        Debug.Log($"FixedUpdate {transform.position}");
         if (!IsActive)
         {
             _animator.SetBool("move", false);

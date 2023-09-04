@@ -119,8 +119,8 @@ public class ResourceBlock : MonoBehaviour
             direction.y = 0;
 
             var rb = resource.GetComponent<Rigidbody>();
-            rb.AddForce(direction * 10, ForceMode.Impulse);
-            rb.AddTorque(direction * 3, ForceMode.Impulse);
+            rb.AddRelativeForce(direction * 10, ForceMode.Impulse);
+            rb.AddRelativeTorque(direction * 3, ForceMode.Impulse);
         }
     }
 

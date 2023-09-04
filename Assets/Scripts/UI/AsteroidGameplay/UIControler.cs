@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Storage;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -7,6 +8,7 @@ using UnityEngine.UI;
 public class UIControler : MonoBehaviour
 {
     [SerializeField] private MinerState _minerState;
+    [SerializeField] private MainStorage _mainStorage;
     [SerializeField] private TextMeshProUGUI _lifeText;
     [SerializeField] private GameObject _resourcePrefab;
     [SerializeField] private GameObject _infoPanel;
@@ -57,7 +59,9 @@ public class UIControler : MonoBehaviour
             var newPanel = Instantiate(_resourcePrefab, _infoPanel.transform);
 
             var resPanel = newPanel.GetComponent<ResourcePanel>();
-            resPanel.UpdateUI(res.name, res.count, pos);
+            Debug.Log("ICON SEARCH: " + res.name);
+
+            resPanel.UpdateUI(_mainStorage.ResSprites[res.name], res.count, pos);
             pos -= 150;
             _resourcePanels.Add(newPanel);
         }
