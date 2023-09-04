@@ -38,6 +38,13 @@ public class DataManager
         return JsonUtility.FromJson<StorageDto>(jsonString);
     }
 
+    public ItemsInfoDto LoadItemDescriptions()
+    {
+        var jsonTextFile = Resources.Load<TextAsset>("ItemDescriptions");
+
+        return JsonUtility.FromJson<ItemsInfoDto>(jsonTextFile.text);
+    }
+
     public GameDto LoadAsteroid(string asteroidName)
     {
         var path = Path.Combine(Application.persistentDataPath, $"{asteroidName}_asteroid.json");
@@ -203,13 +210,14 @@ public class DataManager
     {
         List<ResourceDto> resources = new List<ResourceDto>();
         List<MechPartDto> mechParts = new();
+        List<ResourceDto> inventoryRes = new();
 
         foreach (MinerState.StoredResource res in storage.resources)
         {
             resources.Add(new ResourceDto()
             {
                 name = res.name,
-                count = res.count
+                count = res.count < 0 ? res.count : res.count
             });
         }
 
@@ -222,10 +230,19 @@ public class DataManager
             });
         }
 
+        foreach (var oneInvRes in storage.InventoryItems)
+        {
+            inventoryRes.Add(new ResourceDto()
+            {
+                name = oneInvRes.name,
+                count = oneInvRes.count < 0 ? 0 : oneInvRes.count
+            });
+        }
+
         return new StorageDto()
         {
             Resources = resources,
-            Inventory = storage.InventoryItems,
+            Inventory = inventoryRes,
             MechParts = mechParts
         };
     }

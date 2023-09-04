@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using Lean.Pool;
+using Storage;
 using UnityEngine;
 
 public class Resource : MonoBehaviour
@@ -8,10 +10,12 @@ public class Resource : MonoBehaviour
     public GameObject[] TypeObjs;
     public float Speed = 2;
 
+    [SerializeField] private MainStorage _mainStorage;
+
     private MechController _player;
     private bool _isFollowing = false;
     private Rigidbody _rb;
-    private Transform _internalGeometry;
+    private GameObject _internalGeometry;
 
     void Start()
     {
@@ -25,8 +29,11 @@ public class Resource : MonoBehaviour
     public void SetType(string name)
     {
         this.Name = name;
-        _internalGeometry = transform.Find(this.Name);
-        _internalGeometry.gameObject.SetActive(true);
+        // _internalGeometry = LeanPool.Spawn(_mainStorage.ResPrefabs[$"{name}-res-prefab"], transform);
+        _internalGeometry = Instantiate(_mainStorage.ResPrefabs[$"{name}-res-prefab"], transform);
+
+        // _internalGeometry = transform.Find(this.Name);
+        // _internalGeometry.gameObject.SetActive(true);
     }
 
     private IEnumerator StartFollowing()
@@ -35,7 +42,7 @@ public class Resource : MonoBehaviour
 
         _isFollowing = true;
         gameObject.layer = LayerMask.NameToLayer("ResourceFollowing");
-        _internalGeometry.gameObject.layer = LayerMask.NameToLayer("ResourceFollowing");
+        _internalGeometry.layer = LayerMask.NameToLayer("ResourceFollowing");
     }
 
     void Update()
@@ -49,7 +56,7 @@ public class Resource : MonoBehaviour
         {
             // Vector3 speed = (_player.transform.position - transform.position).normalized * Speed;
 
-            // // _rb.MovePosition(transform.position + speed * Time.deltaTime);
+            // _rb.MovePosition(transform.position + speed * Time.deltaTime);
 
             // _rb.AddForce
 

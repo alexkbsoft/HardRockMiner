@@ -10,7 +10,6 @@ public class PartsEnabler : MonoBehaviour
     [SerializeField] private List<GameObject> _replacebleParts;
     [SerializeField] private MainStorage _mainStorage;
 
-
     private GameObject _currentlySelected;
     private EventBus _eventBus;
 
@@ -21,6 +20,20 @@ public class PartsEnabler : MonoBehaviour
         _eventBus.DataReady?.AddListener(UpdateStructure);
         _eventBus.UpdateMechStructure?.AddListener(UpdateStructure);
         _eventBus.DroppedInMech?.AddListener(PartDropped);
+        _eventBus.DraggableTapped?.AddListener(OnDraggableTap);
+
+    }
+
+    private void OnDraggableTap(Draggable draggable)
+    {
+        var slot = draggable.Slot;
+        var itemName = draggable.GetComponent<InventoryItem>().UniqName;
+
+        if (slot != null &&
+            !string.IsNullOrEmpty(slot.MechPartName))
+        {
+            PartDropped(draggable.Slot.MechPartName, itemName);
+        }
     }
 
     public void UpdateStructure()
@@ -37,17 +50,21 @@ public class PartsEnabler : MonoBehaviour
         _eventBus.DataReady?.RemoveListener(UpdateStructure);
         _eventBus.UpdateMechStructure?.RemoveListener(UpdateStructure);
         _eventBus.DroppedInMech?.RemoveListener(PartDropped);
+        _eventBus.DraggableTapped?.RemoveListener(OnDraggableTap);
+
     }
 
-    void PartDropped(string partName, string itemName) {
+    void PartDropped(string partName, string itemName)
+    {
         var part = _replacebleParts.Find((GameObject onePart) => onePart.name == itemName);
 
-        if (_currentlySelected != null) {
+        if (_currentlySelected != null)
+        {
             Destroy(_currentlySelected.GetComponent<MyOutline>());
         }
 
-        if (part != null) {
-            Debug.Log("Pard");
+        if (part != null)
+        {
             part.AddComponent<MyOutline>();
             _currentlySelected = part;
         }
