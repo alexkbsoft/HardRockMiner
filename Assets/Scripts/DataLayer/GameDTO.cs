@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Storage;
 
 namespace DataLayer
 {
@@ -79,5 +80,24 @@ namespace DataLayer
     {
         public List<ItemDescriptionDto> Descriptions = new();
 
+    }
+
+    [Serializable]
+    public class RecipesInfoDto
+    {
+        public List<RecipieItem> Recipes = new();
+    }
+
+    [Serializable]
+    public class SchemaItem
+    {
+        public string Id;
+        public List<int> Hints = new();
+    }
+
+    [Serializable]
+    public class SchemaInfoDto
+    {
+        public List<SchemaItem> Schemas = new();
     }
 }

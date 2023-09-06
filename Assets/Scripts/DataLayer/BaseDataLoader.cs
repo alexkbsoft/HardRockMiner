@@ -14,9 +14,9 @@ public class BaseDataLoader : MonoBehaviour
     void Start()
     {
         _eventBus = FindObjectOfType<EventBus>();
-        
+
         LoadStorage();
-        
+
         _eventBus.DataReady?.Invoke();
     }
 
@@ -27,22 +27,27 @@ public class BaseDataLoader : MonoBehaviour
         var items = dataManager.LoadItemDescriptions();
 
         _mainStorage.ItemDescriptions = new();
+        _mainStorage.Recipies = new();
+        _mainStorage.Schemas = new();
 
-        foreach(ItemDescriptionDto descr in items.Descriptions) {
-            _mainStorage.ItemDescriptions[descr.id] = new ItemDescription {
+        foreach (ItemDescriptionDto descr in items.Descriptions)
+        {
+            _mainStorage.ItemDescriptions[descr.id] = new ItemDescription
+            {
                 title = descr.title,
                 description = descr.description
             };
         }
 
-        if (!dataManager.IsMainStorageExists()) {
+        if (!dataManager.IsMainStorageExists())
+        {
             _mainStorage.SetDefaults();
-            
+
             return;
         }
 
         var storageDto = dataManager.LoadMainStorage();
-        
+
         _mainStorage.resources.Clear();
         _mainStorage.InventoryItems.Clear();
 
@@ -67,15 +72,21 @@ public class BaseDataLoader : MonoBehaviour
             tmpParts[partDto.name] = partDto.item;
         }
 
-        _mainStorage.SetMechPartsDict(tmpParts);
+        var recipes = dataManager.LoadRecipes();
 
-        AddResourcesFromInventory(storageDto);
-    }
-
-    private void AddResourcesFromInventory(StorageDto storageDto) {
-        foreach (var resDto in storageDto.Resources) {
-
+        foreach (var oneRecipe in recipes.Recipes)
+        {
+            _mainStorage.Recipies.Add(oneRecipe);
         }
+
+        var schemas = dataManager.LoadSchemas();
+
+        foreach (var oneSchema in schemas.Schemas)
+        {
+            _mainStorage.Schemas[oneSchema.Id] = oneSchema.Hints;
+        }
+
+        _mainStorage.SetMechPartsDict(tmpParts);
     }
 
     [ContextMenu("SaveStorage")]

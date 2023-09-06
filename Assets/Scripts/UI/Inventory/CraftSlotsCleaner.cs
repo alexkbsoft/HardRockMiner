@@ -13,6 +13,7 @@ public class CraftSlotsCleaner : MonoBehaviour
     {
         _eventBus = GameObject.FindObjectOfType<EventBus>();
         _eventBus.InventoryTabSelected?.AddListener(OnTabSelected);
+        _eventBus.SchemaReset?.AddListener(OnSchemaReset);
     }
 
     private void OnTabSelected(int tab) {
@@ -24,10 +25,17 @@ public class CraftSlotsCleaner : MonoBehaviour
     private void CleanAllSlots() {
         foreach(DragSlot slot in Slots) {
             slot.Clean(true);
+            slot.HideClue();
         }
 
         _eventBus.InventoryReordered?.Invoke();
         _eventBus.DroppedInCraft?.Invoke();
+    }
+
+    private void OnSchemaReset(InventoryItem item) {
+        foreach(DragSlot slot in Slots) {
+            slot.HideClue();
+        }
     }
 
     void OnDestroy()

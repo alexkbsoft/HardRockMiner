@@ -3,16 +3,15 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class CraftHelper {
-    public List<string> Recipie => _recipie;
+    public List<string> Recipie;
     public string[] InSlots => _inSlots;
-    public string ItemName => _itemName;
+    public string ItemName;
 
     private string[] _inSlots = new string[16];
-    private List<string> _recipie;
-    private string _itemName;
-    public CraftHelper(List<string> recipie, DragSlot[] craftSlots, string itemId) {
-        _recipie = recipie;
-        _itemName = itemId;
+    
+    public CraftHelper(DragSlot[] craftSlots, List<string> recipie, string itemId) {
+        Recipie = recipie;
+        ItemName = itemId;
 
         for(int i = 0; i < craftSlots.Length; i++) {
             var draggable = craftSlots[i].LinkedDraggable;
@@ -25,10 +24,10 @@ public class CraftHelper {
     public bool IsMatch() {
         var result = true;
 
-        for (int i = 0; i < _recipie.Count; i++)
+        for (int i = 0; i < Recipie.Count; i++)
         {
             var inSlot = _inSlots[i];
-            var inRecipie = _recipie[i];
+            var inRecipie = Recipie[i];
 
             if (string.IsNullOrEmpty(inSlot) && string.IsNullOrEmpty(inRecipie)) {
                 continue;

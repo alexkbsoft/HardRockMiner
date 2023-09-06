@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using DataLayer;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -22,6 +23,8 @@ public class EventBus : MonoBehaviour
     public UnityEvent<Draggable> DraggableTapped;
     public UnityEvent InventoryReordered;
     public UnityEvent DroppedInCraft;
+    public UnityEvent<List<int>, string> SchemaDropped;
+    public UnityEvent<InventoryItem> SchemaReset;
     public UnityEvent<string, string> DroppedInMech;
     public UnityEvent<int> InventoryTabSelected;
     public UnityEvent UpdateMechStructure;

@@ -45,6 +45,19 @@ public class DataManager
         return JsonUtility.FromJson<ItemsInfoDto>(jsonTextFile.text);
     }
 
+    public RecipesInfoDto LoadRecipes()
+    {
+        var jsonTextFile = Resources.Load<TextAsset>("Recipes");
+
+        return JsonUtility.FromJson<RecipesInfoDto>(jsonTextFile.text);
+    }
+    public SchemaInfoDto LoadSchemas()
+    {
+        var jsonTextFile = Resources.Load<TextAsset>("Schemas");
+
+        return JsonUtility.FromJson<SchemaInfoDto>(jsonTextFile.text);
+    }
+
     public GameDto LoadAsteroid(string asteroidName)
     {
         var path = Path.Combine(Application.persistentDataPath, $"{asteroidName}_asteroid.json");

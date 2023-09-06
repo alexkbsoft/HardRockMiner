@@ -11,9 +11,11 @@ public class DragSlot : MonoBehaviour
     public InventoryItem LinkedItemCached;
     public string MechPartName;
     public bool IsCraftSlot;
+    public bool IsSchemaSlot;
 
     [SerializeField] private GameObject validImg;
     [SerializeField] private GameObject invalidImg;
+    [SerializeField] private GameObject _clueImg;
     [SerializeField] private GameObject ItemPrefab;
 
     public void SetValidity(bool isValid)
@@ -34,7 +36,12 @@ public class DragSlot : MonoBehaviour
     {
         validImg.SetActive(false);
         invalidImg.SetActive(false);
+
         CurrentIntersectArea = 0;
+    }
+
+    public void HideClue() {
+        _clueImg.SetActive(false);
     }
 
     public void Clean(bool returnResources = false)
@@ -58,7 +65,7 @@ public class DragSlot : MonoBehaviour
 
     public void SetDraggable(Draggable draggable)
     {
-        if (IsCraftSlot && !draggable.Slot.IsCraftSlot)
+        if ((IsCraftSlot || IsSchemaSlot) && !draggable.Slot.IsCraftSlot)
         {
             DublicateItem(draggable);
         }
@@ -66,6 +73,21 @@ public class DragSlot : MonoBehaviour
         {
             ExchangeWith(draggable);
         }
+    }
+
+    public void SetClue(string itemId, bool hasClue) {
+        if (hasClue) {
+            if (!string.IsNullOrEmpty(itemId)) {
+                _clueImg.SetActive(true);
+                _clueImg.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>(itemId);
+            }
+        } else {
+            _clueImg.SetActive(true);
+        }
+    }
+
+    public void ClearClue() {
+        _clueImg.SetActive(false);
     }
 
     private void ExchangeWith(Draggable draggable)

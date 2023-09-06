@@ -26,6 +26,7 @@ namespace Storage
         public Dictionary<string, GameObject> ResPrefabs = new();
         public Dictionary<string, Sprite> ResSprites = new();
         [SerializedDictionary("Item ID", "Description")] public SerializedDictionary<string, ItemDescription> ItemDescriptions;
+        [SerializedDictionary("Item ID", "Hints")] public SerializedDictionary<string, List<int>> Schemas;
 
         public Dictionary<string, string> MechParts
         {
@@ -119,6 +120,14 @@ namespace Storage
 
             return found;
         }
+
+        public List<int> FindSchema(string id) {
+            return Schemas.ContainsKey(id) ? Schemas[id] : null;
+        }
+
+        public RecipieItem FindRecipe(string id) {
+            return Recipies.Find((RecipieItem item) => item.Id == id);
+        }
     }
 
 
@@ -126,9 +135,7 @@ namespace Storage
     [CustomEditor(typeof(MainStorage))]
     public class MainStorageEditor : Editor
     {
-
         MainStorage comp;
-        static bool showTileEditor = false;
 
         public void OnEnable()
         {
