@@ -1,0 +1,22 @@
+{
+    "Recipes": [
+        {
+            "Id": "ShortgunV1",
+            "Resources": [
+                null, "crystal", "crystal", null,
+                null, "rock", "rock", null,
+                "rock", "rock", "rock", "rock",
+                null, null, null, null
+            ]
+        },
+        {
+            "Id": "GadgetHandClaw_V1",
+            "Resources": [
+                "rock", null, null, "rock",
+                "rock", null, null, "rock",
+                null, "rock", "rock", null,
+                null, "rock", "rock", null
+            ]
+        }
+    ]
+}
