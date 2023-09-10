@@ -72,7 +72,7 @@ public class CavePatternSO : ScriptableObject
     public struct Decoration
     {
         public int Count;
-        public int BlockIndex;
+        public DecorationType Type;
     }
 
     [Serializable]

@@ -12,9 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66a79e0cdcb5d144791dc9c74ca40854, type: 3}
   m_Name: RockyBiome
   m_EditorClassIdentifier: 
-  FlatFloor: {fileID: 5726212486530280893, guid: a81d3dc91d38a17418fb738914c6aef3, type: 3}
+  FlatFloor:
+  - {fileID: 5726212486530280893, guid: 44077afad39ae0b42a997d6519bcc080, type: 3}
+  - {fileID: 5726212486530280893, guid: 511774b8298d08247bd41a04a027f833, type: 3}
+  - {fileID: 5726212486530280893, guid: 7017030dc5be46748ad163bc0300a02a, type: 3}
+  - {fileID: 5726212486530280893, guid: 635b0417c1f5d0a468763d2d91958c3b, type: 3}
   TrencedFloorFull: {fileID: 0}
   TrencedFloorHalf: {fileID: 0}
   Walls:
   - {fileID: 1808546817557025019, guid: 3f7216ba276358c4592f5aff301cca6b, type: 3}
+  Decorations:
+    _serializedList:
+    - Key: 0
+      Value: 0d0000000e000000
   Column: {fileID: 8456030119585536700, guid: b66035555eac70843a21a3581f9df4f4, type: 3}

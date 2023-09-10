@@ -14,3 +14,8 @@ public class RecourcesSO : ScriptableObject
         return BlockDictionary.GetValueOrDefault(index);
     }
 }
+
+public enum DecorationType
+{
+    Crystal
+}

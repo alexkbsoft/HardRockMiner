@@ -13,7 +13,7 @@ public class CaveFillerModel
 	private int _segmentsY;
 	private int _segmentBlockCount;
 
-	public CaveFillerModel(CavePatternSO cavePattern, int segmentBlockCount = 10)
+	public CaveFillerModel(CavePatternSO cavePattern, int segmentBlockCount)
 	{
 		_sizeX = cavePattern.SizeX * segmentBlockCount;
 		_sizeY = cavePattern.SizeY * segmentBlockCount;
@@ -22,7 +22,7 @@ public class CaveFillerModel
 		_segmentBlockCount = segmentBlockCount;
 	}
 
-	public int[,] Init(int[,] caveInfo)
+	public int[,] Init(int[,] caveInfo, BiomeSO biome)
 	{
 		Random r = new Random();
 		r.Next(0, _sizeX);
@@ -62,9 +62,15 @@ public class CaveFillerModel
 		{
 			foreach (CavePatternSO.Decoration decoration in _patternSO.Decorations)
 			{
+				int[] decorationBlocks = biome.Decorations.GetValueOrDefault(decoration.Type);				
+				if (decorationBlocks == null|| decorationBlocks .Length == 0)
+                {
+					continue;
+                };
 				for (int i = 0; i < decoration.Count; i++)
 				{
 					Point currentPoint = new Point();
+					int decorationBlockIndex = decorationBlocks[r.Next(0, decorationBlocks.Length)];
 					currentPoint.x = r.Next(0, _sizeX);
 					currentPoint.y = r.Next(0, _sizeY);
 					int attemps = 0;
@@ -75,7 +81,7 @@ public class CaveFillerModel
 						attemps++;
 					}
 					if (attemps >= 100) continue;
-					_caveContent[currentPoint.x, currentPoint.y] = decoration.BlockIndex;
+					_caveContent[currentPoint.x, currentPoint.y] = decorationBlockIndex;
 				}
 			}
 		}
