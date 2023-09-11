@@ -65,7 +65,7 @@ public class DragSlot : MonoBehaviour
 
     public void SetDraggable(Draggable draggable)
     {
-        if ((IsCraftSlot || IsSchemaSlot) && !draggable.Slot.IsCraftSlot)
+        if ((IsCraftSlot || IsSchemaSlot) && !(draggable.Slot.IsCraftSlot || draggable.Slot.IsSchemaSlot))
         {
             DublicateItem(draggable);
         }

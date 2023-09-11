@@ -29,10 +29,10 @@ public class CraftSlotsCleaner : MonoBehaviour
         }
 
         _eventBus.InventoryReordered?.Invoke();
-        _eventBus.DroppedInCraft?.Invoke();
+        _eventBus.DroppedInCraft?.Invoke(null);
     }
 
-    private void OnSchemaReset(InventoryItem item) {
+    private void OnSchemaReset() {
         foreach(DragSlot slot in Slots) {
             slot.HideClue();
         }
@@ -40,6 +40,7 @@ public class CraftSlotsCleaner : MonoBehaviour
 
     void OnDestroy()
     {
-        _eventBus.InventoryTabSelected?.AddListener(OnTabSelected);
+        _eventBus.InventoryTabSelected?.RemoveListener(OnTabSelected);
+        _eventBus.SchemaReset?.RemoveListener(OnSchemaReset);
     }
 }

@@ -16,7 +16,7 @@ MonoBehaviour:
   - name: crystal
     count: 91
   - name: rock
-    count: 172
+    count: 132
   - name: gold
     count: 17
   InventoryItems:
@@ -24,16 +24,16 @@ MonoBehaviour:
     count: 91
   - name: FootLight
     count: 0
-  - name: gold
-    count: 17
-  - name: ShortgunV1_schema25
+  - name: ShortgunV1_schema100
+    count: -1
+  - name: 
     count: 0
   - name: 
     count: 0
   - name: rock
-    count: 172
-  - name: 
-    count: 0
+    count: 132
+  - name: gold
+    count: 17
   - name: 
     count: 0
   - name: 
@@ -135,4 +135,10 @@ MonoBehaviour:
   Schemas:
     _serializedList:
     - Key: ShortgunV1_schema25
-      Value: 0100000002000000030000000800000009000000
+      Value: 00000000020000000600000008000000
+    - Key: ShortgunV1_schema50
+      Value: 000000000200000006000000080000000b0000000c0000000e00000007000000
+    - Key: ShortgunV1_schema75
+      Value: 000000000200000006000000080000000b0000000c0000000e000000070000000100000004000000090000000d000000
+    - Key: ShortgunV1_schema100
+      Value: 000000000100000002000000030000000400000005000000060000000700000008000000090000000a0000000b0000000c0000000d0000000e0000000f000000
