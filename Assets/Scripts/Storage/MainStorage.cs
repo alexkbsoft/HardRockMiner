@@ -93,14 +93,17 @@ namespace Storage
                 if (inInventory != null)
                 {
                     inInventory.count--;
+                        Debug.Log("IN INVENTORY: " + inInventory.name + " " + inInventory.count);
+
                     if (inInventory.count <= 0)
                     {
+                        Debug.Log("REMOVE: " + inInventory.name);
                         inInventory.name = null;
                     }
                 }
             }
 
-            resources.RemoveAll((MinerState.StoredResource item) => item.count == 0);
+            resources.RemoveAll((MinerState.StoredResource item) => item.count <= 0);
         }
         public ResourceDto FindFreeInventorySlot()
         {

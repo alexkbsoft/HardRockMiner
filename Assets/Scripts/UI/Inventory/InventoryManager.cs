@@ -42,7 +42,9 @@ public class InventoryManager : MonoBehaviour
         _eventBus.InventoryReordered?.AddListener(OnInventoryReordered);
         _eventBus.DataReady?.AddListener(RebuildInventory);
         _eventBus.InventoryTabSelected?.AddListener(TabSelected);
-        _eventBus.DroppedInCraft?.AddListener(CraftReordered);
+        _eventBus.DroppedInCraft?.AddListener(OnCraftDrop);
+        _eventBus.CraftItemRemoved?.AddListener(CraftReordered);
+        _eventBus.SchemaReset?.AddListener(OnShemaItemRemoved);
         _eventBus.SchemaDropped?.AddListener(OnSchemaDrop);
     }
 
@@ -58,7 +60,7 @@ public class InventoryManager : MonoBehaviour
         MainStorage.SubtractResources(_currentCraft.Recipie);
         AddItem(_currentCraft.ItemName,
             MainStorage.StackableItems.Contains(_currentCraft.ItemName),
-            1, "add");
+            0, "add");
 
         var dataManager = new DataManager();
         dataManager.SaveMainStorage(MainStorage);
@@ -72,6 +74,7 @@ public class InventoryManager : MonoBehaviour
 
     private void CleanAllSlots()
     {
+        _craftResult.Clean();
         foreach (var oneSlot in _slots) oneSlot.Clean();
         foreach (var oneSlot in _craftSlots) oneSlot.Clean();
         foreach (var oneSlot in _mechSlots) oneSlot.Clean();
@@ -103,6 +106,14 @@ public class InventoryManager : MonoBehaviour
             }
         }
 
+        if (_currentCraft == null) {
+            var newSchemaName = craftHelper.TryMergeSchemas();
+
+            _currentCraft = string.IsNullOrEmpty(newSchemaName) ? null : craftHelper;
+        }
+
+        
+
         if (_currentCraft != null)
         {
             var (inventoryItem, draggable) = FillSlot(_craftResult,
@@ -117,6 +128,16 @@ public class InventoryManager : MonoBehaviour
         _craftBtn.SetActive(_currentCraft != null);
 
         FillSchemaSlots();
+    }
+
+    public void OnCraftDrop(InventoryItem _) {
+        CraftReordered();
+    }
+
+    public void OnShemaItemRemoved() {
+        CleanSchema();
+
+        CraftReordered();
     }
 
     private void OnSchemaDrop(List<int> schema, string id)
@@ -321,7 +342,10 @@ public class InventoryManager : MonoBehaviour
         _eventBus.InventoryReordered?.RemoveListener(OnInventoryReordered);
         _eventBus.DataReady?.RemoveListener(RebuildInventory);
         _eventBus.InventoryTabSelected?.RemoveListener(TabSelected);
-        _eventBus.DroppedInCraft?.RemoveListener(CraftReordered);
+        _eventBus.DroppedInCraft?.RemoveListener(OnCraftDrop);
+        _eventBus.CraftItemRemoved?.RemoveListener(CraftReordered);
+        _eventBus.SchemaReset?.RemoveListener(OnShemaItemRemoved);
+        _eventBus.SchemaDropped?.RemoveListener(OnSchemaDrop);
     }
 
     private void TabSelected(int index)

@@ -31,6 +31,10 @@ public class InventoryItem : MonoBehaviour
         UpdateText();
     }
 
+    public void RemoveSelf() {
+        _draggable.Slot.Clean();
+    }
+
     public void UpdateText()
     {
         if (IsStackable && !IsCraftClone)

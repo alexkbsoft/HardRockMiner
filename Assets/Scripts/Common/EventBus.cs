@@ -22,9 +22,10 @@ public class EventBus : MonoBehaviour
     public UnityEvent WaveUnitsDead;
     public UnityEvent<Draggable> DraggableTapped;
     public UnityEvent InventoryReordered;
-    public UnityEvent DroppedInCraft;
+    public UnityEvent<InventoryItem> DroppedInCraft;
     public UnityEvent<List<int>, string> SchemaDropped;
-    public UnityEvent<InventoryItem> SchemaReset;
+    public UnityEvent SchemaReset;
+    public UnityEvent CraftItemRemoved;
     public UnityEvent<string, string> DroppedInMech;
     public UnityEvent<int> InventoryTabSelected;
     public UnityEvent UpdateMechStructure;
