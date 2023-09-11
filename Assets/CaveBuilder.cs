@@ -25,7 +25,7 @@ public class CaveBuilder : MonoBehaviour
     private int[,] _caveBlockMap;
     private int _blockCountX;
     private int _blockCountY;
-    private const int segmentBlockCount = 10;
+    private const int segmentBlockCount = 5;
     private BiomeSO _currentBiome;
 
     private EventBus _eventBus;
@@ -105,16 +105,16 @@ public class CaveBuilder : MonoBehaviour
                 newSegmnet.name = "Segment-" + y.ToString() + "-" + x.ToString();
                 newSegmnet.transform.SetAsLastSibling();
 
-                // ���������� ���� ������
+
                 if (_currentPattern.Map[x,y] == 1)
                 {
-                    var newFloorSegment = Instantiate<GameObject>(_currentBiome.FlatFloor, newSegmnet.transform);
+                    int floorVariant = Random.Range(0, _currentBiome.FlatFloor.Length);
+                    var newFloorSegment = Instantiate<GameObject>(_currentBiome.FlatFloor[floorVariant], newSegmnet.transform);
                     newFloorSegment.transform.position = new Vector3(x * _segmentSize, 0, y * _segmentSize);
                 }
 
                 FillSegmentSpace(x * segmentBlockCount, y * segmentBlockCount, null);
 
-                // ���������� ���� �����
 
                 if (x==0||_currentPattern.Map[x-1, y] == 0)
                 {
@@ -152,9 +152,11 @@ public class CaveBuilder : MonoBehaviour
                 {
                     if (Random.Range(0,100)<=_currentPattern.ColumnChance) {
                         var newColumn = Instantiate<GameObject>(_currentBiome.Column, newSegmnet.transform);
-                        int columnX = Random.Range(2, 8);
-                        int columnY = Random.Range(2, 8);
-                        newColumn.transform.position = new Vector3((x - 0.5f) * _segmentSize + columnX*_blockSize+ _blockSize/2, 0, (y-0.5f) * _segmentSize + columnY * _blockSize + _blockSize / 2);
+                        int columnX = Random.Range(1, segmentBlockCount-1);
+                        int columnY = Random.Range(1, segmentBlockCount-1);
+                        newColumn.transform.position = new Vector3( _blockSpawnOffset.x+ x * _segmentSize + columnX * _blockSize ,
+                                                                    0,
+                                                                    _blockSpawnOffset.y+ y * _segmentSize + columnY * _blockSize);
                         int columnRotation = Random.Range(0, 4);
                         newColumn.transform.rotation = Quaternion.Euler(0, 90*columnRotation, 0);
                         _caveBlockMap[x * segmentBlockCount + columnX, y * segmentBlockCount + columnY] = 0;
@@ -163,8 +165,8 @@ public class CaveBuilder : MonoBehaviour
             }
         }
 
-        CaveFillerModel caveFiller = new CaveFillerModel(_currentPattern, 10);
-        _caveBlockMap = caveFiller.Init(_caveBlockMap);
+        CaveFillerModel caveFiller = new CaveFillerModel(_currentPattern, segmentBlockCount);
+        _caveBlockMap = caveFiller.Init(_caveBlockMap,_currentBiome);
         SpawnBlocks();
     }
 
@@ -205,9 +207,10 @@ public class CaveBuilder : MonoBehaviour
                 if (_caveBlockMap[x, y] > 0)
                 {
                     var currentBlock = _recourcesList.GetBlock(_caveBlockMap[x, y]);
-                    Debug.Log("Block: " + _caveBlockMap[x, y]);
+                    if (currentBlock == null) continue;
+
                     var currentParent = blockContainer.transform;
-                    if (currentBlock!=null&&currentBlock.TryGetComponent<EnemySpawner>(out _)) 
+                    if (currentBlock.TryGetComponent<EnemySpawner>(out _)) 
                     {
                         currentParent = spawnParent.transform;
                     }
@@ -219,6 +222,15 @@ public class CaveBuilder : MonoBehaviour
                     {
                         randomRotationX = 0;
                         randomRotationZ = 0;
+                    }
+                    if (currentBlock.TryGetComponent<CaveBlockInfo>(out var blockInfo))
+                    {
+                        if (blockInfo.Fixed)
+                        {
+                            randomRotationX = 0;
+                            randomRotationY = 0;
+                            randomRotationZ = 0;
+                        }
                     }
                     newBlock.transform.rotation = Quaternion.Euler(90f * randomRotationX, 90f*randomRotationY, 90f * randomRotationZ);
                     newBlock.transform.position = new Vector3(_blockSpawnOffset.x + x * _blockSize, _blockSpawnOffset.z, _blockSpawnOffset.y + y * _blockSize);
