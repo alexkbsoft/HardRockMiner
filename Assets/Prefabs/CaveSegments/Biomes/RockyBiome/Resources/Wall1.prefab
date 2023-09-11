@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7445cf9311e1f984db204c0ba3f210af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Name: Wall1
+  Name: Wall11
 --- !u!65 &3109469849794004777
 BoxCollider:
   m_ObjectHideFlags: 0

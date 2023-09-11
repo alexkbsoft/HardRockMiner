@@ -198,7 +198,7 @@ public class GameManager : MonoBehaviour
 
         var wallPrefabs = new Dictionary<string, GameObject>()
         {
-            ["Wall1"] = Resources.Load("Wall1") as GameObject,
+            ["Wall1_5"] = Resources.Load("Wall1_5") as GameObject,
             ["Wall2"] = Resources.Load("Wall2") as GameObject,
             ["Wall3"] = Resources.Load("Wall3") as GameObject,
         };
@@ -206,12 +206,18 @@ public class GameManager : MonoBehaviour
         var floorPrefabs = new Dictionary<string, GameObject>()
         {
             ["Floor"] = Resources.Load("Floor") as GameObject,
+            ["Floor 1"] = Resources.Load("Floor 1") as GameObject,
+            ["Floor 2"] = Resources.Load("Floor 2") as GameObject,
+            ["Floor 3"] = Resources.Load("Floor 3") as GameObject,
+            ["Floor 4"] = Resources.Load("Floor 4") as GameObject,
         };
 
         var decorPrefabs = new Dictionary<string, GameObject>()
         {
             ["Crystal1"] = Resources.Load("Crystal1") as GameObject,
             ["Crystal2"] = Resources.Load("Crystal2") as GameObject,
+            ["RedCrystal"] = Resources.Load("RedCrystal") as GameObject,
+            ["RedCrystal2"] = Resources.Load("RedCrystal2") as GameObject,
         };
 
         var spawnPrefabs = new Dictionary<string, GameObject>()
@@ -222,6 +228,7 @@ public class GameManager : MonoBehaviour
         var pillarPrefabs = new Dictionary<string, GameObject>()
         {
             ["Stolp"] = Resources.Load("Stolp") as GameObject,
+            ["StolpSmall"] = Resources.Load("StolpSmall") as GameObject,
         };
 
         foreach (BlockDto blockDto in levelData.Blocks)
@@ -258,6 +265,8 @@ public class GameManager : MonoBehaviour
 
         foreach (SegmentDto decorDto in levelData.Decorations)
         {
+            Debug.Log("Deserialize: " + decorDto.Type);
+
             var newDecor = Instantiate(decorPrefabs[decorDto.Type],
                 new Vector3(decorDto.X, decorDto.Y, decorDto.Z),
                 Quaternion.Euler(0, decorDto.YRotation, 0));

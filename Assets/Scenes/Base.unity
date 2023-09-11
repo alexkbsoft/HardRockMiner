@@ -11422,6 +11422,9 @@ MonoBehaviour:
   SchemaReset:
     m_PersistentCalls:
       m_Calls: []
+  CraftItemRemoved:
+    m_PersistentCalls:
+      m_Calls: []
   DroppedInMech:
     m_PersistentCalls:
       m_Calls: []

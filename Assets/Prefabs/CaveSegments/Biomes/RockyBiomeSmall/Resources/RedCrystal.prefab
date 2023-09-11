@@ -11,8 +11,7 @@ GameObject:
   - component: {fileID: 6395435267277513496}
   - component: {fileID: 1708061188306943115}
   - component: {fileID: 1011510898559853879}
-  - component: {fileID: 2746508877181297129}
-  m_Layer: 0
+  m_Layer: 26
   m_Name: RedCrystal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -85,18 +84,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &2746508877181297129
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2181547043465480396}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a80613bd45a0d484eb1df419bd99a496, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &7496375898657847238
 GameObject:
   m_ObjectHideFlags: 0
@@ -107,7 +94,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7496375898657745894}
   - component: {fileID: -5414176599174109252}
-  m_Layer: 0
+  m_Layer: 26
   m_Name: RedCrystal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -142,6 +129,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a80613bd45a0d484eb1df419bd99a496, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  UniqName: RedCrystal
 --- !u!1 &7983774158975349183
 GameObject:
   m_ObjectHideFlags: 0
@@ -152,7 +140,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8216525361827370888}
   - component: {fileID: 1870536747812816650}
-  m_Layer: 0
+  m_Layer: 26
   m_Name: Point Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
