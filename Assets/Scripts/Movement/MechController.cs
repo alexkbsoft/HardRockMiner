@@ -29,6 +29,7 @@ public class MechController : MonoBehaviour
     private Vector2 _localPos;
 
     private static MechController _Instance;
+    private Vector3 _startPosition;
 
     void Awake()
     {
@@ -38,31 +39,28 @@ public class MechController : MonoBehaviour
 
         _fixedY = transform.position.y;
 
-        _newDir = transform.position + transform.forward;
         _curAimRotation = Quaternion.identity;
 
         _damagable.OnDamaged.AddListener(OnDamaged);
         _damagable.OnDestroyed.AddListener(OnDead);
 
         _Instance = this;
+        transform.position = _startPosition;
+
+        Debug.Log($"AWAKE: {transform.position}");
     }
 
-    void Start()
+    public void SetInitialPlace(float x, float z)
     {
         var pos = Constants.LevelOrigin;
         pos.y = transform.position.y;
+        pos.x = x;
+        pos.z = z;
 
+        _startPosition = pos;
         transform.position = pos;
-    }
-
-    public void SetInitialPlace()
-    {
-        var pos = Constants.LevelOrigin;
-        pos.y = transform.position.y;
-
-        transform.position = pos;
-
-        Debug.Log("SetInitialPlace -" + transform.position.ToString());
+        FollowCamera.Instance.SetPosition(pos);
+        Debug.Log($"INITIAL POS: {transform.position}");
     }
 
 
@@ -75,10 +73,6 @@ public class MechController : MonoBehaviour
 
     void FixedUpdate()
     {
-        Debug.Log("FixedUpdate - " + transform.position.ToString());
-
-        FixYPos();
-
         if (!IsActive)
         {
             _animator.SetBool("move", false);
@@ -127,19 +121,6 @@ public class MechController : MonoBehaviour
         return DirectionTransform.MoveToSpecifiedDir(vector2Move, cam);
     }
 
-    private void FixYPos()
-    {   
-        var curPos = transform.position;
-        curPos.y = _fixedY;
-
-        if (_isDead)
-        {
-            curPos += Vector3.down * 1.5f;
-        }
-
-        transform.position = curPos;
-    }
-
     void OnAnimatorMove()
     {
         if (!IsActive)
@@ -148,7 +129,6 @@ public class MechController : MonoBehaviour
         }
 
         _chController.Move(_animator.deltaPosition + Vector3.down * Time.fixedDeltaTime);
-        FixYPos();
     }
 
     private Vector2 LeftJoystickInput()

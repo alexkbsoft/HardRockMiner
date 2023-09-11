@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using DataLayer;
+using Lean.Pool;
 using Storage;
 using UnityEngine;
 using UnityEngine.AI;
@@ -9,16 +11,18 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance => _instance;
+    public MechController _playerMech;
 
     [SerializeField] MinerState _minerState;
     [SerializeField] MainStorage _mainStorage;
-    [SerializeField] private bool _loadOnStart = true;
+    [SerializeField] private bool _debugMap = false;
 
     private EventBus _eventBus;
     private bool _haveActiveSpawner = false;
 
     private static GameManager _instance;
     private CaveBuilder _caveBuilder;
+    private Dictionary<string, GameObject> ResPrefabs = new();
 
     void Start()
     {
@@ -35,12 +39,14 @@ public class GameManager : MonoBehaviour
 
         LoadStorage();
 
-        bool isExists = false;
-
-        if (_loadOnStart)
+        if (_debugMap)
         {
-            isExists = LoadLevel();
+            _eventBus.DataReady?.Invoke();
+
+            return;
         }
+
+        bool isExists = LoadLevel();
 
         if (isExists)
         {
@@ -51,21 +57,38 @@ public class GameManager : MonoBehaviour
             GenerateLevel();
         }
 
+        PrepareResourcesPool();
+
         _eventBus.DataReady?.Invoke();
     }
 
-    public void ScanMap()
+    public void Clean()
+    {
+        GameObject caveGO = GameObject.Find("Cave");
+
+        foreach (Transform t in caveGO.transform)
+        {
+            Destroy(t.gameObject);
+        }
+    }
+
+    private void ScanMap()
     {
         GameObject caveGO = GameObject.Find("Cave");
 
         var finishPrefab = Resources.Load<GameObject>("FinishPoint");
-        var finishPoint = Instantiate(
+
+
+        var (xStart, yStart) = _caveBuilder.GetPlayerPosition();
+        
+        _playerMech.SetInitialPlace(xStart, yStart);
+        _playerMech.gameObject.SetActive(true);
+
+        Instantiate(
             finishPrefab,
-            Constants.LevelOrigin + Vector3.up * 2.73f - Vector3.forward * 10.0f,
+            new Vector3(xStart, 0, yStart) + Vector3.up * 2.73f - Vector3.forward * 5.0f,
             Quaternion.identity,
             caveGO.transform);
-
-        MechController.Instance.SetInitialPlace();
 
         StartCoroutine(RescanNavigation());
     }
@@ -114,6 +137,32 @@ public class GameManager : MonoBehaviour
         _haveActiveSpawner = true;
     }
 
+    private void PrepareResourcesPool() {
+        GameObject poolsGO = GameObject.Find("Pools");
+        var allResources = Resources.LoadAll<GameObject>("Dropables");
+        var allIcons = Resources.LoadAll<Sprite>("Dropables");
+
+        foreach (var onePrefab in allResources)
+        {
+            // var newPool = new GameObject(onePrefab.name);
+            // newPool.transform.parent = poolsGO.transform;
+            _mainStorage.ResPrefabs[onePrefab.name] = onePrefab;
+
+            // var newLean = newPool.AddComponent<LeanGameObjectPool>();
+            // newLean.Prefab = onePrefab;
+            // newLean.Preload = 10;
+            // newLean.Capacity = 30;
+        }
+
+        foreach(var oneSprite in allIcons) {
+            var rgx = new Regex("-icon");
+            var name = rgx.Replace(oneSprite.name, "");
+            Debug.Log("ICON N: " + name);
+
+            _mainStorage.ResSprites[name] = oneSprite;
+        }
+
+    }
 
 
     void OnDestroy()
@@ -121,9 +170,6 @@ public class GameManager : MonoBehaviour
         _eventBus.AlarmChanged?.RemoveListener(OnAlarmChanged);
         _eventBus.ActivateSpawner?.RemoveListener(SpawnerActivated);
         _eventBus.MapGenerationDone?.RemoveListener(ScanMap);
-
-
-
     }
 
     private bool LoadLevel()
@@ -131,20 +177,51 @@ public class GameManager : MonoBehaviour
         var dataManager = new DataManager();
         if (!dataManager.IsAsteroidExists(_minerState.AsteroidName))
         {
-            _mainStorage.SetDefaults();
-
             return false;
         }
 
         var levelData = dataManager.LoadAsteroid(_minerState.AsteroidName);
 
-        var walls = GameObject.Find("Cave");
+        var cave = GameObject.Find("Cave");
+
+        for (int i = cave.transform.childCount - 1; i >= 0; i--)
+        {
+            DestroyImmediate(cave.transform.GetChild(i).gameObject);
+        }
 
         var blockPrefabs = new Dictionary<string, GameObject>()
         {
             ["DirtBlock"] = Resources.Load("DirtBlock") as GameObject,
             ["BrickBlock"] = Resources.Load("BrickBlock") as GameObject,
             ["RockBlock"] = Resources.Load("RockBlock") as GameObject,
+        };
+
+        var wallPrefabs = new Dictionary<string, GameObject>()
+        {
+            ["Wall1"] = Resources.Load("Wall1") as GameObject,
+            ["Wall2"] = Resources.Load("Wall2") as GameObject,
+            ["Wall3"] = Resources.Load("Wall3") as GameObject,
+        };
+
+        var floorPrefabs = new Dictionary<string, GameObject>()
+        {
+            ["Floor"] = Resources.Load("Floor") as GameObject,
+        };
+
+        var decorPrefabs = new Dictionary<string, GameObject>()
+        {
+            ["Crystal1"] = Resources.Load("Crystal1") as GameObject,
+            ["Crystal2"] = Resources.Load("Crystal2") as GameObject,
+        };
+
+        var spawnPrefabs = new Dictionary<string, GameObject>()
+        {
+            ["EnemySpawner"] = Resources.Load("EnemySpawner") as GameObject,
+        };
+
+        var pillarPrefabs = new Dictionary<string, GameObject>()
+        {
+            ["Stolp"] = Resources.Load("Stolp") as GameObject,
         };
 
         foreach (BlockDto blockDto in levelData.Blocks)
@@ -156,19 +233,54 @@ public class GameManager : MonoBehaviour
 
             var damagable = newBlock.GetComponent<Damagable>();
             damagable.CurrentLife = blockDto.Life;
-            newBlock.transform.parent = walls.transform;
+            newBlock.transform.parent = cave.transform;
 
             resourceBlock.ChooseAppearance(blockDto.Life);
         }
 
-        foreach (SegmentDto segmentDto in levelData.Segments)
+        foreach (SegmentDto wallDto in levelData.Walls)
         {
-            var segmentPref = Resources.Load(segmentDto.Type);
-            Debug.Log(segmentDto.Type);
-            var segment = Instantiate(segmentPref,
-                new Vector3(segmentDto.X, segmentDto.Y, segmentDto.Z),
-                Quaternion.Euler(0, segmentDto.YRotation, 0),
-                walls.transform);
+            var newWall = Instantiate(wallPrefabs[wallDto.Type],
+                new Vector3(wallDto.X, wallDto.Y, wallDto.Z),
+                Quaternion.Euler(0, wallDto.YRotation, 0));
+
+            newWall.transform.parent = cave.transform;
+        };
+
+        foreach (SegmentDto floorDto in levelData.Floors)
+        {
+            var newFloor = Instantiate(floorPrefabs[floorDto.Type],
+                new Vector3(floorDto.X, floorDto.Y, floorDto.Z),
+                Quaternion.Euler(0, floorDto.YRotation, 0));
+
+            newFloor.transform.parent = cave.transform;
+        };
+
+        foreach (SegmentDto decorDto in levelData.Decorations)
+        {
+            var newDecor = Instantiate(decorPrefabs[decorDto.Type],
+                new Vector3(decorDto.X, decorDto.Y, decorDto.Z),
+                Quaternion.Euler(0, decorDto.YRotation, 0));
+
+            newDecor.transform.parent = cave.transform;
+        };
+
+        foreach (SegmentDto spawnerDto in levelData.Spawners)
+        {
+            var newSpawner = Instantiate(spawnPrefabs[spawnerDto.Type],
+                new Vector3(spawnerDto.X, spawnerDto.Y, spawnerDto.Z),
+                Quaternion.Euler(0, spawnerDto.YRotation, 0));
+
+            newSpawner.transform.parent = cave.transform;
+        };
+
+        foreach (SegmentDto pillarDto in levelData.Pillars)
+        {
+            var newPillar = Instantiate(pillarPrefabs[pillarDto.Type],
+                new Vector3(pillarDto.X, pillarDto.Y, pillarDto.Z),
+                Quaternion.Euler(0, pillarDto.YRotation, 0));
+
+            newPillar.transform.parent = cave.transform;
         };
 
         return true;
@@ -180,6 +292,8 @@ public class GameManager : MonoBehaviour
 
         if (!dataManager.IsMainStorageExists())
         {
+            _mainStorage.SetDefaults();
+
             return;
         }
 
@@ -217,6 +331,8 @@ public class GameManager : MonoBehaviour
         yield return new WaitForEndOfFrame();
 
         _eventBus.ScanNavigationGrid?.Invoke();
+
+        yield return new WaitForEndOfFrame();
 
         _eventBus.MapReady?.Invoke();
     }

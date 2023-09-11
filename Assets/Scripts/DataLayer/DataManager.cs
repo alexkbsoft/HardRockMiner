@@ -11,10 +11,10 @@ public class DataManager
     public void SaveCurrentAsteroid(string asteroidName)
     {
         var path = Path.Combine(Application.persistentDataPath, $"{asteroidName}_asteroid.json");
-        
+
         var gameDto = CreateDTO();
         var jsonString = JsonUtility.ToJson(gameDto, true);
-        
+
         File.WriteAllText(path, jsonString);
     }
 
@@ -24,7 +24,7 @@ public class DataManager
 
         var storageDto = CreateStorageDto(storage);
         var jsonString = JsonUtility.ToJson(storageDto, true);
-        
+
         File.WriteAllText(path, jsonString);
     }
 
@@ -36,6 +36,26 @@ public class DataManager
 
         var jsonString = File.ReadAllText(path);
         return JsonUtility.FromJson<StorageDto>(jsonString);
+    }
+
+    public ItemsInfoDto LoadItemDescriptions()
+    {
+        var jsonTextFile = Resources.Load<TextAsset>("ItemDescriptions");
+
+        return JsonUtility.FromJson<ItemsInfoDto>(jsonTextFile.text);
+    }
+
+    public RecipesInfoDto LoadRecipes()
+    {
+        var jsonTextFile = Resources.Load<TextAsset>("Recipes");
+
+        return JsonUtility.FromJson<RecipesInfoDto>(jsonTextFile.text);
+    }
+    public SchemaInfoDto LoadSchemas()
+    {
+        var jsonTextFile = Resources.Load<TextAsset>("Schemas");
+
+        return JsonUtility.FromJson<SchemaInfoDto>(jsonTextFile.text);
     }
 
     public GameDto LoadAsteroid(string asteroidName)
@@ -78,16 +98,24 @@ public class DataManager
     private GameDto CreateDTO()
     {
         var blocks = GameObject.FindObjectsOfType<ResourceBlock>();
-        var segments = GameObject.FindObjectsOfType<CaveSegmentInfo>();
+        var walls = GameObject.FindObjectsOfType<WallTag>();
+        var floors = GameObject.FindObjectsOfType<FloorTag>();
+        var decors = GameObject.FindObjectsOfType<CaveDecoration>();
+        var spawners = GameObject.FindObjectsOfType<EnemySpawner>();
+        var pillars = GameObject.FindObjectsOfType<PillarTag>();
 
         List<BlockDto> blockDtos = new List<BlockDto>();
-        List<SegmentDto> segDtos = new List<SegmentDto>();
+        List<SegmentDto> wallDtos = new List<SegmentDto>();
+        List<SegmentDto> floorsDtos = new List<SegmentDto>();
+        List<SegmentDto> decorationDtos = new List<SegmentDto>();
+        List<SegmentDto> spawnersDtos = new List<SegmentDto>();
+        List<SegmentDto> pillarDtos = new List<SegmentDto>();
 
         foreach (var block in blocks)
         {
             Damagable dmg = block.gameObject.GetComponent<Damagable>();
             var position = block.transform.position;
-            
+
             BlockDto dto = new()
             {
                 Life = dmg.CurrentLife,
@@ -96,29 +124,98 @@ public class DataManager
                 Y = position.y,
                 Z = position.z
             };
-            
+
             blockDtos.Add(dto);
         }
 
-        foreach (var segment in segments)
+        foreach (var wall in walls)
         {
-            var pos = segment.transform.position;
+            var pos = wall.transform.position;
 
-            SegmentDto seg = new() {
-                Type = segment.UniqName,
-                YRotation = segment.transform.rotation.eulerAngles.y,
+            SegmentDto seg = new()
+            {
+                Type = wall.Name,
+                YRotation = wall.transform.rotation.eulerAngles.y,
                 X = pos.x,
                 Y = pos.y,
                 Z = pos.z
             };
-            
-            segDtos.Add(seg);
+
+            wallDtos.Add(seg);
+        }
+
+        foreach (var fl in floors)
+        {
+            var pos = fl.transform.position;
+
+            SegmentDto seg = new()
+            {
+                Type = fl.Name,
+                YRotation = fl.transform.rotation.eulerAngles.y,
+                X = pos.x,
+                Y = pos.y,
+                Z = pos.z
+            };
+
+            floorsDtos.Add(seg);
+        }
+
+        foreach (var oneDecor in decors)
+        {
+            var pos = oneDecor.transform.position;
+
+            SegmentDto seg = new()
+            {
+                Type = oneDecor.UniqName,
+                YRotation = oneDecor.transform.rotation.eulerAngles.y,
+                X = pos.x,
+                Y = pos.y,
+                Z = pos.z
+            };
+
+            decorationDtos.Add(seg);
+        }
+
+        foreach (var oneSpawner in spawners)
+        {
+            var pos = oneSpawner.transform.position;
+
+            SegmentDto seg = new()
+            {
+                Type = oneSpawner.UniqName,
+                YRotation = oneSpawner.transform.rotation.eulerAngles.y,
+                X = pos.x,
+                Y = pos.y,
+                Z = pos.z
+            };
+
+            spawnersDtos.Add(seg);
+        }
+
+        foreach (var onePillar in pillars)
+        {
+            var pos = onePillar.transform.position;
+
+            SegmentDto seg = new()
+            {
+                Type = onePillar.UniqName,
+                YRotation = onePillar.transform.rotation.eulerAngles.y,
+                X = pos.x,
+                Y = pos.y,
+                Z = pos.z
+            };
+
+            pillarDtos.Add(seg);
         }
 
         return new GameDto()
         {
             Blocks = blockDtos,
-            Segments = segDtos
+            Walls = wallDtos,
+            Floors = floorsDtos,
+            Decorations = decorationDtos,
+            Spawners = spawnersDtos,
+            Pillars = pillarDtos
         };
     }
 
@@ -126,13 +223,14 @@ public class DataManager
     {
         List<ResourceDto> resources = new List<ResourceDto>();
         List<MechPartDto> mechParts = new();
+        List<ResourceDto> inventoryRes = new();
 
         foreach (MinerState.StoredResource res in storage.resources)
         {
             resources.Add(new ResourceDto()
             {
                 name = res.name,
-                count = res.count
+                count = res.count < 0 ? res.count : res.count
             });
         }
 
@@ -145,10 +243,19 @@ public class DataManager
             });
         }
 
+        foreach (var oneInvRes in storage.InventoryItems)
+        {
+            inventoryRes.Add(new ResourceDto()
+            {
+                name = oneInvRes.name,
+                count = oneInvRes.count < 0 ? 0 : oneInvRes.count
+            });
+        }
+
         return new StorageDto()
         {
             Resources = resources,
-            Inventory = storage.InventoryItems,
+            Inventory = inventoryRes,
             MechParts = mechParts
         };
     }

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Storage;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -7,11 +8,13 @@ using UnityEngine.UI;
 public class UIControler : MonoBehaviour
 {
     [SerializeField] private MinerState _minerState;
+    [SerializeField] private MainStorage _mainStorage;
     [SerializeField] private TextMeshProUGUI _lifeText;
     [SerializeField] private GameObject _resourcePrefab;
     [SerializeField] private GameObject _infoPanel;
     [SerializeField] private Image _fireImg;
     [SerializeField] private Image _drillImg;
+    [SerializeField] private Damagable _mechDamagable;
     private EventBus _eventBus;
     private List<GameObject> _resourcePanels = new();
 
@@ -25,7 +28,7 @@ public class UIControler : MonoBehaviour
         _eventBus = GameObject.FindObjectOfType<EventBus>();
         _eventBus.ResourceCollected?.AddListener(UpdateRes);
 
-        MechController.InstanceDamagable.OnDamaged.AddListener(OnMechDamaged);
+        _mechDamagable.OnDamaged.AddListener(OnMechDamaged);
     }
 
     public void FirePressed() {
@@ -56,7 +59,9 @@ public class UIControler : MonoBehaviour
             var newPanel = Instantiate(_resourcePrefab, _infoPanel.transform);
 
             var resPanel = newPanel.GetComponent<ResourcePanel>();
-            resPanel.UpdateUI(res.name, res.count, pos);
+            Debug.Log("ICON SEARCH: " + res.name);
+
+            resPanel.UpdateUI(_mainStorage.ResSprites[res.name], res.count, pos);
             pos -= 150;
             _resourcePanels.Add(newPanel);
         }
@@ -68,6 +73,10 @@ public class UIControler : MonoBehaviour
 
     private void UpdateUI()
     {
+        if (MechController.Instance == null) {
+            return;
+        }
+
         _lifeText.text = $"{MechController.InstanceDamagable.CurrentLife}";
         UpdateRes(null);
 

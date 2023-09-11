@@ -41,14 +41,15 @@ public class CaveBuilder : MonoBehaviour
         if (_recourcesList == null)
         {
             return;
-            Debug.Log("Не установлен лист ресурсов!!!");
+            Debug.Log("пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ!!!");
         }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
+    public (float, float) GetPlayerPosition() {
+        var startPos = _currentPattern.StartPosition;
 
+        return (startPos.x * _blockSize + _blockSpawnOffset.x,
+            startPos.y * _blockSize + _blockSpawnOffset.y);
     }
 
     [Button]
@@ -104,7 +105,7 @@ public class CaveBuilder : MonoBehaviour
                 newSegmnet.name = "Segment-" + y.ToString() + "-" + x.ToString();
                 newSegmnet.transform.SetAsLastSibling();
 
-                // Генерируем полы пещеры
+
                 if (_currentPattern.Map[x,y] == 1)
                 {
                     int floorVariant = Random.Range(0, _currentBiome.FlatFloor.Length);
@@ -114,7 +115,7 @@ public class CaveBuilder : MonoBehaviour
 
                 FillSegmentSpace(x * segmentBlockCount, y * segmentBlockCount, null);
 
-                // Генерируем полы Стены
+
                 if (x==0||_currentPattern.Map[x-1, y] == 0)
                 {
                     int wallIndex = Random.Range(0, _currentBiome.Walls.Length);
@@ -194,7 +195,6 @@ public class CaveBuilder : MonoBehaviour
         if (_recourcesList == null)
         {
             return;
-            Debug.Log("Не установлен лист ресурсов!!!");
         }
 
         GameObject blockContainer = new GameObject("BlocksContainer");
@@ -208,6 +208,7 @@ public class CaveBuilder : MonoBehaviour
                 {
                     var currentBlock = _recourcesList.GetBlock(_caveBlockMap[x, y]);
                     if (currentBlock == null) continue;
+
                     var currentParent = blockContainer.transform;
                     if (currentBlock.TryGetComponent<EnemySpawner>(out _)) 
                     {
@@ -237,6 +238,8 @@ public class CaveBuilder : MonoBehaviour
                 }
             }
         }
+
+        _eventBus.MapGenerationDone?.Invoke();
 
         //StartCoroutine(CutPlayer());
     }

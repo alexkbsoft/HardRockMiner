@@ -34,7 +34,6 @@ public class Hitter : MonoBehaviour
                     LeanPool.Despawn(effect, 2.0f);
                 }
             }
-
         }
     }
 

@@ -11,6 +11,5 @@ public class FinishPoint : MonoBehaviour
         {
             GameManager.Instance.SaveAsteroid();
         }
-
     }
 }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using Storage;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -16,18 +17,28 @@ public class ResourcesPanel : MonoBehaviour
     private void Awake()
     {
         _eventBus = GameObject.FindObjectOfType<EventBus>();
-        
+
         _eventBus.DataReady?.AddListener(UpdatePanel);
         _eventBus.ResourcesUpdated?.AddListener(UpdatePanel);
+
+        var allIcons = Resources.LoadAll<Sprite>("Dropables");
+
+        foreach (var oneSprite in allIcons)
+        {
+            var rgx = new Regex("-icon");
+            var name = rgx.Replace(oneSprite.name, "");
+
+            _storage.ResSprites[name] = oneSprite;
+        }
     }
 
     private void UpdatePanel()
     {
-        
         foreach (GameObject panel in _resourcePanels)
         {
             Destroy(panel);
         }
+
         _resourcePanels.Clear();
 
         int pos = 170;
@@ -36,7 +47,7 @@ public class ResourcesPanel : MonoBehaviour
             var newPanel = Instantiate(_resourcePrefab, transform);
 
             var resPanel = newPanel.GetComponent<ResourcePanel>();
-            resPanel.UpdateUI(res.name, res.count, pos);
+            resPanel.UpdateUI(_storage.ResSprites[res.name], res.count, pos);
             pos += 200;
             _resourcePanels.Add(newPanel);
         }

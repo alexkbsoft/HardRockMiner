@@ -1,11 +1,10 @@
+using System;
 using System.Collections.Generic;
 using DataLayer;
 using UnityEditor;
 using UnityEngine;
-
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using AYellowpaper.SerializedCollections;
+using Lean.Pool;
 
 namespace Storage
 {
@@ -23,15 +22,19 @@ namespace Storage
         public List<ResourceDto> InventoryItems;
         public List<string> StackableItems;
         public List<RecipieItem> Recipies = new();
-
         public Dictionary<string, string> _mechParts = new();
+        public Dictionary<string, GameObject> ResPrefabs = new();
+        public Dictionary<string, Sprite> ResSprites = new();
+        [SerializedDictionary("Item ID", "Description")] public SerializedDictionary<string, ItemDescription> ItemDescriptions;
+        [SerializedDictionary("Item ID", "Hints")] public SerializedDictionary<string, List<int>> Schemas;
 
         public Dictionary<string, string> MechParts
         {
             get => _mechParts;
         }
 
-        public void SetDefaults() {
+        public void SetDefaults()
+        {
             _mechParts["Foot"] = "FootLight";
             _mechParts["LeftArm"] = "GadgetHandClaw_V2";
             _mechParts["RightArm"] = "ShortgunV1";
@@ -86,16 +89,21 @@ namespace Storage
                 }
 
                 var inInventory = InventoryItems.Find((ResourceDto itemDto) => !string.IsNullOrEmpty(name) && itemDto.name == name);
-                
-                if (inInventory != null) {
-                    inInventory.count --;
-                    if (inInventory.count <= 0) {
+
+                if (inInventory != null)
+                {
+                    inInventory.count--;
+                        Debug.Log("IN INVENTORY: " + inInventory.name + " " + inInventory.count);
+
+                    if (inInventory.count <= 0)
+                    {
+                        Debug.Log("REMOVE: " + inInventory.name);
                         inInventory.name = null;
                     }
                 }
             }
 
-            resources.RemoveAll((MinerState.StoredResource item) => item.count == 0);
+            resources.RemoveAll((MinerState.StoredResource item) => item.count <= 0);
         }
         public ResourceDto FindFreeInventorySlot()
         {
@@ -115,6 +123,14 @@ namespace Storage
 
             return found;
         }
+
+        public List<int> FindSchema(string id) {
+            return Schemas.ContainsKey(id) ? Schemas[id] : null;
+        }
+
+        public RecipieItem FindRecipe(string id) {
+            return Recipies.Find((RecipieItem item) => item.Id == id);
+        }
     }
 
 
@@ -122,9 +138,7 @@ namespace Storage
     [CustomEditor(typeof(MainStorage))]
     public class MainStorageEditor : Editor
     {
-
         MainStorage comp;
-        static bool showTileEditor = false;
 
         public void OnEnable()
         {

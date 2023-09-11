@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Common;
+using DataLayer;
+using Storage;
 using UnityEngine;
 
 public class DragController : MonoBehaviour
@@ -9,6 +11,7 @@ public class DragController : MonoBehaviour
     public Draggable LastDragged => _lastDragged;
     public DragSlot CurrentSlot => _currentSlot;
 
+    [SerializeField] private MainStorage _mainStorage;
 
     private bool _isDragActive = false;
     private Vector2 _screenPosition;
@@ -145,30 +148,53 @@ public class DragController : MonoBehaviour
         UpdateDragStatus(false);
         StartActualDragging(false);
 
+        InventoryItem item = _lastDragged.gameObject.GetComponent<InventoryItem>();
+
         if (_currentSlot != null)
         {
-            bool isChangeInCraft = _currentSlot.IsCraftSlot;
-
-            if (IsValidTargertSlot(_currentSlot)) {
+            if (IsValidTargertSlot(_currentSlot))
+            {
                 _currentSlot.SetDraggable(_lastDragged);
-            } else {
+
+                if (!string.IsNullOrEmpty(_currentSlot.MechPartName))
+                {
+                    _eventBus.DroppedInMech?.Invoke(_currentSlot.MechPartName, item.UniqName);
+                }
+
+                if (_currentSlot.IsCraftSlot)
+                {
+                    _eventBus.DroppedInCraft?.Invoke(item);
+                }
+
+                if (_currentSlot.IsSchemaSlot)
+                {
+                    var schemaIndex = _mainStorage.FindSchema(item.UniqName);
+
+                    if (schemaIndex != null)
+                    {
+                        _eventBus.SchemaDropped?.Invoke(schemaIndex, item.UniqName);
+                    }
+                }
+            }
+            else
+            {
                 DeleteClone();
             }
-
-            ResetCurrentSlot(_currentSlot);
         }
         else
         {
             DeleteClone();
         }
 
-        _eventBus.DroppedInCraft?.Invoke();
+        ResetCurrentSlot(_currentSlot);
         _eventBus.InventoryReordered?.Invoke();
     }
 
     private void DeleteClone()
     {
         InventoryItem item = _lastDragged.gameObject.GetComponent<InventoryItem>();
+        bool isSchemaSlot = _lastDragged.Slot != null && _lastDragged.Slot.IsSchemaSlot;
+        bool isCraftSlot = _lastDragged.Slot != null && _lastDragged.Slot.IsCraftSlot;
 
         if (item.IsCraftClone)
         {
@@ -178,8 +204,17 @@ public class DragController : MonoBehaviour
             Destroy(_lastDragged.gameObject);
             _lastDragged = null;
         }
-    }
 
+        if (isSchemaSlot)
+        {
+            _eventBus.SchemaReset?.Invoke();
+        }
+
+        if (isCraftSlot)
+        {
+            _eventBus.CraftItemRemoved?.Invoke();
+        }
+    }
 
     void UpdateDragStatus(bool isDragging)
     {
@@ -202,7 +237,7 @@ public class DragController : MonoBehaviour
         InventoryItem item = _lastDragged.gameObject.GetComponent<InventoryItem>();
         bool result = true;
 
-        if (item.IsCraftClone && !targetSlot.IsCraftSlot)
+        if (item.IsCraftClone && !(targetSlot.IsCraftSlot || targetSlot.IsSchemaSlot))
         {
             result = false;
         }

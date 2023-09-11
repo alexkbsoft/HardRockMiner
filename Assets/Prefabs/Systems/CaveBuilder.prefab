@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 3779165832093662300}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.99999994, y: 0.99999994, z: 0.99999994}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -46,12 +46,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _currentPattern: {fileID: 11400000, guid: 53022a37ff776be4baf0ce63871ccf89, type: 2}
-  _cave: {fileID: 0}
+  _recourcesList: {fileID: 11400000, guid: 4ccf527f59f96aa41a4afbbc61e7e20d, type: 2}
   _segmentSize: 50
+  _wallOffset: 0
   _blockSize: 5
+  _maxColumnCount: 5
   _testText: {fileID: 0}
-  _recourcesManager: {fileID: 3779165832093662302}
   _blockSpawnOffset: {x: -23, y: -23, z: 3}
+  Biomes:
+  - {fileID: 11400000, guid: 1e4a688684a01184ea85d4282e41e6c4, type: 2}
 --- !u!114 &3779165832093662302
 MonoBehaviour:
   m_ObjectHideFlags: 0

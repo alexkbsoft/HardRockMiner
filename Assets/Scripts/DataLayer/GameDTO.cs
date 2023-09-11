@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Storage;
 
 namespace DataLayer
 {
@@ -7,9 +8,13 @@ namespace DataLayer
     public class GameDto
     {
         public List<BlockDto> Blocks = new();
-        public List<SegmentDto> Segments = new();
+        public List<SegmentDto> Walls = new();
+        public List<SegmentDto> Floors = new();
+        public List<SegmentDto> Decorations = new();
+        public List<SegmentDto> Spawners = new();
+        public List<SegmentDto> Pillars = new();
     }
-    
+
     [Serializable]
     public class BlockDto
     {
@@ -52,5 +57,47 @@ namespace DataLayer
     {
         public string name;
         public string item;
+    }
+
+    [Serializable]
+    public class ItemDescriptionDto
+    {
+        public string id;
+        public string title;
+        public string description;
+    }
+
+    [Serializable]
+    public class ItemDescription
+    {
+        public string title;
+        public string description;
+    }
+
+
+    [Serializable]
+    public class ItemsInfoDto
+    {
+        public List<ItemDescriptionDto> Descriptions = new();
+
+    }
+
+    [Serializable]
+    public class RecipesInfoDto
+    {
+        public List<RecipieItem> Recipes = new();
+    }
+
+    [Serializable]
+    public class SchemaItem
+    {
+        public string Id;
+        public List<int> Hints = new();
+    }
+
+    [Serializable]
+    public class SchemaInfoDto
+    {
+        public List<SchemaItem> Schemas = new();
     }
 }

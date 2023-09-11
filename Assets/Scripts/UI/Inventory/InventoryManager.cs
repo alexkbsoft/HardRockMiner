@@ -6,6 +6,7 @@ using Storage;
 using UnityEngine;
 using DG.Tweening;
 using DataLayer;
+using System.Text.RegularExpressions;
 
 public class InventoryManager : MonoBehaviour
 {
@@ -15,13 +16,13 @@ public class InventoryManager : MonoBehaviour
     [SerializeField] private DragSlot[] _mechSlots;
     [SerializeField] private DragSlot[] _craftSlots;
     [SerializeField] private DragSlot _craftResult;
+    [SerializeField] private DragSlot _schemaSlot;
 
     [SerializeField] private GameObject _inventoryContainer;
     [SerializeField] private GameObject _mechSlotsContainer;
     [SerializeField] private GameObject _craftSlotsContainer;
     [SerializeField] private GameObject _craftSchemaContainer;
     [SerializeField] private GameObject _craftBtn;
-
 
     private EventBus _eventBus;
 
@@ -32,6 +33,8 @@ public class InventoryManager : MonoBehaviour
     private const float INITIAL_SCHEMA_PANEL_POS = 8;
     private const float OFFSCREEN_SCHEMA_PANEL_POS = 0;
     private CraftHelper _currentCraft;
+    private List<int> _currentSchema;
+    private string _currentSchemaId;
 
     private void Awake()
     {
@@ -39,7 +42,10 @@ public class InventoryManager : MonoBehaviour
         _eventBus.InventoryReordered?.AddListener(OnInventoryReordered);
         _eventBus.DataReady?.AddListener(RebuildInventory);
         _eventBus.InventoryTabSelected?.AddListener(TabSelected);
-        _eventBus.DroppedInCraft?.AddListener(CraftReordered);
+        _eventBus.DroppedInCraft?.AddListener(OnCraftDrop);
+        _eventBus.CraftItemRemoved?.AddListener(CraftReordered);
+        _eventBus.SchemaReset?.AddListener(OnShemaItemRemoved);
+        _eventBus.SchemaDropped?.AddListener(OnSchemaDrop);
     }
 
     public void OnCraftClick()
@@ -54,7 +60,7 @@ public class InventoryManager : MonoBehaviour
         MainStorage.SubtractResources(_currentCraft.Recipie);
         AddItem(_currentCraft.ItemName,
             MainStorage.StackableItems.Contains(_currentCraft.ItemName),
-            1, "add");
+            0, "add");
 
         var dataManager = new DataManager();
         dataManager.SaveMainStorage(MainStorage);
@@ -68,20 +74,29 @@ public class InventoryManager : MonoBehaviour
 
     private void CleanAllSlots()
     {
+        _craftResult.Clean();
         foreach (var oneSlot in _slots) oneSlot.Clean();
         foreach (var oneSlot in _craftSlots) oneSlot.Clean();
         foreach (var oneSlot in _mechSlots) oneSlot.Clean();
     }
 
+    private void CleanSchema() {
+        _currentSchema = null;
+        _currentSchemaId = null;
+        _schemaSlot.Clean(true);
+    }
+
     private void CraftReordered()
     {
-        _craftResult.Clean();
-        string foundRecipieItem = null;
         _currentCraft = null;
+        _craftResult.Clean();
+
+        var craftHelper = new CraftHelper(_craftSlots, null, null);
 
         foreach (Storage.RecipieItem oneRecipie in MainStorage.Recipies)
         {
-            var craftHelper = new CraftHelper(oneRecipie.Resources, _craftSlots, oneRecipie.Id);
+            craftHelper.ItemName = oneRecipie.Id;
+            craftHelper.Recipie = oneRecipie.Resources;
 
             if (craftHelper.IsMatch())
             {
@@ -90,6 +105,14 @@ public class InventoryManager : MonoBehaviour
                 break;
             }
         }
+
+        if (_currentCraft == null) {
+            var newSchemaName = craftHelper.TryMergeSchemas();
+
+            _currentCraft = string.IsNullOrEmpty(newSchemaName) ? null : craftHelper;
+        }
+
+        
 
         if (_currentCraft != null)
         {
@@ -104,6 +127,52 @@ public class InventoryManager : MonoBehaviour
 
         _craftBtn.SetActive(_currentCraft != null);
 
+        FillSchemaSlots();
+    }
+
+    public void OnCraftDrop(InventoryItem _) {
+        CraftReordered();
+    }
+
+    public void OnShemaItemRemoved() {
+        CleanSchema();
+
+        CraftReordered();
+    }
+
+    private void OnSchemaDrop(List<int> schema, string id)
+    {
+        _currentSchema = schema;
+        _currentSchemaId = id;
+
+        FillSchemaSlots();
+    }
+
+    private void FillSchemaSlots()
+    {
+        if (_currentSchema == null || _currentSchemaId == null)
+        {
+            return;
+        }
+
+        string pattern = @"(_schema.*)";
+        var recipe = MainStorage.FindRecipe(Regex.Replace(_currentSchemaId, pattern, string.Empty ));
+
+        if (recipe != null)
+        {
+            for (int i = 0; i < _craftSlots.Length; i++)
+            {
+                var hasClue = _currentSchema.Contains(i);
+                var resource = recipe.Resources[i];
+                var slot = _craftSlots[i];
+                slot.ClearClue();
+
+                if (slot.LinkedDraggable == null)
+                {
+                    slot.SetClue(resource, hasClue);
+                }
+            }
+        }
     }
 
 
@@ -146,9 +215,12 @@ public class InventoryManager : MonoBehaviour
             }
             else
             {
-                if (op == "set") {
+                if (op == "set")
+                {
                     inventoryItem.count = count;
-                } else if (op == "add") {
+                }
+                else if (op == "add")
+                {
                     inventoryItem.count += count;
                 }
             }
@@ -175,6 +247,11 @@ public class InventoryManager : MonoBehaviour
         return MainStorage.InventoryItems.Find((res) => res.name == name);
     }
 
+    private MinerState.StoredResource FindResource(string name)
+    {
+        return MainStorage.resources.Find((res) => res.name == name);
+    }
+
     private (InventoryItem, Draggable) FillSlot(DragSlot slot, string itemName, Transform container, int count = 0)
     {
         if (string.IsNullOrEmpty(itemName))
@@ -182,13 +259,23 @@ public class InventoryManager : MonoBehaviour
             return (null, null);
         }
 
-        var newItem = Instantiate(this.ItemPrefab, container);
+        var newItem = Instantiate(ItemPrefab, container);
         var draggable = newItem.GetComponent<Draggable>();
 
         slot.LinkedDraggable = draggable;
         draggable.Slot = slot;
 
-        var sprite = Resources.Load<Sprite>(itemName);
+        Sprite sprite;
+
+        if (FindResource(itemName) != null)
+        {
+            sprite = MainStorage.ResSprites[itemName];
+        }
+        else
+        {
+            sprite = Resources.Load<Sprite>(itemName);
+        }
+
         var inventoryItem = newItem.GetComponent<InventoryItem>();
         inventoryItem.Configure(itemName, "", sprite, count);
 
@@ -255,7 +342,10 @@ public class InventoryManager : MonoBehaviour
         _eventBus.InventoryReordered?.RemoveListener(OnInventoryReordered);
         _eventBus.DataReady?.RemoveListener(RebuildInventory);
         _eventBus.InventoryTabSelected?.RemoveListener(TabSelected);
-        _eventBus.DroppedInCraft?.RemoveListener(CraftReordered);
+        _eventBus.DroppedInCraft?.RemoveListener(OnCraftDrop);
+        _eventBus.CraftItemRemoved?.RemoveListener(CraftReordered);
+        _eventBus.SchemaReset?.RemoveListener(OnShemaItemRemoved);
+        _eventBus.SchemaDropped?.RemoveListener(OnSchemaDrop);
     }
 
     private void TabSelected(int index)
@@ -263,6 +353,8 @@ public class InventoryManager : MonoBehaviour
         if (index == 1)
         {
             ShowCraft();
+        } else {
+            CleanSchema();
         }
 
         if (index == 2)
@@ -273,13 +365,11 @@ public class InventoryManager : MonoBehaviour
 
     private void ShowCraft()
     {
-
         _mechSlotsContainer.transform.DOMoveY(OFFSCREEN_PANEL_POS, PANEL_ANIMATION_DURATION)
             .OnComplete(() =>
             {
                 _craftSlotsContainer.transform.DOMoveY(INITIAL_PANEL_POS, PANEL_ANIMATION_DURATION);
                 _craftSchemaContainer.transform.DOMoveX(INITIAL_SCHEMA_PANEL_POS, PANEL_ANIMATION_DURATION);
-
             });
     }
 
