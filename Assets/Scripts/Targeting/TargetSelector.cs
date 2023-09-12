@@ -9,7 +9,7 @@ public class TargetSelector : MonoBehaviour
     public EventBus _eventBus;
     void Start()
     {
-        _eventBus = FindObjectOfType<EventBus>();
+        _eventBus = EventBus.Instance;
         
         StartCoroutine(FindTarget());
     }

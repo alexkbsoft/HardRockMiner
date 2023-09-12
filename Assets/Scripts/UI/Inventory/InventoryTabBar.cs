@@ -15,7 +15,7 @@ public class InventoryTabBar : MonoBehaviour
 
     private void Start()
     {
-        _eventBus = GameObject.FindObjectOfType<EventBus>();
+        _eventBus = EventBus.Instance;
     }
 
     public void SelectTab(int index)

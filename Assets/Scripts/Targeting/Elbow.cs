@@ -33,7 +33,7 @@ public class Elbow : MonoBehaviour
         _distanceToHand = Vector3.Distance(transform.position, ConstrainTarget.transform.position);
         _hintOffset = ConstrainHint.transform.position - transform.position;
 
-        _eventBus = FindObjectOfType<EventBus>();
+        _eventBus = EventBus.Instance;
         _eventBus.TargetsChanged.AddListener(OnTargetsChanged);
 
         _mechSpine = GameObject.FindGameObjectWithTag("MechSpine").transform;

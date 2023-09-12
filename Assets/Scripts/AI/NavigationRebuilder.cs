@@ -10,7 +10,7 @@ public class NavigationRebuilder : MonoBehaviour
     private Coroutine _corutine;
     void Start()
     {
-        _eventBus = FindObjectOfType<EventBus>();
+        _eventBus = EventBus.Instance;
         _eventBus.BlockDestroyed?.AddListener(BlockDestroyed);
         _eventBus.ScanNavigationGrid?.AddListener(ForceScan);
     }

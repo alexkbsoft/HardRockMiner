@@ -24,7 +24,7 @@ public class PlateRotator : MonoBehaviour
 
     void Start()
     {
-        _eventBus = GameObject.FindObjectOfType<EventBus>();
+        _eventBus = EventBus.Instance;
 
         _eventBus.DroppedInMech?.AddListener(OnDropInMech);
         _eventBus.DraggableTapped?.AddListener(OnDraggableTap);

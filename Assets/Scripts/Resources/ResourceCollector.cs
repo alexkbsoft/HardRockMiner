@@ -9,7 +9,7 @@ public class ResourceCollector : MonoBehaviour
     private EventBus _eventBus;
     void Start()
     {
-        _eventBus = GameObject.FindObjectOfType<EventBus>();
+        _eventBus = EventBus.Instance;
     }
 
     void Update()

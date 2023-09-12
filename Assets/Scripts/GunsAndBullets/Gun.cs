@@ -26,7 +26,7 @@ public class Gun : MonoBehaviour
     {
         // _elbow.TargetSelected.AddListener(OnTargetChanged);
 
-        _eventBus = GameObject.FindObjectOfType<EventBus>();
+        _eventBus = EventBus.Instance;
         _eventBus.FireEnabled?.AddListener(EnableFire);
     }
 
