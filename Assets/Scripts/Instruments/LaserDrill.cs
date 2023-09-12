@@ -42,7 +42,7 @@ public class LaserDrill : MonoBehaviour
         LaserEffect.SetActive(ForceDrilling);
         LaserStart.SetActive(ForceDrilling);
 
-        _eventBus = FindObjectOfType<EventBus>();
+        _eventBus = EventBus.Instance;
 
     }
 

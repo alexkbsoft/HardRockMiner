@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6395435267277513496}
   - component: {fileID: 1708061188306943115}
   - component: {fileID: 1011510898559853879}
+  - component: {fileID: 8729471501390635604}
   m_Layer: 26
   m_Name: RedCrystal
   m_TagString: Untagged
@@ -84,6 +85,19 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &8729471501390635604
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2181547043465480396}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.077945784, y: 0.103293896, z: 0.13659427}
+  m_Center: {x: 0, y: -0.000000018626455, z: 0.06789598}
 --- !u!1 &7496375898657847238
 GameObject:
   m_ObjectHideFlags: 0

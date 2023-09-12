@@ -10,7 +10,7 @@ public class CameraTabModes : MonoBehaviour
     private InventoryTabBar _mainTabs;
     private void Start()
     {
-        _eventBus = GameObject.FindObjectOfType<EventBus>();
+        _eventBus = EventBus.Instance;
         _eventBus.InventoryTabSelected.AddListener(OnTabSelected);
         
         _mainTabs = GameObject.FindObjectOfType<InventoryTabBar>();

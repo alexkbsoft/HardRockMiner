@@ -22,7 +22,7 @@ public class HandClaw : MonoBehaviour
     void Start()
     {
         _animator = GetComponent<Animator>();
-        _eventBus = GameObject.FindObjectOfType<EventBus>();
+        _eventBus = EventBus.Instance;
         _eventBus.DrillEnabled?.AddListener(OnEnableDrill);
 
         var laserDrill = GameObject.Find("HandLaserDrill").GetComponent<LaserDrill>();

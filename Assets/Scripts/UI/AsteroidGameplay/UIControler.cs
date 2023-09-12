@@ -25,7 +25,7 @@ public class UIControler : MonoBehaviour
     {
         UpdateUI();
 
-        _eventBus = GameObject.FindObjectOfType<EventBus>();
+        _eventBus = EventBus.Instance;
         _eventBus.ResourceCollected?.AddListener(UpdateRes);
 
         _mechDamagable.OnDamaged.AddListener(OnMechDamaged);

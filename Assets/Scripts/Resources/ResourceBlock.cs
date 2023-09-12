@@ -41,7 +41,7 @@ public class ResourceBlock : MonoBehaviour
     {
         GetComponent<Damagable>().OnDamaged.AddListener(Damaged);
         
-        _eventBus = FindObjectOfType<EventBus>();
+        _eventBus = EventBus.Instance;
     }
 
     public void Destroyed()

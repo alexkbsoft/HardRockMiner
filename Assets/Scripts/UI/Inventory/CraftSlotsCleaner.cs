@@ -11,7 +11,7 @@ public class CraftSlotsCleaner : MonoBehaviour
 
     void Start()
     {
-        _eventBus = GameObject.FindObjectOfType<EventBus>();
+        _eventBus = EventBus.Instance;
         _eventBus.InventoryTabSelected?.AddListener(OnTabSelected);
         _eventBus.SchemaReset?.AddListener(OnSchemaReset);
     }

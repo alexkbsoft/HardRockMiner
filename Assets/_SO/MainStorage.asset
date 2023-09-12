@@ -14,14 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   resources:
   - name: crystal
-    count: 141
+    count: 142
   - name: rock
-    count: 169
+    count: 170
   - name: gold
     count: 35
   InventoryItems:
   - name: crystal
-    count: 141
+    count: 142
   - name: FootLight
     count: 0
   - name: ShortgunV1_schema75
@@ -31,7 +31,7 @@ MonoBehaviour:
   - name: 
     count: 0
   - name: rock
-    count: 169
+    count: 170
   - name: gold
     count: 35
   - name: 

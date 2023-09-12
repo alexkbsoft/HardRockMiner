@@ -30,7 +30,7 @@ public class GameManager : MonoBehaviour
 
         _minerState.Reset();
 
-        _eventBus = FindObjectOfType<EventBus>();
+        _eventBus = EventBus.Instance;
         _caveBuilder = FindObjectOfType<CaveBuilder>();
 
         _eventBus.AlarmChanged?.AddListener(OnAlarmChanged);
