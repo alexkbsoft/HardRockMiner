@@ -26,3 +26,5 @@ MonoBehaviour:
     - Key: 0
       Value: 0d0000000e000000
   Column: {fileID: 8456030119585536700, guid: 81122de0e25161f4d8ccb5209d321a55, type: 3}
+  DoubleColumn: {fileID: 8456030119585536700, guid: 50f5c55d23b769940bdd20a49609127f, type: 3}
+  TripleColumn: {fileID: 0}
