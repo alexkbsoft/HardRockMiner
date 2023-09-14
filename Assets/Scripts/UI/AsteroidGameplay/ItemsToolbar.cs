@@ -13,7 +13,7 @@ public class ItemsToolbar : MonoBehaviour
     private bool animating = false;
     void Start()
     {
-        _eventBus = GameObject.FindObjectOfType<EventBus>();
+        _eventBus = EventBus.Instance;
     }
 
     public void SpawnItem(string id)

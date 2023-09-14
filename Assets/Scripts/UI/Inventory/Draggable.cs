@@ -28,7 +28,7 @@ public class Draggable : MonoBehaviour
     {
         _collider = GetComponent<Collider2D>();
         _dragController = FindObjectOfType<DragController>();
-        _eventBus = GameObject.FindObjectOfType<EventBus>();
+        _eventBus = EventBus.Instance;
 
         if (Slot != null)
         {

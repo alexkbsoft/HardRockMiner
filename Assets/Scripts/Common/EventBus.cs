@@ -34,4 +34,10 @@ public class EventBus : MonoBehaviour
     public UnityEvent MapGenerationDone;
 
     public UnityEvent DataReady;
+
+    public static EventBus Instance;
+
+    void Awake() {
+        Instance = this;
+    }
 }

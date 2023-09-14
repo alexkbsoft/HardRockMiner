@@ -26,7 +26,7 @@ public class DragController : MonoBehaviour
     private void Start()
     {
         _camera = GameObject.Find("InventoryCamera").GetComponent<Camera>();
-        _eventBus = GameObject.FindObjectOfType<EventBus>();
+        _eventBus = EventBus.Instance;
     }
 
     void Update()

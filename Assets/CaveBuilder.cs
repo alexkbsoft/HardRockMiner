@@ -36,7 +36,7 @@ public class CaveBuilder : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        _eventBus = FindObjectOfType<EventBus>();
+        _eventBus = EventBus.Instance;
 
         //TestFill();
         //Generate();

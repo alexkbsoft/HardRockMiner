@@ -13,7 +13,7 @@ public class BaseDataLoader : MonoBehaviour
 
     void Start()
     {
-        _eventBus = FindObjectOfType<EventBus>();
+        _eventBus = EventBus.Instance;
 
         LoadStorage();
 

@@ -9,7 +9,7 @@ public class DrillActivator : MonoBehaviour
     private EventBus _eventBus;
     void Start()
     {
-        _eventBus = GameObject.FindObjectOfType<EventBus>();
+        _eventBus = EventBus.Instance;
         _eventBus.DrillEnabled?.AddListener(OnEnableDrill);
     }
 

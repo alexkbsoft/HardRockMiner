@@ -90,6 +90,7 @@ GameObject:
   - component: {fileID: 4337988333908222063}
   - component: {fileID: 7877691859095997850}
   - component: {fileID: 2853899473336349533}
+  - component: {fileID: 6481233424937858657}
   m_Layer: 9
   m_Name: wallLP_1_Mesh
   m_TagString: Untagged
@@ -162,6 +163,19 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &6481233424937858657
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6337979305744487494}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 32.51843, y: 3.6266007, z: 3.710456}
+  m_Center: {x: -6.5784483, y: 0.6081324, z: -22.096144}
 --- !u!1001 &9100815962439519791
 PrefabInstance:
   m_ObjectHideFlags: 0

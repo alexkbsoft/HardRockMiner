@@ -36,7 +36,7 @@ public class EnemySpawner : MonoBehaviour
 
     void Start()
     {
-        _eventBus = FindObjectOfType<EventBus>();
+        _eventBus = EventBus.Instance;
         _eventBus.AlarmInvoked?.AddListener(AlarmHappend);
         _eventBus.MapReady?.AddListener(MapReady);
 
