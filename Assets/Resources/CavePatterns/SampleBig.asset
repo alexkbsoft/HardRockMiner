@@ -38,6 +38,11 @@ MonoBehaviour:
     - x: 15
       y: 70
       rotation: 180
+  - Room: {fileID: 11400000, guid: b6e38da615baa3d44940e96fa1d0072a, type: 2}
+    Positions:
+    - x: 1
+      y: 6
+      rotation: 0
   Deposits:
   - Size: 4
     BlockIndex: 0
@@ -47,6 +52,14 @@ MonoBehaviour:
     BlockIndex: 2
   - Size: 5
     BlockIndex: 2
+  - Size: 4
+    BlockIndex: 3
+  - Size: 7
+    BlockIndex: 3
+  - Size: 5
+    BlockIndex: 4
+  - Size: 8
+    BlockIndex: 4
   DepositsLayer2:
   - Size: 3
     BlockIndex: 2
@@ -59,11 +72,20 @@ MonoBehaviour:
     BlockIndex: 0
   - Size: 30
     BlockIndex: 0
+  - Size: 40
+    BlockIndex: 3
+  - Size: 40
+    BlockIndex: 4
+  - Size: 40
+    BlockIndex: 4
+  - Size: 40
+    BlockIndex: 3
   Decorations:
   - Count: 10
     Type: 0
   - Count: 10
     Type: 0
-  ColumnChance: 20
-  SpawnersCount: 2
+  ColumnChance: 15
+  DoubleColumnChance: 20
+  SpawnersCount: 4
   StartPosition: {x: 13, y: 3}

@@ -12,6 +12,7 @@ public class CaveBuilder : MonoBehaviour
     [SerializeField] private float _wallOffset;
     [SerializeField] private float _blockSize = 5;
     [SerializeField] private int _maxColumnCount = 5;
+    [SerializeField] private int _maxDoubleColumnCount = 1;
     [SerializeField] private Text _testText;
     //[SerializeField] private RecourcesManager _recourcesManager;
     [SerializeField] private Vector3 _blockSpawnOffset;
@@ -30,7 +31,8 @@ public class CaveBuilder : MonoBehaviour
 
     private EventBus _eventBus;
 
-
+    const int columnIndex = -10;
+    const int generationAttempts = 100;
     // Start is called before the first frame update
     void Start()
     {
@@ -100,13 +102,17 @@ public class CaveBuilder : MonoBehaviour
                 {
                     newSegmnet = new();
                 }
-                else { continue; }
+                else 
+                { 
+                    FillSegmentSpace(x * segmentBlockCount, y * segmentBlockCount, null, -1);
+                    continue;
+                }
                 newSegmnet.transform.SetParent(_cave);
                 newSegmnet.name = "Segment-" + y.ToString() + "-" + x.ToString();
                 newSegmnet.transform.SetAsLastSibling();
 
 
-                if (_currentPattern.Map[x,y] == 1)
+                if (_currentPattern.Map[x, y] == 1)
                 {
                     int floorVariant = Random.Range(0, _currentBiome.FlatFloor.Length);
                     var newFloorSegment = Instantiate<GameObject>(_currentBiome.FlatFloor[floorVariant], newSegmnet.transform);
@@ -148,18 +154,69 @@ public class CaveBuilder : MonoBehaviour
                     newWall.transform.rotation = Quaternion.Euler(0, 90, 0);
                 }
 
+                for (int i = 0; i < _maxDoubleColumnCount; i++)
+                {
+                    if (Random.Range(0, 100) <= _currentPattern.DoubleColumnChance)
+                    {
+                        int columnX = 0;
+                        int columnY = 0;
+                        int attempt = 0;
+                        bool columnPositionValid = false;
+                        while (attempt < 100 && !columnPositionValid)
+                        {
+                            columnX = Random.Range(1, segmentBlockCount - 2);
+                            columnY = Random.Range(1, segmentBlockCount - 2);
+                            columnPositionValid = true;
+                            if (CheckBlockPersist(x * segmentBlockCount + columnX, y * segmentBlockCount + columnY, 2, columnIndex))
+                                columnPositionValid = false;
+                            attempt++;
+                        }
+                        if (!columnPositionValid) continue;
+                        var newColumn = Instantiate<GameObject>(_currentBiome.DoubleColumn, newSegmnet.transform);
+                        newColumn.transform.position = new Vector3(_blockSpawnOffset.x + x * _segmentSize + columnX * _blockSize,
+                                                                    0,
+                                                                    _blockSpawnOffset.y + y * _segmentSize + columnY * _blockSize);
+                        int columnRotation = Random.Range(0, 4);
+                        newColumn.transform.rotation = Quaternion.Euler(0, 90 * columnRotation, 0);
+                        _caveBlockMap[x * segmentBlockCount + columnX, y * segmentBlockCount + columnY] = columnIndex;
+                        switch (columnRotation)
+                        {
+                            case 0: _caveBlockMap[x * segmentBlockCount + columnX + 1, y * segmentBlockCount + columnY] = columnIndex;
+                                break;
+                            case 1: _caveBlockMap[x * segmentBlockCount + columnX, y * segmentBlockCount + columnY - 1] = columnIndex;
+                                break;
+                            case 2: _caveBlockMap[x * segmentBlockCount + columnX - 1, y * segmentBlockCount + columnY] = columnIndex;
+                                break;
+                            case 3: _caveBlockMap[x * segmentBlockCount + columnX, y * segmentBlockCount + columnY + 1] = columnIndex;
+                                break;
+                        }
+                    }
+                }
+
                 for (int i = 0; i < _maxColumnCount; i++)
                 {
                     if (Random.Range(0,100)<=_currentPattern.ColumnChance) {
+                        int columnX=0;
+                        int columnY=0;
+                        int attempt = 0;
+                        bool columnPositionValid = false;
+                        while (attempt<100&&!columnPositionValid)
+                        {
+                            columnX = Random.Range(0, segmentBlockCount - 1);
+                            columnY = Random.Range(0, segmentBlockCount - 1);
+                            columnPositionValid = true;
+                            if(CheckBlockPersist(x * segmentBlockCount + columnX, y * segmentBlockCount + columnY,2,columnIndex)) 
+                                columnPositionValid=false;
+                            attempt++;
+                        }
+                        if (!columnPositionValid) continue;
                         var newColumn = Instantiate<GameObject>(_currentBiome.Column, newSegmnet.transform);
-                        int columnX = Random.Range(1, segmentBlockCount-1);
-                        int columnY = Random.Range(1, segmentBlockCount-1);
                         newColumn.transform.position = new Vector3( _blockSpawnOffset.x+ x * _segmentSize + columnX * _blockSize ,
                                                                     0,
                                                                     _blockSpawnOffset.y+ y * _segmentSize + columnY * _blockSize);
                         int columnRotation = Random.Range(0, 4);
                         newColumn.transform.rotation = Quaternion.Euler(0, 90*columnRotation, 0);
-                        _caveBlockMap[x * segmentBlockCount + columnX, y * segmentBlockCount + columnY] = 0;
+                        _caveBlockMap[x * segmentBlockCount + columnX, y * segmentBlockCount + columnY] = columnIndex;
                     }
                 }
             }
@@ -170,7 +227,7 @@ public class CaveBuilder : MonoBehaviour
         SpawnBlocks();
     }
 
-    private void FillSegmentSpace(int offsetX, int offsetY, int[,] segmentMap)
+    private void FillSegmentSpace(int offsetX, int offsetY, int[,] segmentMap, int index=0)
     {
         for (int y = 0; y < segmentBlockCount; y++)
         {
@@ -185,9 +242,33 @@ public class CaveBuilder : MonoBehaviour
                 {
                     currentBlockContent = 1;
                 }
-                _caveBlockMap[offsetX + x, offsetY + y] = currentBlockContent;
+                if (index!=0)
+                {
+                    _caveBlockMap[offsetX + x, offsetY + y] = index;
+                }
+                else
+                {
+                    _caveBlockMap[offsetX + x, offsetY + y] = currentBlockContent;
+                }
             }
         }
+    }
+
+    private bool CheckBlockPersist(int startX, int startY, int radius, int blockIndex)
+    {
+        for (int y = startY - radius; y <= startY + radius; y++)
+        {
+            if (y < 0) continue;
+            if (y > _currentPattern.SizeY* segmentBlockCount - 1) continue;
+            for (int x = startX - radius; x <= startX + radius; x++)
+            {
+                if (x < 0) continue;
+                if (x > _currentPattern.SizeX* segmentBlockCount - 1) continue;
+                if (_caveBlockMap[x, y] == blockIndex) return true;
+            }
+        }
+
+        return false;
     }
 
     private void SpawnBlocks()
@@ -239,7 +320,7 @@ public class CaveBuilder : MonoBehaviour
             }
         }
 
-        _eventBus.MapGenerationDone?.Invoke();
+        if(_eventBus) _eventBus.MapGenerationDone?.Invoke();
 
         //StartCoroutine(CutPlayer());
     }

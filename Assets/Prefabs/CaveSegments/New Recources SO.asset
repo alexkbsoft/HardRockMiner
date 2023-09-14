@@ -16,14 +16,18 @@ MonoBehaviour:
     _serializedList:
     - Key: 0
       Value: {fileID: 0}
+    - Key: 20
+      Value: {fileID: 0}
+    - Key: 21
+      Value: {fileID: 3579958739912116198, guid: bd0ba9e3251abf449b884b19ae00f3a8, type: 3}
     - Key: 1
       Value: {fileID: 6035768090903981938, guid: 84e465e329f672e478d14252c9993646, type: 3}
     - Key: 2
       Value: {fileID: 8079006084909606039, guid: ab2b36bfe21b5ba488218225f8e879a0, type: 3}
     - Key: 3
-      Value: {fileID: 0}
+      Value: {fileID: 646232957568217821, guid: 35b96eb8ab501ba49be881f47d337bd5, type: 3}
     - Key: 4
-      Value: {fileID: 0}
+      Value: {fileID: 8079006084909606039, guid: 3aff81c53eeef554ba8232efb7fee6ae, type: 3}
     - Key: 5
       Value: {fileID: 0}
     - Key: 6
