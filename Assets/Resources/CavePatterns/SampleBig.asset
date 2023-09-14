@@ -76,6 +76,10 @@ MonoBehaviour:
     BlockIndex: 3
   - Size: 40
     BlockIndex: 4
+  - Size: 40
+    BlockIndex: 4
+  - Size: 40
+    BlockIndex: 3
   Decorations:
   - Count: 10
     Type: 0
