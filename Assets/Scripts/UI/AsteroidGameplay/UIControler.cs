@@ -15,6 +15,7 @@ public class UIControler : MonoBehaviour
     [SerializeField] private Image _fireImg;
     [SerializeField] private Image _drillImg;
     [SerializeField] private Damagable _mechDamagable;
+    [SerializeField] private Slider _oxygenSlider;
     private EventBus _eventBus;
     private List<GameObject> _resourcePanels = new();
 
@@ -78,6 +79,9 @@ public class UIControler : MonoBehaviour
         }
 
         _lifeText.text = $"{MechController.InstanceDamagable.CurrentLife}";
+        _oxygenSlider.value = MechController.InstanceDamagable.CurrentLife /
+            MechController.InstanceDamagable.MaxLive;
+
         UpdateRes(null);
 
         Color c = _fireSelected ? Color.red : Color.white;

@@ -34,6 +34,7 @@ public class EventBus : MonoBehaviour
     public UnityEvent MapGenerationDone;
 
     public UnityEvent DataReady;
+    public UnityEvent ResetLevelResults;
 
     public static EventBus Instance;
 
