@@ -7,6 +7,7 @@ public class MinerState : ScriptableObject
 {
     public float MaximumAlarm = 100;
     public string AsteroidName = "default";
+    public bool IsDead = false;
     
     [System.Serializable]
     public class StoredResource
@@ -52,6 +53,7 @@ public class MinerState : ScriptableObject
         resources.Clear();
         CurrentAlarm = 0;
         AlarmLevel = 0;
+        IsDead = false;
     }
 
 }

@@ -36,6 +36,7 @@ public class GameManager : MonoBehaviour
         _eventBus.AlarmChanged?.AddListener(OnAlarmChanged);
         _eventBus.ActivateSpawner?.AddListener(SpawnerActivated);
         _eventBus.MapGenerationDone?.AddListener(ScanMap);
+        _eventBus.ResetLevelResults?.AddListener(ResetMinerState);
 
         LoadStorage();
 
@@ -103,8 +104,6 @@ public class GameManager : MonoBehaviour
     {
         var dataManager = new DataManager();
         dataManager.SaveCurrentAsteroid(_minerState.AsteroidName);
-
-        SceneManager.LoadScene("ResultScreen");
     }
 
     private void OnAlarmChanged(float delta)
@@ -144,20 +143,12 @@ public class GameManager : MonoBehaviour
 
         foreach (var onePrefab in allResources)
         {
-            // var newPool = new GameObject(onePrefab.name);
-            // newPool.transform.parent = poolsGO.transform;
             _mainStorage.ResPrefabs[onePrefab.name] = onePrefab;
-
-            // var newLean = newPool.AddComponent<LeanGameObjectPool>();
-            // newLean.Prefab = onePrefab;
-            // newLean.Preload = 10;
-            // newLean.Capacity = 30;
         }
 
         foreach(var oneSprite in allIcons) {
             var rgx = new Regex("-icon");
             var name = rgx.Replace(oneSprite.name, "");
-            Debug.Log("ICON N: " + name);
 
             _mainStorage.ResSprites[name] = oneSprite;
         }
@@ -344,5 +335,10 @@ public class GameManager : MonoBehaviour
         yield return new WaitForEndOfFrame();
 
         _eventBus.MapReady?.Invoke();
+    }
+
+    private void ResetMinerState() {
+        _minerState.Reset();
+        _minerState.IsDead = true;
     }
 }

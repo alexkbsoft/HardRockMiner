@@ -10,8 +10,15 @@ public class ResultsUI : MonoBehaviour
     [SerializeField] private MainStorage _mainStorage;
     [SerializeField] private MinerState _minerState;
     [SerializeField] private GameObject _resourcePanelPrefab;
+    [SerializeField] private GameObject _failText;
+
     void Start()
     {
+        if (_minerState.IsDead) {
+            _failText.SetActive(true);
+            return;
+        }
+
         SaveResults();
 
         int pos = -400;

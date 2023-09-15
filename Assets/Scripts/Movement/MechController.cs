@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
+using UnityEngine.SceneManagement;
 using UniversalMobileController;
 
 public class MechController : MonoBehaviour
@@ -46,8 +47,6 @@ public class MechController : MonoBehaviour
 
         _Instance = this;
         transform.position = _startPosition;
-
-        Debug.Log($"AWAKE: {transform.position}");
     }
 
     public void SetInitialPlace(float x, float z)
@@ -60,7 +59,6 @@ public class MechController : MonoBehaviour
         _startPosition = pos;
         transform.position = pos;
         FollowCamera.Instance.SetPosition(pos);
-        Debug.Log($"INITIAL POS: {transform.position}");
     }
 
 
@@ -111,6 +109,31 @@ public class MechController : MonoBehaviour
         GetComponentInChildren<AnimatedGun>().Fire(false);
 
         GameObject.Find("MechLights").GetComponent<Light>().enabled = false;
+
+        EventBus.Instance.ResetLevelResults?.Invoke();
+
+        StartCoroutine(DelayedLevelExit());
+    }
+
+    private IEnumerator DelayedLevelExit()
+    {
+        var lights = GetComponentsInChildren<Light>();
+        var period = 0.2f;
+
+        for (int i = 0; i < 7; i++)
+        {
+            foreach (var l in lights)
+            {
+                yield return new WaitForSeconds(period);
+                period -= 0.01f;
+                l.gameObject.SetActive(!l.gameObject.activeSelf);
+            }
+        }
+
+
+        yield return new WaitForSeconds(1.1f);
+
+        SceneManager.LoadScene("ResultScreen");
     }
 
     private Vector3 MovementFromCameraPoint()
