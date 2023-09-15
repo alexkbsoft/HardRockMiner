@@ -58,15 +58,16 @@ public class CaveFillerModel
 
 		}
 
+		//располагаем украшения
 		if (_patternSO.Decorations != null)
 		{
 			foreach (CavePatternSO.Decoration decoration in _patternSO.Decorations)
 			{
 				int[] decorationBlocks = biome.Decorations.GetValueOrDefault(decoration.Type);				
 				if (decorationBlocks == null|| decorationBlocks .Length == 0)
-                {
+				{
 					continue;
-                };
+				};
 				for (int i = 0; i < decoration.Count; i++)
 				{
 					Point currentPoint = new Point();
@@ -74,7 +75,7 @@ public class CaveFillerModel
 					currentPoint.x = r.Next(0, _sizeX);
 					currentPoint.y = r.Next(0, _sizeY);
 					int attemps = 0;
-					while (_caveContent[currentPoint.x, currentPoint.y] == 0 && attemps < 100)
+					while (_caveContent[currentPoint.x, currentPoint.y] <= 0 && attemps < 100)
 					{
 						currentPoint.x = r.Next(0, _sizeX);
 						currentPoint.y = r.Next(0, _sizeY);
@@ -86,6 +87,7 @@ public class CaveFillerModel
 			}
 		}
 
+		//разполагаем комнаты
 		if (_patternSO.CaveRooms != null)
 		{
 			foreach (CavePatternSO.FixedRoom room in _patternSO.CaveRooms)
@@ -104,6 +106,8 @@ public class CaveFillerModel
 			}
 		}
 
+
+		//расчищаем зону высадки игрока
 		PlaceRoundDeposit(0, 4, Convert.ToInt32(_patternSO.StartPosition.x), Convert.ToInt32(_patternSO.StartPosition.y));
 
 		return _caveContent;

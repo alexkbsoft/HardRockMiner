@@ -19,6 +19,7 @@ public class CavePatternSO : ScriptableObject
     public Deposit[] Wormholes;
     public Decoration[] Decorations;
     public int ColumnChance;
+    public int DoubleColumnChance;
     public int SpawnersCount;
     public Vector2 StartPosition;
     public int[,] Map;

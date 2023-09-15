@@ -13,24 +13,25 @@ public class CaveRoom : ScriptableObject
     {
         int rowCount = RoomMap.Length;
         if (rowCount == 0) return;
-        int rowSize = RoomMap[0].Length;
+        int rowSize = RoomMap[0].Split(',').Length ;
         if (rowSize == 0) return;
         _roomMap = new int[rowSize, rowCount];
         int rotationCount;
 
         for (int y = 0; y < rowCount; y++)
         {
+            string[] row = RoomMap[y].Split(',');
             for (int x = 0; x < rowSize; x++)
             {
-                    if (x < RoomMap[y].Length)
-                    {
-                        _roomMap[x, y] = int.Parse(RoomMap[x][y].ToString());
-                    }
-                    else
-                    {
-                        _roomMap[x, y] = 1;
-                    }
+                if (x < row.Length)
+                {
+                    _roomMap[x, y] = int.Parse(row[x]);
                 }
+                else
+                {
+                    _roomMap[x, y] = 1;
+                }
+            }
         }
         rotationCount = Mathf.RoundToInt(rotation / 90);
         //rotationCount += 2;
